@@ -178,7 +178,8 @@ function cursorNativeInstalled(cwd) {
   const files = [join(process.env.SAM_INSTALL_HOME || homedir(), '.cursor', 'hooks.json')];
   if (typeof cwd === 'string' && cwd) files.push(join(cwd, '.cursor', 'hooks.json'));
   for (const f of files) {
-    try { if (readFileSync(f, 'utf8').includes('--agent cursor')) return true; } catch { /* absent */ }
+    // the Windows (PowerShell) form quotes each argument: '--agent' 'cursor'
+    try { if (/['"]?--agent['"]?\s+['"]?cursor\b/.test(readFileSync(f, 'utf8'))) return true; } catch { /* absent */ }
   }
   return false;
 }

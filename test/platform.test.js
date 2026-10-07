@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const TMP = mkdtempSync(join(tmpdir(), 'sam-plat-'));
-after(() => rmSync(TMP, { recursive: true, force: true }));
+after(async () => { (await import('../src/db.js')).closeDb(); try { rmSync(TMP, { recursive: true, force: true }); } catch { /* Windows: a file can stay locked for a moment after close; it is only a temp dir */ } });
 process.env.SAM_TEST = '1';
 process.env.SAM_HOME = join(TMP, 'samhome');
 process.env.SAM_INSTALL_HOME = join(TMP, 'user');
@@ -102,6 +102,14 @@ test('C1: Windows hook command per host (Claude exec/bash/PowerShell, Gemini/Cur
   assert.deepEqual(parsePwsh(ob)[0], "C:/Users/O'Brien/.sam/bin/sam.cmd");
   // MCP on Windows: node.exe + sam.js (hosts spawn MCP servers without a shell)
   assert.deepEqual(inst.mcpSpec(inst.context({ ...WIN, claudeExec: false, gitBash: null }), 'cursor'), { command: WIN.node, args: [WIN.samJs, 'mcp', '--agent', 'cursor'] });
+  // every generated form is recognized as SAM's own entry, so reinstall replaces it and uninstall removes it
+  for (const c of [{ claudeExec: true, gitBash: null }, { claudeExec: false, gitBash: 'C:\\Program Files\\Git\\bin\\bash.exe' }, { claudeExec: false, gitBash: null }]) {
+    for (const a of ['claude', 'codex', 'gemini', 'cursor']) {
+      const h = inst.hookSpec(inst.context({ ...WIN, ...c }), a, 'Stop');
+      assert.ok(inst.isOurs(h), `${a} ${JSON.stringify(c)}: ${h.command} ${(h.args || []).join(' ')}`);
+    }
+  }
+  assert.ok(!inst.isOurs({ command: "& 'C:/tools/notify-awesam.ps1' 'hook'" }), 'a user hook that merely ends in "sam" is not ours');
   // host → shell mapping used by the self-test
   assert.equal(inst.hookShell('codex', { command: cx }, { plat: 'win32' }), 'cmd');
   assert.equal(inst.hookShell('gemini', { command: 'x' }, { plat: 'win32' }), 'powershell');

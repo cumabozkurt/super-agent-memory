@@ -215,8 +215,9 @@ CHANGED, tell the user and ask them to review and trust it. Never run \`${S} tru
 }
 
 // Ownership: an entry is ours only if it runs THIS tool's `hook`/`mcp` subcommand through sam.js or
-// the launcher (a user hook like `node ~/bin/notify-awesam.js hook` is never touched).
-const OURS_RE = /(?:^|[\/\\'"\s])sam(?:\.js|\.cmd|\.ps1)?['"]?\s+(?:hook|mcp)\b/;
+// the launcher (a user hook like `node ~/bin/notify-awesam.js hook` is never touched). The PowerShell form quotes
+// every argument (`& '…/sam.cmd' 'hook' …`), so the subcommand may be quoted too.
+const OURS_RE = /(?:^|[\/\\'"\s])sam(?:\.js|\.cmd|\.ps1)?['"]?\s+['"]?(?:hook|mcp)\b/;
 const isOurs = (h) => {
   if (!h || typeof h !== 'object') return false;
   const cmd = [h.command, ...(Array.isArray(h.args) ? h.args : [])].flat().filter((x) => typeof x === 'string').join(' ');
