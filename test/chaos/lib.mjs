@@ -7,7 +7,7 @@
 import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 export const SAM_SRC = resolve(process.env.SAM_SRC || join(here, '..', '..', 'src'));
@@ -34,7 +34,7 @@ export function quietSqlite() {
   process.emitWarning = (w, ...r) => (String(w).includes('SQLite') ? undefined : orig.call(process, w, ...r));
 }
 
-export const sam = (m) => import(join(SAM_SRC, m));
+export const sam = (m) => import(pathToFileURL(join(SAM_SRC, m)).href);
 
 /** mulberry32: small, fast, seedable PRNG so every failure is reproducible from its seed. */
 export function rng(seed) {

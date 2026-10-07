@@ -8,7 +8,7 @@ import { mkdtempSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const HERE = fileURLToPath(new URL('.', import.meta.url));
 const args = process.argv.slice(2);
@@ -41,13 +41,13 @@ async function child() {
   process.env.SAM_HOME = mkdtempSync(join(tmpdir(), 'sam-v2-' + SUITE + '-'));
   const ew = process.emitWarning;
   process.emitWarning = (w, ...r) => (String(w).includes('SQLite') ? undefined : ew.call(process, w, ...r));
-  const L = await import(join(HERE, '..', 'retrieval', 'lib.mjs'));
-  const { promptContext, sessionContext } = await import(join(SRC, 'inject.js'));
-  const { saveMemory } = await import(join(SRC, 'store.js'));
-  const { config } = await import(join(SRC, 'config.js'));
-  const { openDb } = await import(join(SRC, 'db.js'));
-  const { keywords } = await import(join(SRC, 'text.js'));
-  const search = await import(join(SRC, 'search.js'));
+  const L = await import(pathToFileURL(join(HERE, '..', 'retrieval', 'lib.mjs')).href);
+  const { promptContext, sessionContext } = await import(pathToFileURL(join(SRC, 'inject.js')).href);
+  const { saveMemory } = await import(pathToFileURL(join(SRC, 'store.js')).href);
+  const { config } = await import(pathToFileURL(join(SRC, 'config.js')).href);
+  const { openDb } = await import(pathToFileURL(join(SRC, 'db.js')).href);
+  const { keywords } = await import(pathToFileURL(join(SRC, 'text.js')).href);
+  const search = await import(pathToFileURL(join(SRC, 'search.js')).href);
   const cfg = config();
   const db = openDb();
   const hasGate = 'specGate' in cfg;
@@ -174,7 +174,7 @@ async function child() {
     out.rows = rows;
   }
   writeFileSync(opt('--out'), JSON.stringify(out));
-  rmSync(process.env.SAM_HOME, { recursive: true, force: true });
+  try { rmSync(process.env.SAM_HOME, { recursive: true, force: true }); } catch { /* Windows keeps the open DB locked; it is only a temp dir */ }
 }
 
 // =====================================================================================================

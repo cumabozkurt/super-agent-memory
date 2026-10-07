@@ -10,7 +10,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const TMP = mkdtempSync(join(tmpdir(), 'sam-guard-'));
-after(() => rmSync(TMP, { recursive: true, force: true }));
+after(async () => { (await import('../src/db.js')).closeDb(); try { rmSync(TMP, { recursive: true, force: true }); } catch { /* Windows: a file can stay locked for a moment after close; it is only a temp dir */ } });
 process.env.SAM_TEST = '1';
 process.env.SAM_HOME = join(TMP, 'home');
 process.env.SAM_INSTALL_HOME = join(TMP, 'user');

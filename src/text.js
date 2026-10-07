@@ -112,9 +112,28 @@ export function canonicalPath(p, { platform = process.platform } = {}) {
     s = s.replace(/^\/([a-zA-Z])(?=\/|$)/, (_, d) => d.toUpperCase() + ':');
   }
   s = P.resolve(s);
-  if (platform === process.platform) { try { s = realpathSync.native(s); } catch { /* may not exist */ } }
+  if (platform === process.platform) s = realpathLoose(s, P);
   s = s.normalize('NFC');
   if (platform === 'win32') s = s.replace(/^[a-z]:/, (d) => d.toUpperCase());
+  return s;
+}
+
+/**
+ * realpath that also works for a path that does not exist (a deleted file, a read of a missing file): the deepest
+ * existing ancestor is resolved and the rest appended, so a file under a symlinked root (macOS /var → /private/var,
+ * ~/code → /Volumes/…) still canonicalizes to the same prefix as its root.
+ */
+function realpathLoose(s, P) {
+  try { return realpathSync.native(s); } catch { /* may not exist */ }
+  let dir = s;
+  const rest = [];
+  for (let i = 0; i < 64; i++) {
+    const up = P.dirname(dir);
+    if (up === dir) break;
+    rest.unshift(P.basename(dir));
+    dir = up;
+    try { return P.join(realpathSync.native(dir), ...rest); } catch { /* keep climbing */ }
+  }
   return s;
 }
 

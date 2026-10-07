@@ -38,7 +38,7 @@ const server = createServer((req, res) => {
 });
 await new Promise((r) => server.listen(0, '127.0.0.1', r));
 const URL_ = `http://127.0.0.1:${server.address().port}/v1`;
-after(() => { server.close(); rmSync(TMP, { recursive: true, force: true }); });
+after(async () => { server.close(); (await import('../src/db.js')).closeDb(); try { rmSync(TMP, { recursive: true, force: true }); } catch { /* Windows: a file can stay locked for a moment after close; it is only a temp dir */ } });
 
 const { packVec, unpackVec, cosine, backfill, embed } = await import('../src/embed.js');
 const store = await import('../src/store.js');

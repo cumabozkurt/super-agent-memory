@@ -24,6 +24,13 @@ The SQLite schema version is stored in the `meta` table (`schema`). Any release 
   - prints a clear hint and exits 1 when embeddings are not configured.
 - **`sam doctor` and `sam stats` count live memories only**; doctor also shows how many are held for review (`src/cli.js`).
 - **`sam out --tail N` / `mem_get`** no longer count the trailing newline of a captured output as an extra empty line (`src/vault.js`).
+- **File paths under a symlinked project root** (macOS `/var` → `/private/var`, `~/code` → another volume, Windows 8.3 short names such as `RUNNER~1`) stay project-relative when the file does not exist on disk, for example a deleted file or a read of a missing path. Before, they were stored as absolute paths, so file notes and fix lines did not match (`src/text.js`). Found by the macOS and Windows CI jobs.
+- **Windows: SAM's PowerShell hook entries are recognized as its own** (Gemini CLI, Cursor and older Claude Code). They quote every argument (`'hook'`), so before this fix a re-install added them a second time, `sam uninstall` left them behind, and `sam doctor` did not self-test them (`src/install.js`).
+- **Windows: Claude-format hooks run by Cursor stay silent** once SAM's Cursor hooks are installed. The check now also matches the quoted PowerShell form (`src/hooks.js`).
+- Windows test and benchmark harness:
+  - dynamic imports use `file://` URLs (`test/chaos/`, `bench/retrieval*/`);
+  - temp folders are cleaned up without failing on a locked database file;
+  - the MCP reopen test, which deletes an open file, is skipped on Windows and always stops its server.
 - The newer-schema message in `sam doctor` no longer suggests an npm command that cannot work before the package is published.
 
 ### Added

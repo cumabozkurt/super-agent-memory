@@ -286,7 +286,7 @@ Her şey kendi makinende kalır. API anahtarları, tokenlar, JWT'ler, özel anah
 ## Geliştirme
 
 ```bash
-npm test                 # 183 test (depolama, arama, erişim, yakalama, kasa, her ajan için hook'lar, MCP, kurulum,
+npm test                 # 184 test (depolama, arama, erişim, yakalama, kasa, her ajan için hook'lar, MCP, kurulum,
                          #   güvenlik, dayanıklılık/kaos, iş akışı, platform, CLI, şema/gizlilik, koruma, kapı,
                          #   enjeksiyon, paylaşım, entegrasyon); SAM_SLOW=1 uzun kaos koşusunu ekler
 npm run bench            # token ölçümü (saf BM25 tabanıyla)

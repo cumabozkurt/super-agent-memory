@@ -284,7 +284,7 @@ Everything stays on your machine. API keys, tokens, JWTs, private keys and `pass
 ## Development
 
 ```bash
-npm test                 # 183 tests (store, search, retrieval, capture, vault, hooks per host, MCP, installers,
+npm test                 # 184 tests (store, search, retrieval, capture, vault, hooks per host, MCP, installers,
                          #   security, robustness/chaos, workflow, platform, CLI, schema/privacy, guard, gate,
                          #   injection, sharing, integration); SAM_SLOW=1 adds the long chaos run
 npm run bench            # token benchmark (with a pure-BM25 baseline)

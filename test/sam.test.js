@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const TMP = mkdtempSync(join(tmpdir(), 'sam-test-'));
 const TMPS = [TMP];
-after(() => { for (const d of TMPS) rmSync(d, { recursive: true, force: true }); });
+after(async () => { (await import('../src/db.js')).closeDb(); for (const d of TMPS) try { rmSync(d, { recursive: true, force: true }); } catch { /* Windows: a file can stay locked for a moment after close; it is only a temp dir */ } });
 const SAM_BIN = fileURLToPath(new URL('../bin/sam.js', import.meta.url));
 const POSIX = process.platform !== 'win32';
 process.env.SAM_TEST = '1'; // never run the real `claude` CLI or scan PATH for agents
@@ -289,6 +289,11 @@ test('host payload quirks: Codex apply_patch, Claude failures, Cursor strings + 
     const dup2 = await hooks.runHook('UserPromptSubmit', { agent: 'claude', payload: { session_id: 'y', cwd, prompt: 'from now on use spaces' } });
     assert.deepEqual(dup2.out, {});
     assert.ok(!openDb().prepare("SELECT 1 FROM memories WHERE gist LIKE '%use spaces%'").get(), 'no capture from the Claude copy');
+    // the Windows (PowerShell) form quotes every argument
+    writeFileSync(join(cwd, '.cursor', 'hooks.json'), JSON.stringify({ version: 1, hooks: { beforeSubmitPrompt: [{ command: "& 'C:/Users/me/.sam/bin/sam.cmd' 'hook' 'beforeSubmitPrompt' '--agent' 'cursor'" }] } }));
+    const dup3 = await hooks.runHook('UserPromptSubmit', { agent: 'claude', payload: { session_id: 'z', cwd, prompt: 'from now on use semicolons' } });
+    assert.deepEqual(dup3.out, {});
+    assert.ok(!openDb().prepare("SELECT 1 FROM memories WHERE gist LIKE '%use semicolons%'").get(), 'Windows form detected too');
   } finally {
     delete process.env.CURSOR_VERSION;
     rmSync(join(cwd, '.cursor'), { recursive: true, force: true });
