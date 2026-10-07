@@ -134,6 +134,7 @@ export function readVault(id, { grep, tail, lines, context = 1 } = {}) {
   const row = openDb().prepare('SELECT * FROM vault WHERE id = ?').get(String(id));
   if (!row) return null;
   const all = clean(inflateSync(row.output).toString('utf8')).split(/\r?\n/);
+  while (all.length && !all[all.length - 1]) all.pop(); // a trailing newline is not a line (`--tail N` shows N lines)
   let out;
   if (grep) {
     const test = safeMatcher(String(grep));
