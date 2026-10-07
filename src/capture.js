@@ -474,8 +474,9 @@ export function endSession({ session, project, agent, transcript, harvest = true
   const prompts = evs.filter((e) => e.type === 'prompt').map((e) => oneLine(e.detail));
   const edits = [...new Set(evs.filter((e) => e.type === 'edit').map((e) => e.subject))];
   const cmds = evs.filter((e) => e.type === 'cmd');
-  const fixes = db.prepare("SELECT gist FROM memories WHERE session = ? AND kind = 'fix'").all(session).map((r) => r.gist);
-  const saved = db.prepare("SELECT kind, gist FROM memories WHERE session = ? AND kind NOT IN ('fix','session')").all(session);
+  // held rows (quarantined / pending review) are invisible to agents, and the digest is agent-visible: leave them out
+  const fixes = db.prepare("SELECT gist FROM memories WHERE session = ? AND kind = 'fix' AND status = 'active'").all(session).map((r) => r.gist);
+  const saved = db.prepare("SELECT kind, gist FROM memories WHERE session = ? AND kind NOT IN ('fix','session') AND status = 'active'").all(session);
   db.prepare('UPDATE sessions SET ended_at = ? WHERE id = ?').run(now(), session);
   if (!edits.length && prompts.length < 2) return null; // a one-line chat with no edits is not worth a digest (its directives are already saved)
 

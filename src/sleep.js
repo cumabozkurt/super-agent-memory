@@ -173,7 +173,7 @@ const intentOf = (gist) => oneLine(String(gist).replace(/^\d\d-\d\d\s+/, '').rep
 /** Fold session digests older than `days` into one digest per project and ISO week. */
 function weeklyDigests(db, { days, t, dryRun, report }) {
   const old = db.prepare(
-    `SELECT * FROM memories WHERE kind = 'session' AND superseded_by IS NULL AND pinned = 0 AND updated_at < ?
+    `SELECT * FROM memories WHERE kind = 'session' AND superseded_by IS NULL AND status = 'active' AND pinned = 0 AND updated_at < ?
        AND (' ' || tags || ' ') NOT LIKE '% weekly %' ORDER BY project, updated_at, id`
   ).all(t - days * DAY);
   const groups = new Map();

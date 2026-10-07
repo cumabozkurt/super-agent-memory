@@ -26,7 +26,10 @@ export function deriveHandoff(session) {
   const lastRun = new Map();
   for (const e of evs) if (e.type === 'cmd' && e.subject && e.ok != null) lastRun.set(e.subject, e.ok);
   const failing = [...lastRun].filter(([, ok]) => !ok).map(([c]) => `\`${truncate(c, 40)}\` failing`);
-  const todos = db.prepare("SELECT gist FROM memories WHERE session = ? AND kind = 'todo' AND superseded_by IS NULL ORDER BY updated_at DESC LIMIT 3").all(session).map((r) => r.gist);
+  // only live rows: a quarantined / pending todo is invisible to agents, and a handoff is read by another agent
+  const t = now();
+  const todos = db.prepare(`SELECT gist FROM memories WHERE session = ? AND kind = 'todo' AND superseded_by IS NULL AND status = 'active'
+    AND (valid_from IS NULL OR valid_from <= ?) AND (valid_to IS NULL OR valid_to > ?) ORDER BY updated_at DESC LIMIT 3`).all(session, t, t).map((r) => r.gist);
   const fixes = db.prepare("SELECT COUNT(*) c FROM memories WHERE session = ? AND kind = 'fix'").get(session).c;
   const open = [...todos, ...failing].slice(0, 4);
   if (!edits.length && !open.length) return null;
