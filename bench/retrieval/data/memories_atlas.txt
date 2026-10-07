@@ -1,0 +1,73 @@
+# project: atlas — Expo / React Native travel app (iOS + Android), expo-router, EAS, Supabase backend
+@project atlas
+a-build-01 | decision | 230 | build eas release @imp0.85 | eas.json | Store builds only through EAS Build (profiles development, preview, production); no local Xcode archive uploads || Local archives shipped with the wrong bundle version twice. EAS manages credentials and auto-increments buildNumber/versionCode.
+a-build-02 | fact | 120 | build eas submit | eas.json | eas submit --profile production uploads to App Store Connect (TestFlight) and Google Play internal track; ASC API key stored in EAS secrets
+a-build-03 | fix | 60 | build ios pods | ios/Podfile | iOS build failed with "Multiple commands produce PrivacyInfo.xcprivacy"; fixed with a config plugin that dedupes privacy manifests
+a-build-04 | convention | 140 | release versioning | app.config.ts | Sürüm numarası app.config.ts içinde semver; runtimeVersion policy "fingerprint", native değişiklik varsa yeni store build şart
+a-build-05 | gotcha-note | 45 | build android | android/gradle.properties | Android release build needs org.gradle.jvmargs=-Xmx4g on EAS medium workers or Hermes compile OOMs
+a-ota-01 | decision | 180 | ota eas update | app.config.ts | JS-only fixes ship as EAS Update OTA to the production channel; anything touching native modules needs a new store build
+a-ota-02 | fact | 90 | ota channels | eas.json | Update channels: preview -> TestFlight/internal builds, production -> store builds; eas update --branch production --message "..."
+a-ota-03 | fix | 35 | ota crash | app.config.ts | OTA update crashed old binaries because a new native module was referenced; we now use runtimeVersion fingerprint so incompatible updates are not delivered
+a-nav-01 | decision | 210 | navigation expo-router | app/ | Navigation with expo-router (file-based, app/ directory); typed routes enabled
+a-nav-02 | fact | 100 | navigation deep links | app.config.ts | Deep links: scheme atlas:// and universal links on atlas.travel (apple-app-site-association served by Supabase storage via Cloudflare)
+a-nav-03 | fix | 40 | navigation android back | app/(tabs)/_layout.tsx | Android back button closed the app from nested trip screens; fixed by using Stack inside each tab instead of a single root Stack
+a-state-01 | decision | 190 | state react-query zustand @imp0.8 | src/lib/queryClient.ts | Server state with TanStack Query, local UI state with zustand; no Redux
+a-state-02 | fact | 110 | storage mmkv persist | src/lib/storage.ts | Persistent storage via react-native-mmkv (src/lib/storage.ts); AsyncStorage removed because it was slow on Android startup
+a-state-03 | fix | 30 | state offline cache | src/lib/queryClient.ts | Offline trips list was empty after cold start; added persistQueryClient with the MMKV persister and gcTime 24h
+a-state-04 | fact | 70 | auth store | src/stores/useSessionStore.ts | useSessionStore holds the Supabase session; tokens are kept in expo-secure-store, not MMKV
+a-be-01 | decision | 250 | backend supabase @imp0.9 | supabase/ | Backend is Supabase (Postgres + Auth + Storage + Edge Functions); no custom server || Small team, needed auth and storage on day one. Edge Functions (Deno) for anything that needs secrets.
+a-be-02 | convention | 160 | supabase rls | supabase/migrations | Every table has RLS enabled; policies live in supabase/migrations, never created in the dashboard
+a-be-03 | fact | 85 | supabase types | src/types/database.ts | Regenerate DB types after each migration: supabase gen types typescript --linked > src/types/database.ts
+a-be-04 | fix | 50 | supabase edge functions | supabase/functions/booking | Edge function cold starts were 2s+; moved heavy imports inside the handler and pinned to Deno std deps
+a-be-05 | gotcha-note | 25 | supabase local | | supabase start needs Docker running with at least 4GB memory; studio on localhost:54323
+a-map-01 | decision | 170 | maps mapbox | src/components/Map | Maps use @rnmapbox/maps instead of react-native-maps because offline tile packs are needed for trips abroad
+a-map-02 | fact | 95 | maps token | app.config.ts | Mapbox download token (RNMapboxMapsDownloadToken) is an EAS secret; the public access token is in EXPO_PUBLIC_MAPBOX_TOKEN
+a-map-03 | fix | 42 | maps android crash | src/components/Map/TripMap.tsx | Map crashed on Android 14 when the screen unmounted during a camera animation; guard with isMounted ref and cancel camera on blur
+a-push-01 | fact | 130 | push notifications fcm | src/lib/notifications.ts | Push notifications via expo-notifications with the Expo push service; tokens saved in device_tokens table; FCM v1 credentials uploaded to EAS
+a-push-02 | fix | 55 | push android 13 | src/lib/notifications.ts | No notifications on Android 13+: POST_NOTIFICATIONS runtime permission was never requested; now requested after onboarding
+a-push-03 | gotcha-note | 20 | push ios sandbox | | iOS push tokens from development builds are sandbox tokens and do not work against production APNs
+a-i18n-01 | fact | 150 | i18n translations | src/i18n | Localization with i18next + expo-localization; languages tr, en, de; translation files src/i18n/locales/*.json
+a-i18n-02 | convention | 80 | i18n keys | src/i18n/locales | Çeviri anahtarları ekran bazlı: trips.detail.title; sabit metin JSX içine yazılmaz, lint kuralı i18next/no-literal-string açık
+a-i18n-03 | fix | 23 | i18n plural | src/i18n/index.ts | Turkish plurals showed "1 günler"; i18next v23 needs compatibilityJSON v4 and Intl.PluralRules polyfill on Hermes
+a-test-01 | convention | 175 | testing jest maestro @imp0.75 | jest.config.js .maestro | Unit tests with jest-expo and React Native Testing Library; e2e flows with Maestro in .maestro/ run on EAS for the preview profile
+a-test-02 | fix | 33 | testing jest mocks | jest.setup.ts | Jest failed on mmkv import (native module); mocked react-native-mmkv in jest.setup.ts
+a-test-03 | note | 14 | testing maestro flaky | .maestro/booking.yaml | Maestro booking flow is flaky on the iOS 17 simulator because of the keyboard; added hideKeyboard steps
+a-obs-01 | fact | 115 | sentry crash reporting | app.config.ts | Crash reporting with @sentry/react-native; source maps uploaded by the Sentry Expo plugin during EAS Build; dsn in EXPO_PUBLIC_SENTRY_DSN
+a-obs-02 | fix | 46 | sentry source maps | eas.json | Sentry stack traces were minified for OTA updates; need to run sentry-expo-upload-sourcemaps after eas update
+a-perf-01 | fix | 27 | perf lists | src/components/TripList.tsx | Trip list stuttered with 300+ items; replaced FlatList with FlashList and estimatedItemSize 96
+a-perf-02 | decision | 65 | perf images | src/components/Image.tsx | Use expo-image (with blurhash placeholders) everywhere instead of the RN Image component
+a-perf-03 | note | 17 | perf startup | | Cold start on low-end Android is 3.4s; biggest cost is loading all locale files eagerly
+a-ui-01 | decision | 200 | ui styling nativewind | tailwind.config.js | Styling with NativeWind v4 (Tailwind classes); no styled-components; design tokens in tailwind.config.js
+a-ui-02 | fix | 38 | ui safe area | app/_layout.tsx | Content went under the Dynamic Island; wrap screens in SafeAreaView from react-native-safe-area-context, not the RN one
+a-ui-03 | convention | 90 | ui accessibility | | Her dokunulabilir öğede accessibilityLabel olmalı; minimum dokunma alanı 44x44
+a-ui-04 | fact | 60 | ui fonts | app/_layout.tsx | Custom font Inter loaded with expo-font in app/_layout.tsx; splash screen stays until fonts are loaded
+a-store-01 | gotcha-note | 75 | app store review | | App Store rejected 1.4.0 (guideline 5.1.1): account deletion must be possible inside the app; added Settings > Delete account calling the delete-user edge function
+a-store-02 | fact | 50 | play store target sdk | app.config.ts | Google Play requires targetSdkVersion 34 since Aug 2024; set via expo-build-properties
+a-store-03 | fix | 21 | app store privacy | | ASC flagged missing privacy manifest reasons for UserDefaults; declared NSPrivacyAccessedAPICategoryUserDefaults reason CA92.1
+a-pay-01 | decision | 120 | payments revenuecat iap | src/lib/purchases.ts | Premium subscription via in-app purchases with RevenueCat (react-native-purchases); entitlements checked with useEntitlement('pro')
+a-pay-02 | gotcha-note | 44 | payments sandbox | | IAP sandbox renewals are accelerated (1 month = 5 min); test users created in App Store Connect > Users and Access > Sandbox
+a-pay-03 | fix | 29 | payments webhook | supabase/functions/revenuecat-webhook | Pro badge did not appear after purchase on a second device; RevenueCat webhook now writes the entitlement to profiles.is_pro
+a-sec-01 | convention | 140 | security secrets env | app.config.ts | Only EXPO_PUBLIC_* variables are bundled in the app; anything secret goes into Supabase Edge Function secrets, never into app.config
+a-sec-02 | fact | 80 | security cert pinning | | No certificate pinning (decided too risky for OTA-updatable apps); HTTPS + Supabase RLS are the security boundary
+a-tool-01 | fact | 130 | tooling bun | package.json bun.lockb | Package manager for atlas is bun (bun install); expo CLI runs through bunx expo
+a-tool-02 | convention | 100 | tooling lint | eslint.config.js | ESLint flat config with eslint-config-expo + prettier; CI fails on warnings (--max-warnings 0)
+a-tool-03 | fact | 300 | tooling package manager | package.json | Package manager: yarn classic
+a-tool-04 | fact | 40 | tooling package manager | package.json | Package manager: bun (bun.lockb committed), yarn.lock removed
+a-sess-01 | session | 1 | | src/components/Map/TripMap.tsx src/lib/offline.ts | Session: started offline tile pack download UI; mapbox offlineManager progress events wired, needs cancel button
+a-sess-02 | session | 4 | | src/i18n/index.ts | Session: fixed Turkish plural forms; added Intl.PluralRules polyfill
+a-sess-03 | session | 9 | | src/components/TripList.tsx | Session: FlashList migration for trip list; scroll is smooth on Pixel 4a now
+a-sess-04 | session | 16 | | supabase/functions/delete-user | Session: hesap silme akışı eklendi (App Store 5.1.1 reddi için), edge function delete-user yazıldı
+a-auto-01 | fix | 13 | | jest.setup.ts | `bun run test` failed (Cannot find module 'react-native-mmkv') → fixed via jest.setup.ts
+a-auto-02 | fix | 34 | | ios/Podfile | `eas build -p ios --profile preview` failed (Multiple commands produce PrivacyInfo.xcprivacy) → fixed via plugins/withPrivacyDedupe.js
+a-auto-03 | fix | 58 | | src/lib/notifications.ts | `bunx expo run:android` failed (SecurityException: POST_NOTIFICATIONS) → fixed via src/lib/notifications.ts
+a-misc-01 | fact | 105 | analytics posthog | src/lib/analytics.ts | Product analytics with PostHog (EU cloud); screen views tracked automatically via the expo-router integration
+a-misc-02 | todo | 7 | offline maps | src/lib/offline.ts | Offline map packs: add cancel + storage usage display in Settings
+a-misc-03 | todo | 2 | widgets ios | | iOS home screen widget showing the next trip (needs expo-apple-targets)
+a-misc-04 | bug | 5 | dates timezone | src/lib/dates.ts | Trip dates shift by one day for users west of UTC because we parse YYYY-MM-DD with new Date(); use date-fns parseISO + local date
+a-misc-05 | fact | 160 | design figma | | Designs in Figma file "Atlas App v3"; designer is Deniz, components mirror the Figma library names
+a-misc-06 | decision | 95 | forms validation | src/components/forms | Forms with react-hook-form + zod resolvers; one zod schema shared with the Supabase edge function input validation
+a-misc-07 | gotcha-note | 66 | expo sdk upgrade | | Expo SDK upgrades: run npx expo install --fix and check expo-doctor; never bump react-native manually
+a-misc-08 | fact | 72 | booking api | supabase/functions/booking | Hotel availability comes from the partner API through the booking edge function; responses cached 10 min in the hotel_cache table
+a-misc-09 | note | 11 | meeting | | Deniz wants the trip detail redesign (bottom sheet with day tabs) in 1.7
+a-misc-10 | fact | 135 | env profiles | eas.json | Environment per EAS profile: development/preview use the staging Supabase project, production uses prod; set via env in eas.json
+a-dup-01 | decision | 225 | build eas | eas.json | All App Store / Play builds go through EAS Build; we never upload archives from local Xcode

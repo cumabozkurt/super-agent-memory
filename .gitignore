@@ -1,0 +1,17 @@
+node_modules/
+*.db
+*.db-wal
+*.db-shm
+*.sam-bak
+*.tgz
+coverage/
+npm-debug.log*
+.env
+.env.*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+bench/retrieval/results/*.json
+bench/retrieval-v2/data/raw/cache/
+bench/retrieval-v2/results/*.json

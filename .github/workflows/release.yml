@@ -1,0 +1,31 @@
+name: release
+
+# Publish to npm when a GitHub Release is published (tag vX.Y.Z).
+# Needs the repository secret NPM_TOKEN (an npm "automation" token, or switch to npm trusted publishing).
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write # npm provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Tag matches package.json version
+        shell: bash
+        run: |
+          v=$(node -p "require('./package.json').version")
+          test "${GITHUB_REF_NAME#v}" = "$v" || { echo "tag $GITHUB_REF_NAME != package.json $v"; exit 1; }
+      - run: npm test
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

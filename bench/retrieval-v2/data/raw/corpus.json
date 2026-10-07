@@ -1,0 +1,1654 @@
+{
+ "atlas": [
+  {
+   "id": "a-build-01",
+   "kind": "decision",
+   "text": "Store builds only through EAS Build (profiles development, preview, production); no local Xcode archive uploads — Local archives shipped with the wrong bundle version twice. EAS manages credentials and auto-increments buildNumber/versionCode.",
+   "files": "eas.json"
+  },
+  {
+   "id": "a-build-02",
+   "kind": "fact",
+   "text": "eas submit --profile production uploads to App Store Connect (TestFlight) and Google Play internal track; ASC API key stored in EAS secrets",
+   "files": "eas.json"
+  },
+  {
+   "id": "a-build-03",
+   "kind": "fix",
+   "text": "iOS build failed with \"Multiple commands produce PrivacyInfo.xcprivacy\"; fixed with a config plugin that dedupes privacy manifests",
+   "files": "ios/Podfile"
+  },
+  {
+   "id": "a-build-04",
+   "kind": "convention",
+   "text": "Sürüm numarası app.config.ts içinde semver; runtimeVersion policy \"fingerprint\", native değişiklik varsa yeni store build şart",
+   "files": "app.config.ts"
+  },
+  {
+   "id": "a-build-05",
+   "kind": "gotcha-note",
+   "text": "Android release build needs org.gradle.jvmargs=-Xmx4g on EAS medium workers or Hermes compile OOMs",
+   "files": "android/gradle.properties"
+  },
+  {
+   "id": "a-ota-01",
+   "kind": "decision",
+   "text": "JS-only fixes ship as EAS Update OTA to the production channel; anything touching native modules needs a new store build",
+   "files": "app.config.ts"
+  },
+  {
+   "id": "a-ota-02",
+   "kind": "fact",
+   "text": "Update channels: preview -> TestFlight/internal builds, production -> store builds; eas update --branch production --message \"...\"",
+   "files": "eas.json"
+  },
+  {
+   "id": "a-ota-03",
+   "kind": "fix",
+   "text": "OTA update crashed old binaries because a new native module was referenced; we now use runtimeVersion fingerprint so incompatible updates are not delivered",
+   "files": "app.config.ts"
+  },
+  {
+   "id": "a-nav-01",
+   "kind": "decision",
+   "text": "Navigation with expo-router (file-based, app/ directory); typed routes enabled",
+   "files": "app/"
+  },
+  {
+   "id": "a-nav-02",
+   "kind": "fact",
+   "text": "Deep links: scheme atlas:// and universal links on atlas.travel (apple-app-site-association served by Supabase storage via Cloudflare)",
+   "files": "app.config.ts"
+  },
+  {
+   "id": "a-nav-03",
+   "kind": "fix",
+   "text": "Android back button closed the app from nested trip screens; fixed by using Stack inside each tab instead of a single root Stack",
+   "files": "app/(tabs)/_layout.tsx"
+  },
+  {
+   "id": "a-state-01",
+   "kind": "decision",
+   "text": "Server state with TanStack Query, local UI state with zustand; no Redux",
+   "files": "src/lib/queryClient.ts"
+  },
+  {
+   "id": "a-state-02",
+   "kind": "fact",
+   "text": "Persistent storage via react-native-mmkv (src/lib/storage.ts); AsyncStorage removed because it was slow on Android startup",
+   "files": "src/lib/storage.ts"
+  },
+  {
+   "id": "a-state-03",
+   "kind": "fix",
+   "text": "Offline trips list was empty after cold start; added persistQueryClient with the MMKV persister and gcTime 24h",
+   "files": "src/lib/queryClient.ts"
+  },
+  {
+   "id": "a-state-04",
+   "kind": "fact",
+   "text": "useSessionStore holds the Supabase session; tokens are kept in expo-secure-store, not MMKV",
+   "files": "src/stores/useSessionStore.ts"
+  },
+  {
+   "id": "a-be-01",
+   "kind": "decision",
+   "text": "Backend is Supabase (Postgres + Auth + Storage + Edge Functions); no custom server — Small team, needed auth and storage on day one. Edge Functions (Deno) for anything that needs secrets.",
+   "files": "supabase/"
+  },
+  {
+   "id": "a-be-02",
+   "kind": "convention",
+   "text": "Every table has RLS enabled; policies live in supabase/migrations, never created in the dashboard",
+   "files": "supabase/migrations"
+  },
+  {
+   "id": "a-be-03",
+   "kind": "fact",
+   "text": "Regenerate DB types after each migration: supabase gen types typescript --linked > src/types/database.ts",
+   "files": "src/types/database.ts"
+  },
+  {
+   "id": "a-be-04",
+   "kind": "fix",
+   "text": "Edge function cold starts were 2s+; moved heavy imports inside the handler and pinned to Deno std deps",
+   "files": "supabase/functions/booking"
+  },
+  {
+   "id": "a-be-05",
+   "kind": "gotcha-note",
+   "text": "supabase start needs Docker running with at least 4GB memory; studio on localhost:54323",
+   "files": ""
+  },
+  {
+   "id": "a-map-01",
+   "kind": "decision",
+   "text": "Maps use @rnmapbox/maps instead of react-native-maps because offline tile packs are needed for trips abroad",
+   "files": "src/components/Map"
+  },
+  {
+   "id": "a-map-02",
+   "kind": "fact",
+   "text": "Mapbox download token (RNMapboxMapsDownloadToken) is an EAS secret; the public access token is in EXPO_PUBLIC_MAPBOX_TOKEN",
+   "files": "app.config.ts"
+  },
+  {
+   "id": "a-map-03",
+   "kind": "fix",
+   "text": "Map crashed on Android 14 when the screen unmounted during a camera animation; guard with isMounted ref and cancel camera on blur",
+   "files": "src/components/Map/TripMap.tsx"
+  },
+  {
+   "id": "a-push-01",
+   "kind": "fact",
+   "text": "Push notifications via expo-notifications with the Expo push service; tokens saved in device_tokens table; FCM v1 credentials uploaded to EAS",
+   "files": "src/lib/notifications.ts"
+  },
+  {
+   "id": "a-push-02",
+   "kind": "fix",
+   "text": "No notifications on Android 13+: POST_NOTIFICATIONS runtime permission was never requested; now requested after onboarding",
+   "files": "src/lib/notifications.ts"
+  },
+  {
+   "id": "a-push-03",
+   "kind": "gotcha-note",
+   "text": "iOS push tokens from development builds are sandbox tokens and do not work against production APNs",
+   "files": ""
+  },
+  {
+   "id": "a-i18n-01",
+   "kind": "fact",
+   "text": "Localization with i18next + expo-localization; languages tr, en, de; translation files src/i18n/locales/*.json",
+   "files": "src/i18n"
+  },
+  {
+   "id": "a-i18n-02",
+   "kind": "convention",
+   "text": "Çeviri anahtarları ekran bazlı: trips.detail.title; sabit metin JSX içine yazılmaz, lint kuralı i18next/no-literal-string açık",
+   "files": "src/i18n/locales"
+  },
+  {
+   "id": "a-i18n-03",
+   "kind": "fix",
+   "text": "Turkish plurals showed \"1 günler\"; i18next v23 needs compatibilityJSON v4 and Intl.PluralRules polyfill on Hermes",
+   "files": "src/i18n/index.ts"
+  },
+  {
+   "id": "a-test-01",
+   "kind": "convention",
+   "text": "Unit tests with jest-expo and React Native Testing Library; e2e flows with Maestro in .maestro/ run on EAS for the preview profile",
+   "files": "jest.config.js .maestro"
+  },
+  {
+   "id": "a-test-02",
+   "kind": "fix",
+   "text": "Jest failed on mmkv import (native module); mocked react-native-mmkv in jest.setup.ts",
+   "files": "jest.setup.ts"
+  },
+  {
+   "id": "a-test-03",
+   "kind": "note",
+   "text": "Maestro booking flow is flaky on the iOS 17 simulator because of the keyboard; added hideKeyboard steps",
+   "files": ".maestro/booking.yaml"
+  },
+  {
+   "id": "a-obs-01",
+   "kind": "fact",
+   "text": "Crash reporting with @sentry/react-native; source maps uploaded by the Sentry Expo plugin during EAS Build; dsn in EXPO_PUBLIC_SENTRY_DSN",
+   "files": "app.config.ts"
+  },
+  {
+   "id": "a-obs-02",
+   "kind": "fix",
+   "text": "Sentry stack traces were minified for OTA updates; need to run sentry-expo-upload-sourcemaps after eas update",
+   "files": "eas.json"
+  },
+  {
+   "id": "a-perf-01",
+   "kind": "fix",
+   "text": "Trip list stuttered with 300+ items; replaced FlatList with FlashList and estimatedItemSize 96",
+   "files": "src/components/TripList.tsx"
+  },
+  {
+   "id": "a-perf-02",
+   "kind": "decision",
+   "text": "Use expo-image (with blurhash placeholders) everywhere instead of the RN Image component",
+   "files": "src/components/Image.tsx"
+  },
+  {
+   "id": "a-perf-03",
+   "kind": "note",
+   "text": "Cold start on low-end Android is 3.4s; biggest cost is loading all locale files eagerly",
+   "files": ""
+  },
+  {
+   "id": "a-ui-01",
+   "kind": "decision",
+   "text": "Styling with NativeWind v4 (Tailwind classes); no styled-components; design tokens in tailwind.config.js",
+   "files": "tailwind.config.js"
+  },
+  {
+   "id": "a-ui-02",
+   "kind": "fix",
+   "text": "Content went under the Dynamic Island; wrap screens in SafeAreaView from react-native-safe-area-context, not the RN one",
+   "files": "app/_layout.tsx"
+  },
+  {
+   "id": "a-ui-03",
+   "kind": "convention",
+   "text": "Her dokunulabilir öğede accessibilityLabel olmalı; minimum dokunma alanı 44x44",
+   "files": ""
+  },
+  {
+   "id": "a-ui-04",
+   "kind": "fact",
+   "text": "Custom font Inter loaded with expo-font in app/_layout.tsx; splash screen stays until fonts are loaded",
+   "files": "app/_layout.tsx"
+  },
+  {
+   "id": "a-store-01",
+   "kind": "gotcha-note",
+   "text": "App Store rejected 1.4.0 (guideline 5.1.1): account deletion must be possible inside the app; added Settings > Delete account calling the delete-user edge function",
+   "files": ""
+  },
+  {
+   "id": "a-store-02",
+   "kind": "fact",
+   "text": "Google Play requires targetSdkVersion 34 since Aug 2024; set via expo-build-properties",
+   "files": "app.config.ts"
+  },
+  {
+   "id": "a-store-03",
+   "kind": "fix",
+   "text": "ASC flagged missing privacy manifest reasons for UserDefaults; declared NSPrivacyAccessedAPICategoryUserDefaults reason CA92.1",
+   "files": ""
+  },
+  {
+   "id": "a-pay-01",
+   "kind": "decision",
+   "text": "Premium subscription via in-app purchases with RevenueCat (react-native-purchases); entitlements checked with useEntitlement('pro')",
+   "files": "src/lib/purchases.ts"
+  },
+  {
+   "id": "a-pay-02",
+   "kind": "gotcha-note",
+   "text": "IAP sandbox renewals are accelerated (1 month = 5 min); test users created in App Store Connect > Users and Access > Sandbox",
+   "files": ""
+  },
+  {
+   "id": "a-pay-03",
+   "kind": "fix",
+   "text": "Pro badge did not appear after purchase on a second device; RevenueCat webhook now writes the entitlement to profiles.is_pro",
+   "files": "supabase/functions/revenuecat-webhook"
+  },
+  {
+   "id": "a-sec-01",
+   "kind": "convention",
+   "text": "Only EXPO_PUBLIC_* variables are bundled in the app; anything secret goes into Supabase Edge Function secrets, never into app.config",
+   "files": "app.config.ts"
+  },
+  {
+   "id": "a-sec-02",
+   "kind": "fact",
+   "text": "No certificate pinning (decided too risky for OTA-updatable apps); HTTPS + Supabase RLS are the security boundary",
+   "files": ""
+  },
+  {
+   "id": "a-tool-01",
+   "kind": "fact",
+   "text": "Package manager for atlas is bun (bun install); expo CLI runs through bunx expo",
+   "files": "package.json bun.lockb"
+  },
+  {
+   "id": "a-tool-02",
+   "kind": "convention",
+   "text": "ESLint flat config with eslint-config-expo + prettier; CI fails on warnings (--max-warnings 0)",
+   "files": "eslint.config.js"
+  },
+  {
+   "id": "a-tool-04",
+   "kind": "fact",
+   "text": "Package manager: bun (bun.lockb committed), yarn.lock removed",
+   "files": "package.json"
+  },
+  {
+   "id": "a-sess-01",
+   "kind": "session",
+   "text": "Session: started offline tile pack download UI; mapbox offlineManager progress events wired, needs cancel button",
+   "files": "src/components/Map/TripMap.tsx src/lib/offline.ts"
+  },
+  {
+   "id": "a-sess-02",
+   "kind": "session",
+   "text": "Session: fixed Turkish plural forms; added Intl.PluralRules polyfill",
+   "files": "src/i18n/index.ts"
+  },
+  {
+   "id": "a-sess-03",
+   "kind": "session",
+   "text": "Session: FlashList migration for trip list; scroll is smooth on Pixel 4a now",
+   "files": "src/components/TripList.tsx"
+  },
+  {
+   "id": "a-sess-04",
+   "kind": "session",
+   "text": "Session: hesap silme akışı eklendi (App Store 5.1.1 reddi için), edge function delete-user yazıldı",
+   "files": "supabase/functions/delete-user"
+  },
+  {
+   "id": "a-auto-01",
+   "kind": "fix",
+   "text": "`bun run test` failed (Cannot find module 'react-native-mmkv') → fixed via jest.setup.ts",
+   "files": "jest.setup.ts"
+  },
+  {
+   "id": "a-auto-02",
+   "kind": "fix",
+   "text": "`eas build -p ios --profile preview` failed (Multiple commands produce PrivacyInfo.xcprivacy) → fixed via plugins/withPrivacyDedupe.js",
+   "files": "ios/Podfile"
+  },
+  {
+   "id": "a-auto-03",
+   "kind": "fix",
+   "text": "`bunx expo run:android` failed (SecurityException: POST_NOTIFICATIONS) → fixed via src/lib/notifications.ts",
+   "files": "src/lib/notifications.ts"
+  },
+  {
+   "id": "a-misc-01",
+   "kind": "fact",
+   "text": "Product analytics with PostHog (EU cloud); screen views tracked automatically via the expo-router integration",
+   "files": "src/lib/analytics.ts"
+  },
+  {
+   "id": "a-misc-02",
+   "kind": "todo",
+   "text": "Offline map packs: add cancel + storage usage display in Settings",
+   "files": "src/lib/offline.ts"
+  },
+  {
+   "id": "a-misc-03",
+   "kind": "todo",
+   "text": "iOS home screen widget showing the next trip (needs expo-apple-targets)",
+   "files": ""
+  },
+  {
+   "id": "a-misc-04",
+   "kind": "bug",
+   "text": "Trip dates shift by one day for users west of UTC because we parse YYYY-MM-DD with new Date(); use date-fns parseISO + local date",
+   "files": "src/lib/dates.ts"
+  },
+  {
+   "id": "a-misc-05",
+   "kind": "fact",
+   "text": "Designs in Figma file \"Atlas App v3\"; designer is Deniz, components mirror the Figma library names",
+   "files": ""
+  },
+  {
+   "id": "a-misc-06",
+   "kind": "decision",
+   "text": "Forms with react-hook-form + zod resolvers; one zod schema shared with the Supabase edge function input validation",
+   "files": "src/components/forms"
+  },
+  {
+   "id": "a-misc-07",
+   "kind": "gotcha-note",
+   "text": "Expo SDK upgrades: run npx expo install --fix and check expo-doctor; never bump react-native manually",
+   "files": ""
+  },
+  {
+   "id": "a-misc-08",
+   "kind": "fact",
+   "text": "Hotel availability comes from the partner API through the booking edge function; responses cached 10 min in the hotel_cache table",
+   "files": "supabase/functions/booking"
+  },
+  {
+   "id": "a-misc-09",
+   "kind": "note",
+   "text": "Deniz wants the trip detail redesign (bottom sheet with day tabs) in 1.7",
+   "files": ""
+  },
+  {
+   "id": "a-misc-10",
+   "kind": "fact",
+   "text": "Environment per EAS profile: development/preview use the staging Supabase project, production uses prod; set via env in eas.json",
+   "files": "eas.json"
+  },
+  {
+   "id": "a-dup-01",
+   "kind": "decision",
+   "text": "All App Store / Play builds go through EAS Build; we never upload archives from local Xcode",
+   "files": "eas.json"
+  }
+ ],
+ "global": [
+  {
+   "id": "g-pref-01",
+   "kind": "preference",
+   "text": "Bana Türkçe cevap ver; kod, yorumlar ve commit mesajları İngilizce olsun",
+   "files": ""
+  },
+  {
+   "id": "g-pref-02",
+   "kind": "preference",
+   "text": "Commit messages follow Conventional Commits (feat:, fix:, chore:), imperative mood, no emojis",
+   "files": ""
+  },
+  {
+   "id": "g-pref-03",
+   "kind": "preference",
+   "text": "Never force-push to main or master; force-with-lease only on my own feature branches",
+   "files": ""
+  },
+  {
+   "id": "g-pref-04",
+   "kind": "preference",
+   "text": "Küçük PR'ları tercih ederim: 400 satırı geçen değişiklikleri parçalara böl",
+   "files": ""
+  },
+  {
+   "id": "g-pref-05",
+   "kind": "preference",
+   "text": "For Node projects prefer pnpm over npm or yarn unless the repo already uses something else",
+   "files": ""
+  },
+  {
+   "id": "g-pref-06",
+   "kind": "preference",
+   "text": "Run the test suite and the linter before every commit; do not commit with failing tests",
+   "files": ""
+  },
+  {
+   "id": "g-pref-07",
+   "kind": "preference",
+   "text": "Keep code comments short and explain why, not what; no commented-out code",
+   "files": ""
+  },
+  {
+   "id": "g-pref-08",
+   "kind": "preference",
+   "text": "Uzun açıklama yazma, önce kodu göster sonra 2-3 cümle açıklama yeter",
+   "files": ""
+  },
+  {
+   "id": "g-pref-09",
+   "kind": "preference",
+   "text": "In TypeScript prefer type aliases over interfaces except for public library APIs; named exports only, no default exports",
+   "files": ""
+  },
+  {
+   "id": "g-pref-10",
+   "kind": "preference",
+   "text": "Indentation is 2 spaces for JS/TS/JSON/YAML, 4 for Python; LF line endings",
+   "files": ""
+  },
+  {
+   "id": "g-env-01",
+   "kind": "fact",
+   "text": "My machine is a MacBook Pro M2 (arm64) running macOS 15; shell is fish, terminal is Ghostty",
+   "files": ""
+  },
+  {
+   "id": "g-env-02",
+   "kind": "fact",
+   "text": "I use OrbStack instead of Docker Desktop; docker compose commands work the same",
+   "files": ""
+  },
+  {
+   "id": "g-env-03",
+   "kind": "fact",
+   "text": "Git commits are signed with SSH signing (gpg.format ssh), key in 1Password SSH agent",
+   "files": ""
+  },
+  {
+   "id": "g-env-04",
+   "kind": "fact",
+   "text": "I am in Istanbul (Europe/Istanbul, UTC+3, no DST); schedule cron jobs in this timezone when it's user-facing",
+   "files": ""
+  },
+  {
+   "id": "g-env-05",
+   "kind": "gotcha-note",
+   "text": "If git push hangs, the 1Password SSH agent is waiting for Touch ID approval",
+   "files": ""
+  },
+  {
+   "id": "g-rule-01",
+   "kind": "convention",
+   "text": "Never paste real secrets into code, tests or memory; use .env files that are gitignored and keep .env.example updated",
+   "files": ""
+  },
+  {
+   "id": "g-rule-02",
+   "kind": "convention",
+   "text": "Ask before adding a new runtime dependency; prefer the standard library or what the project already uses",
+   "files": ""
+  },
+  {
+   "id": "g-rule-03",
+   "kind": "convention",
+   "text": "Ask before running destructive commands: rm -rf outside the repo, DROP TABLE, git reset --hard, deleting branches",
+   "files": ""
+  },
+  {
+   "id": "g-rule-04",
+   "kind": "convention",
+   "text": "Production database migrations are never run from my laptop; only through the project's CI/CD pipeline",
+   "files": ""
+  },
+  {
+   "id": "g-rule-05",
+   "kind": "convention",
+   "text": "Do not swallow errors: no empty catch blocks; log with context or rethrow",
+   "files": ""
+  },
+  {
+   "id": "g-tool-01",
+   "kind": "fact",
+   "text": "Editor is Cursor with Vim mode; I also use Claude Code and Codex in the terminal",
+   "files": ""
+  },
+  {
+   "id": "g-tool-02",
+   "kind": "fact",
+   "text": "GitHub CLI (gh) is authenticated; use gh pr create --fill and gh pr checks instead of the web UI",
+   "files": ""
+  },
+  {
+   "id": "g-tool-03",
+   "kind": "fact",
+   "text": "Tickets are in Linear; branch names include the ticket id",
+   "files": ""
+  },
+  {
+   "id": "g-know-01",
+   "kind": "note",
+   "text": "Turkish locale gotcha: \"i\".toUpperCase() in tr-TR gives \"İ\"; use toLocaleUpperCase('en-US') for identifiers and keys",
+   "files": ""
+  },
+  {
+   "id": "g-know-02",
+   "kind": "note",
+   "text": "When parsing date-only strings (YYYY-MM-DD) in JS, new Date() treats them as UTC; use a date library or construct local dates",
+   "files": ""
+  },
+  {
+   "id": "g-know-03",
+   "kind": "note",
+   "text": "For Python HTTP prefer httpx over requests (async support, timeouts by default)",
+   "files": ""
+  },
+  {
+   "id": "g-sess-01",
+   "kind": "session",
+   "text": "Session: set up SSH commit signing with 1Password, updated global gitconfig",
+   "files": ""
+  },
+  {
+   "id": "g-auto-01",
+   "kind": "fix",
+   "text": "`git push` failed (Permission denied (publickey)) → fixed via ~/.ssh/config",
+   "files": ""
+  },
+  {
+   "id": "g-pref-11",
+   "kind": "preference",
+   "text": "When reviewing my code, list problems by severity (blocker, should-fix, nit) and skip praise",
+   "files": ""
+  },
+  {
+   "id": "g-pref-12",
+   "kind": "preference",
+   "text": "Değişken isimlerinde kısaltma kullanma (usr, cfg yerine user, config); boolean'lar is/has/can ile başlasın",
+   "files": ""
+  }
+ ],
+ "kervan": [
+  {
+   "id": "k-deploy-01",
+   "kind": "decision",
+   "text": "Deploy via fly.io from GitHub Actions on every merge to main; no manual flyctl deploy from laptops — We moved off Vercel because image optimisation costs exploded and we needed a long-lived worker for BullMQ. The workflow runs pnpm build, then flyctl deploy --remote-only. Laptop deploys skipped migrations twice.",
+   "files": ".github/workflows/deploy.yml fly.toml"
+  },
+  {
+   "id": "k-deploy-02",
+   "kind": "fact",
+   "text": "fly.io app name is kervan-web (region ams), the BullMQ worker runs as a separate process group \"worker\" in the same fly.toml",
+   "files": "fly.toml"
+  },
+  {
+   "id": "k-deploy-03",
+   "kind": "fix",
+   "text": "Deploy failed with P3009 failed migration; fixed by running prisma migrate resolve --rolled-back on the release_command machine before redeploying",
+   "files": ".github/workflows/deploy.yml"
+  },
+  {
+   "id": "k-deploy-04",
+   "kind": "convention",
+   "text": "Canlıya çıkmadan önce staging'de (kervan-staging.fly.dev) en az bir smoke test koşulur, cuma 16:00'dan sonra prod deploy yapılmaz",
+   "files": "CHANGELOG.md"
+  },
+  {
+   "id": "k-deploy-05",
+   "kind": "note",
+   "text": "Rollback: flyctl releases list then flyctl deploy --image <previous image ref>; prisma migrations are NOT rolled back automatically, write a down script",
+   "files": ""
+  },
+  {
+   "id": "k-db-01",
+   "kind": "decision",
+   "text": "Postgres on Neon instead of PlanetScale, because we need foreign keys and Prisma relation mode was too slow on joins",
+   "files": "prisma/schema.prisma"
+  },
+  {
+   "id": "k-db-02",
+   "kind": "fact",
+   "text": "DATABASE_URL must use the Neon pooled host (-pooler) with ?pgbouncer=true&connection_limit=1 in serverless routes; DIRECT_URL is the unpooled host used only by prisma migrate",
+   "files": ".env.example src/server/db.ts"
+  },
+  {
+   "id": "k-db-03",
+   "kind": "fix",
+   "text": "\"too many connections\" in dev was caused by hot reload creating a new PrismaClient each time; fixed with the globalThis.prisma singleton in src/server/db.ts",
+   "files": "src/server/db.ts"
+  },
+  {
+   "id": "k-db-04",
+   "kind": "convention",
+   "text": "Migration isimleri snake_case ve fiil ile başlar (add_order_status_index); şemayı elle düzenledikten sonra her zaman pnpm db:migrate --name ile migration üret, db push kullanma",
+   "files": "prisma/migrations"
+  },
+  {
+   "id": "k-db-05",
+   "kind": "note",
+   "text": "Order listing page was slow (1.8s); added composite index on (userId, createdAt desc) — now 40ms",
+   "files": "prisma/schema.prisma"
+  },
+  {
+   "id": "k-db-06",
+   "kind": "decision",
+   "text": "Money is stored as integer kuruş (Int) never Float or Decimal; format with formatTRY() from src/lib/money.ts",
+   "files": "prisma/schema.prisma src/lib/money.ts"
+  },
+  {
+   "id": "k-db-07",
+   "kind": "fact",
+   "text": "pnpm db:seed creates 3 test users (admin@kervan.test / Test1234!) and 200 fake products from prisma/seed.ts",
+   "files": "prisma/seed.ts"
+  },
+  {
+   "id": "k-auth-01",
+   "kind": "decision",
+   "text": "Auth.js (next-auth v5) with database sessions, not JWT, because we need to revoke sessions when a seller is banned",
+   "files": "src/auth.ts"
+  },
+  {
+   "id": "k-auth-02",
+   "kind": "fact",
+   "text": "useAuthStore (zustand, src/stores/useAuthStore.ts) only mirrors the server session for client components; never treat it as the source of truth for permissions",
+   "files": "src/stores/useAuthStore.ts"
+  },
+  {
+   "id": "k-auth-03",
+   "kind": "fix",
+   "text": "Hydration mismatch on header avatar: useAuthStore was persisted to localStorage; fixed by skipHydration and calling rehydrate() inside useEffect in providers.tsx",
+   "files": "src/stores/useAuthStore.ts src/app/providers.tsx"
+  },
+  {
+   "id": "k-auth-04",
+   "kind": "fact",
+   "text": "Google OAuth callback URL must be added for every preview domain; staging uses AUTH_URL=https://kervan-staging.fly.dev",
+   "files": ".env.example"
+  },
+  {
+   "id": "k-auth-05",
+   "kind": "convention",
+   "text": "Rol kontrolü sadece sunucuda: requireRole('seller') src/server/rbac.ts içinde; client tarafında rol kontrolü sadece UI gizlemek için",
+   "files": "src/server/rbac.ts"
+  },
+  {
+   "id": "k-auth-06",
+   "kind": "bug",
+   "text": "Logout does not clear the cart cookie, so the next user on a shared device sees the previous cart",
+   "files": "src/app/api/auth"
+  },
+  {
+   "id": "k-pay-01",
+   "kind": "decision",
+   "text": "Payments go through iyzico, not Stripe: Stripe does not onboard Turkish merchants and taksit (installments) is a must-have",
+   "files": "src/server/payments/iyzico.ts"
+  },
+  {
+   "id": "k-pay-02",
+   "kind": "fact",
+   "text": "iyzico 3DS callback is a POST form to /api/payments/callback; it cannot read our session cookie (SameSite=Lax), so we look up the order by conversationId",
+   "files": "src/app/api/payments/callback/route.ts"
+  },
+  {
+   "id": "k-pay-03",
+   "kind": "fix",
+   "text": "Double-charged orders: iyzico retried the callback and we created two payments; fixed with a unique index on Payment.providerPaymentId and an upsert",
+   "files": "src/app/api/payments/callback/route.ts"
+  },
+  {
+   "id": "k-pay-04",
+   "kind": "fact",
+   "text": "iyzico sandbox test card 5528790000000008, any future expiry, CVC 123; 3DS SMS code is always 283126 in sandbox",
+   "files": ".env.example"
+  },
+  {
+   "id": "k-pay-05",
+   "kind": "convention",
+   "text": "Ödeme tutarlarını iyzico'ya gönderirken kuruşu TL string'e çevir: toIyzicoPrice(12990) -> \"129.90\"; asla parseFloat ile toplama yapma",
+   "files": "src/server/payments"
+  },
+  {
+   "id": "k-pay-06",
+   "kind": "todo",
+   "text": "Partial refunds for multi-item orders are not implemented; refund.ts only supports full refund",
+   "files": "src/server/payments/refund.ts"
+  },
+  {
+   "id": "k-search-01",
+   "kind": "decision",
+   "text": "Product search uses Meilisearch (self-hosted on fly, app kervan-search) instead of Postgres full text, because Turkish typo tolerance and facets out of the box",
+   "files": "src/server/search"
+  },
+  {
+   "id": "k-search-02",
+   "kind": "fact",
+   "text": "Meilisearch index is synced by the BullMQ job syncSearch on product update; full reindex: pnpm search:reindex (takes ~4 min for 60k products)",
+   "files": "src/jobs/syncSearch.ts"
+  },
+  {
+   "id": "k-search-03",
+   "kind": "fix",
+   "text": "Searching \"ılık\" did not match \"ILIK\" — set Meilisearch localizedAttributes locales [\"tur\"] in settings.ts so İ/ı fold correctly",
+   "files": "src/server/search/settings.ts"
+  },
+  {
+   "id": "k-search-04",
+   "kind": "note",
+   "text": "Meili synonyms list includes telefon/cep telefonu/akıllı telefon and kulaklık/headphone; edit settings.ts and run search:settings",
+   "files": "src/server/search/settings.ts"
+  },
+  {
+   "id": "k-ui-01",
+   "kind": "convention",
+   "text": "UI built with shadcn/ui components copied into src/components/ui; never install another component library, extend with cva variants",
+   "files": "src/components/ui"
+  },
+  {
+   "id": "k-ui-02",
+   "kind": "convention",
+   "text": "Colours only via CSS variables in globals.css (--primary, --muted); no raw hex in className",
+   "files": "tailwind.config.ts"
+  },
+  {
+   "id": "k-ui-03",
+   "kind": "fact",
+   "text": "Product images live on Cloudflare R2 behind images.kervan.com.tr; next/image uses a custom loader (src/lib/images.ts) because fly has no image optimiser",
+   "files": "next.config.mjs src/lib/images.ts"
+  },
+  {
+   "id": "k-ui-04",
+   "kind": "fix",
+   "text": "CLS on category pages fixed by giving ProductCard images a fixed aspect-ratio 4/5 and sizes attribute",
+   "files": "src/components/ProductCard.tsx"
+  },
+  {
+   "id": "k-ui-05",
+   "kind": "note",
+   "text": "Dark mode is postponed; next-themes is installed but ThemeProvider forced to light",
+   "files": "src/app/layout.tsx"
+  },
+  {
+   "id": "k-i18n-01",
+   "kind": "decision",
+   "text": "i18n with next-intl, locales tr (default) and en, URLs prefixed only for en (/en/...); Turkish has no prefix for SEO",
+   "files": "src/i18n messages"
+  },
+  {
+   "id": "k-i18n-02",
+   "kind": "convention",
+   "text": "Yeni metin eklerken önce messages/tr.json'a ekle, en.json eksikse build uyarı verir ama kırmaz; anahtarlar nokta ile: checkout.summary.total",
+   "files": "messages/tr.json messages/en.json"
+  },
+  {
+   "id": "k-i18n-03",
+   "kind": "fix",
+   "text": "Dates showed in UTC on server render; fixed by passing timeZone: 'Europe/Istanbul' to next-intl getRequestConfig",
+   "files": "src/lib/date.ts"
+  },
+  {
+   "id": "k-cart-01",
+   "kind": "decision",
+   "text": "Guest cart stored in Upstash Redis keyed by a signed cookie cart_id (TTL 30 days); merged into the DB cart on login",
+   "files": "src/server/cart.ts"
+  },
+  {
+   "id": "k-cart-02",
+   "kind": "fix",
+   "text": "Cart merge duplicated line items when the same variant existed in both carts; now we sum quantities and cap at stock",
+   "files": "src/server/cart.ts"
+  },
+  {
+   "id": "k-cart-03",
+   "kind": "fact",
+   "text": "Stock is reserved only at payment start (15 min hold in StockReservation table), not when adding to cart",
+   "files": "src/server/cart.ts"
+  },
+  {
+   "id": "k-email-01",
+   "kind": "decision",
+   "text": "Transactional email via Resend, sent from the BullMQ email queue, never inline in a request handler",
+   "files": "src/jobs/email.ts"
+  },
+  {
+   "id": "k-email-02",
+   "kind": "fact",
+   "text": "Email templates are react-email components in emails/; preview with pnpm email:dev on port 3001",
+   "files": "emails/"
+  },
+  {
+   "id": "k-email-03",
+   "kind": "gotcha-note",
+   "text": "Order confirmation mails went to spam at Outlook until we added the Resend DKIM CNAMEs on the kervan.com.tr zone",
+   "files": ""
+  },
+  {
+   "id": "k-queue-01",
+   "kind": "fact",
+   "text": "BullMQ worker entrypoint is src/jobs/worker.ts; it needs REDIS_URL pointing at the fly Upstash instance, not the Upstash REST URL",
+   "files": "src/jobs/worker.ts"
+  },
+  {
+   "id": "k-queue-02",
+   "kind": "fix",
+   "text": "Jobs stuck in \"active\" after deploy: worker was killed without graceful shutdown; added SIGTERM handler calling worker.close() and kill_timeout = 60 in fly.toml",
+   "files": "src/jobs/worker.ts"
+  },
+  {
+   "id": "k-test-01",
+   "kind": "convention",
+   "text": "Unit tests with Vitest next to the file (*.test.ts), e2e with Playwright in e2e/; every bug fix gets a regression test",
+   "files": "vitest.config.ts playwright.config.ts"
+  },
+  {
+   "id": "k-test-02",
+   "kind": "fact",
+   "text": "Playwright e2e uses a throwaway Neon branch created in e2e/global-setup.ts and deleted after the run; needs NEON_API_KEY in CI",
+   "files": "e2e/global-setup.ts"
+  },
+  {
+   "id": "k-test-03",
+   "kind": "fix",
+   "text": "Flaky checkout e2e: waited for networkidle which never fires with analytics; switched to waiting on the \"Siparişiniz alındı\" heading",
+   "files": "e2e/checkout.spec.ts"
+  },
+  {
+   "id": "k-test-04",
+   "kind": "note",
+   "text": "Coverage threshold set to 70% lines for src/server only; UI components excluded",
+   "files": ""
+  },
+  {
+   "id": "k-ci-01",
+   "kind": "fact",
+   "text": "CI uses pnpm store cache + turbo remote cache (Vercel token TURBO_TOKEN still used for cache only)",
+   "files": ".github/workflows/ci.yml"
+  },
+  {
+   "id": "k-ci-02",
+   "kind": "fix",
+   "text": "CI broke with ERR_PNPM_OUTDATED_LOCKFILE after a renovate PR; we now run pnpm install --frozen-lockfile and renovate does lockfile maintenance weekly",
+   "files": ".github/workflows/ci.yml"
+  },
+  {
+   "id": "k-ci-03",
+   "kind": "convention",
+   "text": "PR'lar en az bir onay ve yeşil CI olmadan merge edilmez; squash merge, başlık conventional commit formatında",
+   "files": ".github/pull_request_template.md"
+  },
+  {
+   "id": "k-obs-01",
+   "kind": "decision",
+   "text": "Errors go to Sentry (EU region) with tracesSampleRate 0.1 in prod; session replay disabled because of KVKK",
+   "files": "sentry.client.config.ts"
+  },
+  {
+   "id": "k-obs-02",
+   "kind": "fact",
+   "text": "Server logs via pino to stdout, fly forwards them to Better Stack; use log.child({ orderId }) in payment code",
+   "files": "src/server/log.ts"
+  },
+  {
+   "id": "k-sec-01",
+   "kind": "convention",
+   "text": "Never log TC kimlik no, full card numbers or phone numbers; the pino redact list in src/server/log.ts must be updated when adding PII fields",
+   "files": "src/server/log.ts"
+  },
+  {
+   "id": "k-sec-02",
+   "kind": "fact",
+   "text": "Login and /api/payments are rate limited with @upstash/ratelimit (10 req/min per IP) in middleware.ts",
+   "files": "src/middleware.ts"
+  },
+  {
+   "id": "k-sec-03",
+   "kind": "fix",
+   "text": "iyzico checkout form was blocked by CSP; added *.iyzipay.com to frame-src and script-src in next.config.mjs headers",
+   "files": "next.config.mjs"
+  },
+  {
+   "id": "k-perf-01",
+   "kind": "note",
+   "text": "Home page uses ISR revalidate 300; category pages are dynamic because of stock badges",
+   "files": "src/app/(shop)/page.tsx"
+  },
+  {
+   "id": "k-perf-02",
+   "kind": "decision",
+   "text": "Prefer React Server Components for data fetching; client components only for interactivity (cart drawer, filters)",
+   "files": ""
+  },
+  {
+   "id": "k-env-01",
+   "kind": "fact",
+   "text": "Secrets live in fly secrets (flyctl secrets set) and GitHub Actions secrets; .env.example lists every variable, .env.local is gitignored",
+   "files": ".env.example"
+  },
+  {
+   "id": "k-env-02",
+   "kind": "gotcha-note",
+   "text": "NEXT_PUBLIC_ variables are inlined at build time; changing them in fly secrets needs a rebuild, not just a restart",
+   "files": ""
+  },
+  {
+   "id": "k-monorepo-01",
+   "kind": "decision",
+   "text": "Turborepo monorepo: apps/web, apps/admin, packages/ui, packages/db; shared Prisma client lives in packages/db",
+   "files": "turbo.json pnpm-workspace.yaml"
+  },
+  {
+   "id": "k-admin-01",
+   "kind": "fact",
+   "text": "Admin panel (apps/admin) is a separate Next app behind Cloudflare Access; only @kervan.com.tr Google accounts",
+   "files": "apps/admin"
+  },
+  {
+   "id": "k-admin-02",
+   "kind": "todo",
+   "text": "CSV export of orders for muhasebe (accounting) requested by Elif; needs e-fatura number column",
+   "files": "apps/admin/src/app/orders"
+  },
+  {
+   "id": "k-seo-01",
+   "kind": "fact",
+   "text": "sitemap.ts generates product URLs in chunks of 5000; robots disallows /sepet and /hesap",
+   "files": "src/app/sitemap.ts"
+  },
+  {
+   "id": "k-seo-02",
+   "kind": "decision",
+   "text": "Product slugs are Turkish-transliterated (ç->c, ğ->g, ı->i) via slugify in src/lib/slug.ts; old slugs 301 via ProductSlugHistory",
+   "files": "src/lib/slug.ts"
+  },
+  {
+   "id": "k-ship-01",
+   "kind": "fact",
+   "text": "Kargo entegrasyonu Yurtiçi Kargo API ile; takip numarası Order.trackingCode alanında, webhook yok, her saat cron ile durum çekiliyor",
+   "files": "src/server/shipping"
+  },
+  {
+   "id": "k-ship-02",
+   "kind": "fix",
+   "text": "trackShipments cron hit Yurtiçi rate limits; batched to 50 per request and added 1s delay",
+   "files": "src/jobs/trackShipments.ts"
+  },
+  {
+   "id": "k-tax-01",
+   "kind": "fact",
+   "text": "Prices are KDV dahil (VAT included, 20%); invoice.ts splits net and KDV for e-arşiv fatura via Paraşüt API",
+   "files": "src/server/invoice.ts"
+  },
+  {
+   "id": "k-tax-02",
+   "kind": "gotcha-note",
+   "text": "Paraşüt API tokens expire every 2 hours; the client refreshes on 401 but the refresh token itself lasts only 7 days without use",
+   "files": "src/server/invoice.ts"
+  },
+  {
+   "id": "k-pin-01",
+   "kind": "convention",
+   "text": "TypeScript strict everywhere; no any — use unknown and narrow with zod",
+   "files": "tsconfig.json"
+  },
+  {
+   "id": "k-pin-02",
+   "kind": "preference",
+   "text": "Kullanıcıya Türkçe yanıt ver, kod ve commit mesajları İngilizce",
+   "files": ""
+  },
+  {
+   "id": "k-sess-01",
+   "kind": "session",
+   "text": "Session: started partial refund support; added RefundRequest model, UI button on order detail; tests not written yet",
+   "files": "src/server/payments/refund.ts src/app/(account)/orders/[id]/page.tsx"
+  },
+  {
+   "id": "k-sess-02",
+   "kind": "session",
+   "text": "Session: fixed avatar hydration mismatch (useAuthStore skipHydration); ran pnpm test, all green",
+   "files": "src/stores/useAuthStore.ts src/app/providers.tsx"
+  },
+  {
+   "id": "k-sess-03",
+   "kind": "session",
+   "text": "Session: stabilised checkout e2e, removed networkidle waits, CI green 5 runs in a row",
+   "files": "e2e/checkout.spec.ts"
+  },
+  {
+   "id": "k-sess-04",
+   "kind": "session",
+   "text": "Session: Yurtiçi kargo takip cron'u batch'lendi, rate limit hataları bitti",
+   "files": "src/jobs/trackShipments.ts"
+  },
+  {
+   "id": "k-sess-05",
+   "kind": "session",
+   "text": "Session: added composite index on orders(userId, createdAt); explored Neon branching for e2e",
+   "files": "prisma/schema.prisma"
+  },
+  {
+   "id": "k-dup-01",
+   "kind": "fact",
+   "text": "fly.io app kervan-web runs in ams; the queue worker is the \"worker\" process group in fly.toml",
+   "files": "fly.toml"
+  },
+  {
+   "id": "k-new-01",
+   "kind": "fact",
+   "text": "Node version: 20 LTS (.nvmrc), required by next 14.2 and Prisma 5",
+   "files": ".nvmrc"
+  },
+  {
+   "id": "k-new-02",
+   "kind": "decision",
+   "text": "State management: zustand stores in src/stores, one store per concern (useAuthStore, useCartStore, useUIStore)",
+   "files": "src/stores"
+  },
+  {
+   "id": "k-stale-01",
+   "kind": "fact",
+   "text": "Product images are served from S3 eu-central-1 bucket kervan-media via CloudFront",
+   "files": ""
+  },
+  {
+   "id": "k-misc-01",
+   "kind": "note",
+   "text": "Elif wants the campaign banner (Black Friday / Efsane Cuma) ready by 20 Nov; banner content comes from the admin CMS table Banner",
+   "files": ""
+  },
+  {
+   "id": "k-misc-02",
+   "kind": "fact",
+   "text": "Feature flags are rows in the FeatureFlag table read via isEnabled('new-checkout'); cached 60s in memory",
+   "files": "src/lib/flags.ts"
+  },
+  {
+   "id": "k-misc-03",
+   "kind": "decision",
+   "text": "New one-page checkout behind the new-checkout flag; old 3-step checkout removed after 2 weeks of A/B",
+   "files": "src/app/(shop)/checkout"
+  },
+  {
+   "id": "k-misc-04",
+   "kind": "fact",
+   "text": "Analytics: Plausible self-hosted (no cookie banner needed); events via track('add_to_cart', props)",
+   "files": "src/lib/analytics.ts"
+  },
+  {
+   "id": "k-misc-05",
+   "kind": "gotcha-note",
+   "text": "Meilisearch on fly needs a volume (meili_data) and a single machine; scaling to 2 machines splits the index",
+   "files": "fly.toml"
+  },
+  {
+   "id": "k-misc-06",
+   "kind": "note",
+   "text": "Mobile Lighthouse on product page is 71; biggest items are the iyzico script and the reviews widget",
+   "files": ""
+  },
+  {
+   "id": "k-misc-07",
+   "kind": "fix",
+   "text": "Daily report cron ran at 03:00 Istanbul instead of 06:00 because BullMQ repeat uses UTC; set tz: 'Europe/Istanbul'",
+   "files": "src/jobs/schedule.ts"
+  },
+  {
+   "id": "k-misc-08",
+   "kind": "fact",
+   "text": "Only customers with a delivered order can review a product; reviews are moderated in admin before publishing",
+   "files": "src/server/reviews.ts"
+  },
+  {
+   "id": "k-misc-09",
+   "kind": "convention",
+   "text": "Server actions for mutations from forms; route handlers only for webhooks and third-party callbacks; no tRPC",
+   "files": "src/server/api"
+  },
+  {
+   "id": "k-misc-10",
+   "kind": "fact",
+   "text": "Kupon kodları büyük/küçük harf duyarsız, tek kullanımlık kuponlar CouponRedemption tablosunda unique (couponId,userId)",
+   "files": "src/server/coupons.ts"
+  },
+  {
+   "id": "k-misc-11",
+   "kind": "bug",
+   "text": "Percentage coupons round each line separately so totals can be 1 kuruş off from the summary",
+   "files": "src/server/coupons.ts"
+  },
+  {
+   "id": "k-misc-12",
+   "kind": "todo",
+   "text": "Log zero-result searches to find missing synonyms",
+   "files": ""
+  }
+ ],
+ "pulsar": [
+  {
+   "id": "p-deploy-01",
+   "kind": "decision",
+   "text": "Releases are GitOps: CI builds the image and bumps image.tag in deploy/helm/pulsar/values-prod.yaml, ArgoCD syncs it to GKE; nobody runs kubectl apply or helm upgrade by hand — Decided after an incident where a hand-run helm upgrade used a stale values file and dropped the HPA. ArgoCD auto-sync is on for staging, manual sync button for prod.",
+   "files": "deploy/helm/pulsar"
+  },
+  {
+   "id": "p-deploy-02",
+   "kind": "fact",
+   "text": "Prod ArgoCD app is pulsar-prod in the argocd namespace; sync is manual, staging (pulsar-staging) auto-syncs from main",
+   "files": "deploy/argocd/app-prod.yaml"
+  },
+  {
+   "id": "p-deploy-03",
+   "kind": "fix",
+   "text": "Pods were killed during rollout because the readiness probe hit /health before Alembic finished; added a separate migration Job (pre-sync hook) and /ready endpoint",
+   "files": "deploy/helm/pulsar/templates/deployment.yaml"
+  },
+  {
+   "id": "p-deploy-04",
+   "kind": "convention",
+   "text": "Release tag'leri vYYYY.MM.DD-N formatında; prod sync'ten önce #pulsar-releases kanalına changelog yazılır",
+   "files": ""
+  },
+  {
+   "id": "p-deploy-05",
+   "kind": "note",
+   "text": "Canary: set canary.weight in values-prod.yaml (Argo Rollouts), 10% for 30 min, watch p99 in Grafana before promoting",
+   "files": "deploy/helm/pulsar/values-prod.yaml"
+  },
+  {
+   "id": "p-db-02",
+   "kind": "fact",
+   "text": "PG_POOL_MAX: 40 per pod since the move to Cloud SQL Enterprise Plus (max_connections 800); keep pods*PG_POOL_MAX under 600 — Raised from 20 after connection-acquire timeouts during the Monday batch import. 12 pods * 40 = 480.",
+   "files": "src/pulsar/db.py"
+  },
+  {
+   "id": "p-db-03",
+   "kind": "decision",
+   "text": "SQLAlchemy 2.0 async ORM with asyncpg driver; raw SQL only in src/pulsar/queries/ for reporting queries",
+   "files": "src/pulsar/models"
+  },
+  {
+   "id": "p-db-04",
+   "kind": "convention",
+   "text": "Every schema change is an Alembic revision generated with alembic revision --autogenerate and then hand-reviewed; never edit an applied revision",
+   "files": "alembic/versions"
+  },
+  {
+   "id": "p-db-05",
+   "kind": "fix",
+   "text": "Autogenerate kept emitting drop/create for enum types; fixed by compare_type=False and handling enums manually with op.execute",
+   "files": "alembic/env.py"
+  },
+  {
+   "id": "p-db-06",
+   "kind": "gotcha-note",
+   "text": "Adding a NOT NULL column with default on the events_raw table locks it for minutes; add nullable, backfill in batches, then set NOT NULL",
+   "files": ""
+  },
+  {
+   "id": "p-db-07",
+   "kind": "fact",
+   "text": "Pods connect to Cloud SQL through the cloud-sql-proxy sidecar on 127.0.0.1:5432; local dev uses docker compose postgres:16",
+   "files": "deploy/helm/pulsar/templates/deployment.yaml"
+  },
+  {
+   "id": "p-ch-01",
+   "kind": "decision",
+   "text": "Raw events go to ClickHouse (MergeTree partitioned by toYYYYMM(ts)); Postgres keeps only accounts, projects and API keys — Postgres events table hit 2B rows and aggregations took minutes.",
+   "files": "src/pulsar/clickhouse"
+  },
+  {
+   "id": "p-ch-02",
+   "kind": "fact",
+   "text": "ClickHouse inserts are batched: flush every 5000 rows or 2s, whichever first (writer.py); single-row inserts create too many parts",
+   "files": "src/pulsar/ingest/writer.py"
+  },
+  {
+   "id": "p-ch-03",
+   "kind": "fix",
+   "text": "\"Too many parts\" errors on ClickHouse after deploy: two writers per pod; fixed by making the writer a singleton per process",
+   "files": "src/pulsar/ingest/writer.py"
+  },
+  {
+   "id": "p-ch-04",
+   "kind": "gotcha-note",
+   "text": "ClickHouse TTL for events is 13 months; GDPR delete uses ALTER TABLE ... DELETE which is async (mutation), check system.mutations",
+   "files": ""
+  },
+  {
+   "id": "p-api-01",
+   "kind": "convention",
+   "text": "One APIRouter per resource in src/pulsar/api/<resource>.py; request/response models in schemas.py with Pydantic v2, never return ORM objects directly",
+   "files": "src/pulsar/api"
+  },
+  {
+   "id": "p-api-02",
+   "kind": "fact",
+   "text": "API keys are shown once, stored as argon2id hash plus an 8-char prefix (pk_live_abcd1234) for lookup",
+   "files": "src/pulsar/auth/api_keys.py"
+  },
+  {
+   "id": "p-api-03",
+   "kind": "decision",
+   "text": "API versioned in the URL (/v1, /v2); v1 is frozen, breaking changes only in v2",
+   "files": "src/pulsar/api"
+  },
+  {
+   "id": "p-api-04",
+   "kind": "fact",
+   "text": "Rate limit is 1000 req/min per API key using a Redis sliding window; returns 429 with Retry-After",
+   "files": "src/pulsar/middleware/ratelimit.py"
+  },
+  {
+   "id": "p-api-05",
+   "kind": "fix",
+   "text": "422 errors for timestamps with Z suffix after the Pydantic v2 upgrade; switched field type to AwareDatetime",
+   "files": "src/pulsar/api/schemas.py"
+  },
+  {
+   "id": "p-api-06",
+   "kind": "todo",
+   "text": "Replace offset pagination on /v2/events with cursor pagination (offset > 10k times out)",
+   "files": "src/pulsar/api/events.py"
+  },
+  {
+   "id": "p-api-07",
+   "kind": "bug",
+   "text": "CORS preflight fails for the dashboard on the staging domain; allow_origins is missing https://app.staging.pulsar.dev",
+   "files": "src/pulsar/main.py"
+  },
+  {
+   "id": "p-auth-01",
+   "kind": "decision",
+   "text": "Dashboard auth uses short-lived JWTs (15 min) with rotating refresh tokens stored hashed in Postgres; reuse of a refresh token revokes the whole family",
+   "files": "src/pulsar/auth/jwt.py"
+  },
+  {
+   "id": "p-auth-02",
+   "kind": "fact",
+   "text": "JWT signing keys rotate monthly; public keys served at /.well-known/jwks.json, kid in header",
+   "files": "src/pulsar/auth/jwt.py"
+  },
+  {
+   "id": "p-celery-01",
+   "kind": "fact",
+   "text": "Background jobs: Celery with Redis broker; queues default, reports, exports; workers deployed as pulsar-worker deployment",
+   "files": "src/pulsar/tasks"
+  },
+  {
+   "id": "p-celery-02",
+   "kind": "fix",
+   "text": "Export workers OOMKilled on large CSV exports; now stream rows with yield_per(5000) and write to GCS in chunks, plus worker_max_tasks_per_child=50",
+   "files": "src/pulsar/tasks/exports.py"
+  },
+  {
+   "id": "p-celery-03",
+   "kind": "gotcha-note",
+   "text": "Celery beat must run as exactly one replica; two beat pods sent every scheduled report twice",
+   "files": ""
+  },
+  {
+   "id": "p-celery-04",
+   "kind": "convention",
+   "text": "Görevler idempotent olmalı: her task bir idempotency_key alır ve tamamlananlar task_runs tablosuna yazılır",
+   "files": "src/pulsar/tasks"
+  },
+  {
+   "id": "p-test-01",
+   "kind": "convention",
+   "text": "Tests with pytest + pytest-asyncio, run in parallel with pytest -n auto; integration tests marked @pytest.mark.integration and need docker compose up",
+   "files": "pyproject.toml tests"
+  },
+  {
+   "id": "p-test-02",
+   "kind": "fact",
+   "text": "Each test runs in a transaction rolled back at the end (conftest.py db_session fixture); ClickHouse tests use a per-worker database pulsar_test_gw0..N",
+   "files": "tests/conftest.py"
+  },
+  {
+   "id": "p-test-03",
+   "kind": "fix",
+   "text": "\"Event loop is closed\" flakes with pytest-xdist; fixed by setting asyncio_mode=auto and scope=\"session\" loop fixture",
+   "files": "tests/conftest.py"
+  },
+  {
+   "id": "p-test-04",
+   "kind": "fact",
+   "text": "Test data via factory_boy factories in tests/factories.py (AccountFactory, ApiKeyFactory, EventFactory)",
+   "files": "tests/factories.py"
+  },
+  {
+   "id": "p-tool-01",
+   "kind": "decision",
+   "text": "Dependency management with uv (uv.lock committed); poetry removed; add deps with uv add, never pip install into the venv",
+   "files": "pyproject.toml uv.lock"
+  },
+  {
+   "id": "p-tool-02",
+   "kind": "convention",
+   "text": "ruff for lint+format (line length 100) and mypy --strict on src/; pre-commit runs both",
+   "files": "pyproject.toml"
+  },
+  {
+   "id": "p-tool-03",
+   "kind": "fix",
+   "text": "mypy complained about missing stubs for clickhouse-connect; added it to ignore_missing_imports override instead of type: ignore everywhere",
+   "files": "pyproject.toml"
+  },
+  {
+   "id": "p-tool-04",
+   "kind": "fact",
+   "text": "Python version: 3.12 (.python-version), the Docker base image is python:3.12-slim",
+   "files": ".python-version"
+  },
+  {
+   "id": "p-obs-01",
+   "kind": "decision",
+   "text": "Tracing with OpenTelemetry SDK exporting OTLP to Grafana Tempo; metrics via Prometheus /metrics scraped by Grafana Agent",
+   "files": "src/pulsar/telemetry.py"
+  },
+  {
+   "id": "p-obs-02",
+   "kind": "fact",
+   "text": "Grafana dashboard \"Pulsar / Ingest\" shows events/s, ClickHouse flush latency and Celery queue depth; alerts route to #pulsar-alerts",
+   "files": ""
+  },
+  {
+   "id": "p-obs-03",
+   "kind": "fix",
+   "text": "Logs were not correlated with traces; added trace_id/span_id to the structlog JSON processor",
+   "files": "src/pulsar/logging.py"
+  },
+  {
+   "id": "p-obs-04",
+   "kind": "convention",
+   "text": "Logging via structlog JSON only, no print(); log keys snake_case, never log raw API keys or event payloads",
+   "files": "src/pulsar/logging.py"
+  },
+  {
+   "id": "p-ingest-01",
+   "kind": "fact",
+   "text": "Ingest path: POST /v1/track -> validate -> enqueue in Redis stream events:in -> writer pods batch to ClickHouse; the API never writes to ClickHouse directly",
+   "files": "src/pulsar/ingest"
+  },
+  {
+   "id": "p-ingest-02",
+   "kind": "decision",
+   "text": "Redis Streams instead of Kafka for the ingest buffer: volume is ~3k events/s, Kafka ops cost not justified; revisit above 20k/s",
+   "files": "src/pulsar/ingest"
+  },
+  {
+   "id": "p-ingest-03",
+   "kind": "fix",
+   "text": "Redis memory spiked when ClickHouse was slow; added MAXLEN ~ 5,000,000 on XADD and a 503 when stream lag exceeds 2M",
+   "files": "src/pulsar/ingest/writer.py"
+  },
+  {
+   "id": "p-ingest-04",
+   "kind": "gotcha-note",
+   "text": "Client timestamps can be days in the future (bad phone clocks); clamp ts to server time + 5 min and keep the original in client_ts",
+   "files": ""
+  },
+  {
+   "id": "p-k8s-01",
+   "kind": "fact",
+   "text": "API pods: requests 500m CPU / 512Mi, limits 1 CPU / 1Gi; HPA 4–12 replicas at 65% CPU",
+   "files": "deploy/helm/pulsar/values-prod.yaml"
+  },
+  {
+   "id": "p-k8s-02",
+   "kind": "fix",
+   "text": "API pods OOM after a week: gunicorn workers leaked; now uvicorn workers=2 with --limit-max-requests 10000",
+   "files": "Dockerfile"
+  },
+  {
+   "id": "p-k8s-03",
+   "kind": "fact",
+   "text": "Secrets come from Google Secret Manager via External Secrets Operator; never put secrets in values files",
+   "files": "deploy/helm/pulsar/templates/externalsecret.yaml"
+  },
+  {
+   "id": "p-k8s-04",
+   "kind": "note",
+   "text": "GKE node pool switched to spot VMs for workers (not API) to cut cost ~45%; workers must tolerate preemption",
+   "files": ""
+  },
+  {
+   "id": "p-sec-01",
+   "kind": "fact",
+   "text": "IP addresses are truncated to /24 (IPv4) and /48 (IPv6) before storage for GDPR; full IP is never written",
+   "files": "src/pulsar/privacy.py"
+  },
+  {
+   "id": "p-sec-02",
+   "kind": "convention",
+   "text": "Secrets must never be committed; gitleaks runs in pre-commit and CI, a hit fails the build",
+   "files": ""
+  },
+  {
+   "id": "p-sec-03",
+   "kind": "fix",
+   "text": "Webhook URLs could target internal IPs (SSRF); now resolved and blocked for private ranges before sending",
+   "files": "src/pulsar/webhooks.py"
+  },
+  {
+   "id": "p-wh-01",
+   "kind": "fact",
+   "text": "Outgoing webhooks are signed with HMAC-SHA256 header X-Pulsar-Signature, retried with exponential backoff up to 8 times over ~24h",
+   "files": "src/pulsar/webhooks.py"
+  },
+  {
+   "id": "p-report-01",
+   "kind": "fact",
+   "text": "Weekly reports rendered with WeasyPrint to PDF and emailed via Postmark every Monday 08:00 Europe/Istanbul",
+   "files": "src/pulsar/tasks/reports.py"
+  },
+  {
+   "id": "p-report-02",
+   "kind": "fix",
+   "text": "Turkish characters (ş, ğ, İ) rendered as boxes in PDF reports; installed fonts-dejavu in the Docker image",
+   "files": "Dockerfile"
+  },
+  {
+   "id": "p-billing-01",
+   "kind": "decision",
+   "text": "Billing via Stripe Billing with metered usage; usage reported hourly from ClickHouse counts, not per event",
+   "files": "src/pulsar/billing"
+  },
+  {
+   "id": "p-billing-02",
+   "kind": "gotcha-note",
+   "text": "Stripe webhooks can arrive out of order; always re-fetch the subscription from Stripe instead of trusting the event payload",
+   "files": "src/pulsar/billing/webhooks.py"
+  },
+  {
+   "id": "p-billing-03",
+   "kind": "todo",
+   "text": "Send a usage warning email at 80% of the plan quota",
+   "files": ""
+  },
+  {
+   "id": "p-cache-01",
+   "kind": "fact",
+   "text": "Project settings cached in Redis for 60s with key proj:{id}:settings; invalidate on PATCH /v2/projects/{id}",
+   "files": "src/pulsar/cache.py"
+  },
+  {
+   "id": "p-dev-01",
+   "kind": "fact",
+   "text": "Local setup: make dev starts postgres, redis, clickhouse via docker compose and runs uvicorn --reload on :8000",
+   "files": "docker-compose.yml Makefile"
+  },
+  {
+   "id": "p-dev-02",
+   "kind": "gotcha-note",
+   "text": "clickhouse image on Apple Silicon needs platform: linux/arm64 and ulimits nofile 262144 or it exits silently",
+   "files": "docker-compose.yml"
+  },
+  {
+   "id": "p-sess-01",
+   "kind": "session",
+   "text": "Session: started cursor pagination for /v2/events, wrote encode/decode cursor helpers, tests failing on ordering ties",
+   "files": "src/pulsar/api/events.py"
+  },
+  {
+   "id": "p-sess-02",
+   "kind": "session",
+   "text": "Session: raised PG_POOL_MAX to 40 after acquire timeouts; checked Cloud SQL max_connections",
+   "files": "src/pulsar/db.py deploy/helm/pulsar/values-prod.yaml"
+  },
+  {
+   "id": "p-sess-03",
+   "kind": "session",
+   "text": "Session: added XADD MAXLEN and 503 backpressure on ingest; load-tested at 8k events/s",
+   "files": "src/pulsar/ingest/writer.py"
+  },
+  {
+   "id": "p-sess-04",
+   "kind": "session",
+   "text": "Session: logs ile trace'ler birleştirildi, structlog'a trace_id eklendi",
+   "files": "src/pulsar/logging.py"
+  },
+  {
+   "id": "p-auto-01",
+   "kind": "fix",
+   "text": "`pytest -n auto` failed (AssertionError: 422 != 200) → fixed via src/pulsar/api/schemas.py",
+   "files": "src/pulsar/api/schemas.py"
+  },
+  {
+   "id": "p-auto-02",
+   "kind": "fix",
+   "text": "`alembic upgrade head` failed (DuplicateObject: type \"plan_tier\" already exists) → fixed via alembic/versions/0042_add_retention.py",
+   "files": "alembic/versions/0042_add_retention.py"
+  },
+  {
+   "id": "p-auto-03",
+   "kind": "fix",
+   "text": "`pytest tests/tasks` failed (MemoryError) → fixed via src/pulsar/tasks/exports.py",
+   "files": "src/pulsar/tasks/exports.py"
+  },
+  {
+   "id": "p-auto-04",
+   "kind": "fix",
+   "text": "`docker build .` failed (uv: lockfile out of date) → fixed via uv.lock Dockerfile",
+   "files": "Dockerfile"
+  },
+  {
+   "id": "p-dup-01",
+   "kind": "convention",
+   "text": "Run tests in parallel with pytest -n auto; integration tests are marked integration and require docker compose services",
+   "files": "pyproject.toml"
+  },
+  {
+   "id": "p-dup-02",
+   "kind": "fact",
+   "text": "API rate limiting: 1000 requests per minute per key, Redis sliding window, 429 + Retry-After header",
+   "files": "src/pulsar/middleware/ratelimit.py"
+  },
+  {
+   "id": "p-misc-01",
+   "kind": "fact",
+   "text": "JS SDK lives in sdks/js, published to npm as @pulsar/browser; batches events every 10s or 20 events with sendBeacon on unload",
+   "files": "sdks/js"
+  },
+  {
+   "id": "p-misc-02",
+   "kind": "decision",
+   "text": "Python SDK is sync-first (httpx.Client) with an optional AsyncClient; no background threads by default",
+   "files": "sdks/python"
+  },
+  {
+   "id": "p-misc-03",
+   "kind": "note",
+   "text": "On-call rotation is weekly (PagerDuty schedule pulsar-primary); runbooks in docs/runbooks/*.md",
+   "files": ""
+  },
+  {
+   "id": "p-misc-04",
+   "kind": "fact",
+   "text": "Public API docs generated from FastAPI OpenAPI and published with Mintlify on docs.pulsar.dev",
+   "files": "docs/"
+  },
+  {
+   "id": "p-misc-05",
+   "kind": "gotcha-note",
+   "text": "Reporting queries must convert with toTimeZone(ts, project.timezone) in ClickHouse; daily buckets in UTC confused customers",
+   "files": "src/pulsar/queries"
+  },
+  {
+   "id": "p-misc-06",
+   "kind": "bug",
+   "text": "CSV exports open garbled in Excel for Turkish customers; need UTF-8 BOM",
+   "files": "src/pulsar/tasks/exports.py"
+  },
+  {
+   "id": "p-misc-07",
+   "kind": "decision",
+   "text": "Multi-tenancy by account_id column on every table plus Postgres RLS policies; no schema-per-tenant",
+   "files": "src/pulsar/models"
+  },
+  {
+   "id": "p-misc-08",
+   "kind": "todo",
+   "text": "Upgrade ClickHouse 23.8 to 24.3 LTS; check the new analyzer breaks any reporting query",
+   "files": ""
+  },
+  {
+   "id": "p-misc-09",
+   "kind": "fact",
+   "text": "Feature flags via Unleash (self-hosted); in tests use the FakeUnleash fixture",
+   "files": "src/pulsar/flags.py"
+  },
+  {
+   "id": "p-misc-10",
+   "kind": "convention",
+   "text": "Branch isimleri feat/PUL-123-kisa-aciklama, Linear ticket numarası zorunlu",
+   "files": ""
+  },
+  {
+   "id": "p-misc-11",
+   "kind": "fact",
+   "text": "High-level: FastAPI API + writer pods + Celery workers + Postgres (Cloud SQL) + ClickHouse (ClickHouse Cloud) + Redis (Memorystore)",
+   "files": "docs/architecture.md"
+  },
+  {
+   "id": "p-misc-12",
+   "kind": "gotcha-note",
+   "text": "Memorystore Redis has no AUTH in our tier and is only reachable inside the VPC; local scripts need the IAP tunnel",
+   "files": ""
+  }
+ ]
+}

@@ -1,0 +1,5639 @@
+[
+ {
+  "target": "k-deploy-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I made a quick hotfix on my machine. Should I just run flyctl deploy from here or how do we push to production?",
+  "gold": [
+   "k-deploy-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-deploy-01",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Vercel'den neden fly.io'ya geçmiştik hatırlıyor musun? Bir de prod deploy'unu lokalden tetikleyebiliyor muyum?",
+  "gold": [
+   "k-deploy-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-deploy-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Where does the background queue run on Fly? Is it a separate Fly app or configured in the same fly.toml?",
+  "gold": [
+   "k-deploy-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-deploy-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "fly.io'da app adı ve region neydi? BullMQ worker'ı ayrı app olarak mı açmıştık?",
+  "gold": [
+   "k-deploy-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-deploy-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "CI deploy failed during release command with P3009 because of a bad migration. How do we unblock Fly deploy?",
+  "gold": [
+   "k-deploy-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-deploy-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "GitHub actions'ta deploy patladı, Prisma P3009 failed migration veriyor. Bunu düzeltmek için release machine'de ne çalıştırıyorduk?",
+  "gold": [
+   "k-deploy-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-deploy-04",
+  "lang": "en",
+  "style": "question",
+  "prompt": "It's Friday 17:30 and we just finished a PR. Can we merge and deploy to prod right away, or what's our release policy?",
+  "gold": [
+   "k-deploy-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-deploy-04",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Canlıya çıkmadan önce staging tarafında yapmamız gereken bir kural var mıydı? Cuma öğleden sonra deploy çıkabiliyor muyuz?",
+  "gold": [
+   "k-deploy-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-deploy-05",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Prod deployment introduced a breaking bug. How do we quickly rollback the image on Fly, and does it automatically handle database migrations?",
+  "gold": [
+   "k-deploy-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-deploy-05",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Acil prod rollback yapmam lazım flyctl ile. Önceki imaja nasıl döneriz ve migration'lar ne olacak?",
+  "gold": [
+   "k-deploy-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Why are we using Neon Postgres instead of PlanetScale MySQL for this project?",
+  "gold": [
+   "k-db-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Veritabanında PlanetScale yerine neden Neon tercih etmiştik, Prisma ile ilgili bir sebep var mıydı?",
+  "gold": [
+   "k-db-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Setting up database env vars in a new service. Which Neon connection string goes to DATABASE_URL and what parameters are required for pooling?",
+  "gold": [
+   "k-db-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "DATABASE_URL ile DIRECT_URL farkı neydi? prisma migrate çalıştırırken hangisini kullanıyoruz ve pooler ayarları nasıldı?",
+  "gold": [
+   "k-db-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I'm getting 'too many connections' errors during local development when Next.js reloads. How do we instantiate PrismaClient to prevent this?",
+  "gold": [
+   "k-db-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-03",
+  "lang": "tr",
+  "style": "fix",
+  "prompt": "Lokalde geliştirme yaparken her fast refresh'te database connection patlıyor, too many connections alıyorum. src/server/db.ts içine singleton nasıl kuruyorduk?",
+  "gold": [
+   "k-db-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-04",
+  "lang": "en",
+  "style": "convention",
+  "prompt": "I added a new field to schema.prisma. Can I just use prisma db push, and what is our naming rule for migrations?",
+  "gold": [
+   "k-db-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Prisma şemasına yeni tablo ekledim. db push mu yapayım migration mı oluşturayım, migration isimlendirme kuralımız neydi?",
+  "gold": [
+   "k-db-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-05",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Why did we add an index to the orders table recently, and which columns did it cover?",
+  "gold": [
+   "k-db-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-05",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Sipariş listeleme sayfası yavaş açılıyordu, prisma şemasında orders için hangi index'i ekleyip hızlandırmıştık?",
+  "gold": [
+   "k-db-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-06",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm adding an optional delivery insurance fee to the checkout schema. What type should we use in Prisma for the price, and how are we formatting currency in the UI?",
+  "gold": [
+   "k-db-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-06",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "yeni kampanya indirimi ekliyorum da db'de indirim tutarını decimal mi int mi tutuyorduk? bir de ekranda TL basmak için helper neydi?",
+  "gold": [
+   "k-db-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-07",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Just pulled down the repo on a fresh machine and ran the seed script. What are the default credentials to log in as admin locally?",
+  "gold": [
+   "k-db-07"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-db-07",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "localde test ederken admin paneline giremiyorum, seed çalıştırdıktan sonra hangi admin mail ve şifresiyle login olabiliyorduk?",
+  "gold": [
+   "k-db-07"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to immediately kick out a seller when their account gets suspended from admin. How is our auth configured so that session invalidation works right away?",
+  "gold": [
+   "k-auth-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Auth.js tarafında jwt mi kullanıyoruz yoksa database session mı? Satıcıyı banladığımızda oturumunun anında düşmesi lazım da.",
+  "gold": [
+   "k-auth-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I noticed someone is checking permissions in an API route using useAuthStore state. That feels wrong, what's our rule on that store's role in authorization?",
+  "gold": [
+   "k-auth-02",
+   "k-auth-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "client'taki useAuthStore üzerinden kullanıcının admin olup olmadığına bakıp backend request'i atlatmak güvenli mi, bu store tam olarak ne amaçla tutuluyordu?",
+  "gold": [
+   "k-auth-02",
+   "k-auth-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "The user avatar in the navbar keeps throwing hydration errors on page load when someone is logged in. How did we resolve this with zustand earlier?",
+  "gold": [
+   "k-auth-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "header'daki profil resmi SSR sırasında hydration mismatch veriyor yine, useAuthStore'un localstorage rehydrate mevzusunu nasıl çözmüştük?",
+  "gold": [
+   "k-auth-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-04",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Google login is failing on the staging environment with redirect_uri_mismatch. What callback URL needs to be configured in Google Console for staging?",
+  "gold": [
+   "k-auth-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Staging ortamında Google OAuth patlıyor redirect URI yüzünden. Staging'in AUTH_URL'i neydi, console'a hangi callback'i eklemem gerek?",
+  "gold": [
+   "k-auth-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-05",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to protect the new seller analytics endpoint and also hide the seller tab in the client navigation. What is our standard pattern for role checks?",
+  "gold": [
+   "k-auth-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-05",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "satıcı paneline yeni bir sayfa ekliyorum, role check'i nasıl yapıyorduk? server tarafında rbac fonksiyonu hangisiydi?",
+  "gold": [
+   "k-auth-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-06",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "A user reported that after logging out and letting their spouse log in on the same browser, the previous cart items were still visible. Where is this leaking?",
+  "gold": [
+   "k-auth-06",
+   "k-cart-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-auth-06",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Çıkış yapıldığında sepet cookie'si silinmediği için ortak bilgisayarda sonraki kullanıcı eski sepeti görüyor, auth logout endpoint'indeki bu bug'ı düzeltelim.",
+  "gold": [
+   "k-auth-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "A new dev asked why we don't just use Stripe Checkout instead of maintaining the custom Turkish payment integration. What were the blocking reasons?",
+  "gold": [
+   "k-pay-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "In the 3DS return handler, request.session is undefined and we can't find who is paying. How do we identify which order this callback belongs to?",
+  "gold": [
+   "k-pay-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "ödeme altyapısında Stripe yerine niye iyzico seçmiştik tam olarak? taksit ve TR satıcı durumuyla mı ilgiliydi?",
+  "gold": [
+   "k-pay-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "iyzico 3ds dönüşünde callback route'u session cookie'sini okuyamıyor Lax yüzünden, siparişi db'den nasıl eşleştirip buluyorduk?",
+  "gold": [
+   "k-pay-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "We're auditing the payment callback endpoint. How did we previously prevent duplicate payment records when iyzico fires the 3DS hook twice?",
+  "gold": [
+   "k-pay-03",
+   "k-pay-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "iyzico callback'i retry ettiğinde mükerrer çekim/kayıt oluşmasını nasıl çözmüştük, callback route'una dokunmadan önce hatırlatır mısın?",
+  "gold": [
+   "k-pay-03",
+   "k-pay-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm testing the checkout flow locally. What's the sandbox card number and 3DS verification code we use for iyzico?",
+  "gold": [
+   "k-pay-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "iyzico sandbox'ta test ödemesi atacam, kart numarasıyla sms onay kodu neydi?",
+  "gold": [
+   "k-pay-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-05",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Write a helper to prepare the order total payload before sending it to iyzico. Make sure it follows our money formatting conventions.",
+  "gold": [
+   "k-pay-05",
+   "k-db-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-05",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "iyzico API'sine sepet tutarını gönderirken kuruşu TL'ye nasıl çeviriyoruz? parseFloat ile toplayıp göndermeyin dendiğini hatırlıyorum.",
+  "gold": [
+   "k-pay-05",
+   "k-db-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-06",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Can a customer currently request a partial refund for just one item in a multi-item order, or what's the limitation in refund.ts?",
+  "gold": [
+   "k-pay-06",
+   "k-sess-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pay-06",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Müşteri hizmetleri çoklu siparişlerde tek bir ürünü iade etmek istiyor, refund.ts şu an kısmi iadeyi destekliyor mu?",
+  "gold": [
+   "k-pay-06",
+   "k-sess-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-search-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Why are we hosting a dedicated search service on Fly instead of just using Postgres full-text search with Prisma?",
+  "gold": [
+   "k-search-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-search-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Ürün aramasında neden Postgres FTS yerine fly'da ayrı Meilisearch ayağa kaldırdık, temel gerekçemiz neydi?",
+  "gold": [
+   "k-search-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-search-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We just bulk imported new catalogue items directly into the DB. How do we trigger a full reindex of search, and what worker syncs updates usually?",
+  "gold": [
+   "k-search-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-search-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Tüm ürünleri Meili'ye baştan indexlemek için hangi pnpm komutunu çalıştırıyorduk? Ne kadar sürer?",
+  "gold": [
+   "k-search-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-search-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Users are reporting that searching for uppercase dotted/dotless I words doesn't match lowercase products in search. How did we configure Meili for Turkish letter folding?",
+  "gold": [
+   "k-search-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-search-03",
+  "lang": "tr",
+  "style": "fix",
+  "prompt": "Aramada 'ILIK' yazınca 'ılık' ürünleri çıkmıyor gibi bir case vardı, Meilisearch ayarlarında İ/ı harf duyarlılığını nasıl çözmüştük?",
+  "gold": [
+   "k-search-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-search-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to add some new search synonyms like 'laptop' and 'dizüstü bilgisayar'. Where do we configure Meilisearch synonyms and how do we apply them?",
+  "gold": [
+   "k-search-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-search-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Arama eşanlamlılarına yeni kelimeler eklemek istiyorum, settings.ts'deki mevcut synonym yapısını bozmadan nasıl güncelleyip yüklerim?",
+  "gold": [
+   "k-search-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ui-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need a multi-step accordion component. Should I npm install an external component library or what's the convention for UI components in this repo?",
+  "gold": [
+   "k-ui-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ui-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Yeni bir UI elementi ekleyeceğim de, harici component kütüphanesi kurabiliyor muyuz yoksa shadcn kopyalama kuralı mı var?",
+  "gold": [
+   "k-ui-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ui-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm styling the new checkout summary card. Can I pass hex colors like `#0f172a` in Tailwind classes, or how are we handling colors?",
+  "gold": [
+   "k-ui-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ui-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Buton ve kart tasarımlarında Tailwind class içine direkt hex kod yazabilir miyim yoksa css değişkeni zorunluluğu mu var?",
+  "gold": [
+   "k-ui-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ui-03",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Where do our product photos get hosted and how does next/image handle resizing on production since we run on Fly?",
+  "gold": [
+   "k-ui-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ui-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni bir ürün görseli bileşeni ekliyorum, resim URL'leri hangi domain ve CDN üzerinden yükleniyor? Loader ayarını nereye bağlamam lazım?",
+  "gold": [
+   "k-ui-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ui-04",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "The category grid has layout shift issues again after someone touched the cards. What sizing rules did we enforce on ProductCard to prevent CLS?",
+  "gold": [
+   "k-ui-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ui-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Kategori sayfasındaki ürün kartları yüklenirken sayfa zıplıyor, ProductCard içindeki resim oranını ve sizes prop'unu eski haline getirir misin?",
+  "gold": [
+   "k-ui-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ui-05",
+  "lang": "en",
+  "style": "question",
+  "prompt": "A teammate asked if they can turn on dark mode for the account pages. Did we ever enable that or are we forcing light theme for now?",
+  "gold": [
+   "k-ui-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ui-05",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Gece modu desteği açık mıydı bizde? Root layout'taki theme provider ayarı ne durumdaydı, kullanıcı sistem temasına göre switch edebiliyor mu?",
+  "gold": [
+   "k-ui-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-i18n-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to set up routing for the new landing page. How are we handling locale prefixes for Turkish vs English with next-intl?",
+  "gold": [
+   "k-i18n-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-i18n-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "next-intl yapılandırmasında varsayılan dil ve path yapımız nasıldı? Türkçe sayfalarda /tr prefix'i kullanıyor muyuz?",
+  "gold": [
+   "k-i18n-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-i18n-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Adding some copy for the order tracking screen. What's our convention for translation keys and which locale file do I update first?",
+  "gold": [
+   "k-i18n-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-i18n-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Yeni metinler eklerken json dosyalarında key isimlendirme formatı neydi? İngilizce çevirisi hazır değilse build patlar mı?",
+  "gold": [
+   "k-i18n-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-i18n-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Created dates on the invoice page render a few hours behind on SSR compared to the client. How did we solve server-side timezone formatting with next-intl?",
+  "gold": [
+   "k-i18n-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-i18n-03",
+  "lang": "tr",
+  "style": "fix",
+  "prompt": "Sipariş geçmişindeki tarihler server render'da UTC basılıyor, bunu İstanbul saatine sabitlemek için getRequestConfig tarafında ne yapmıştık?",
+  "gold": [
+   "k-i18n-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-cart-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How do guest baskets work before authentication? Where are they stored and what triggers the sync into Postgres?",
+  "gold": [
+   "k-cart-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-cart-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Giriş yapmamış kullanıcıların sepet verisini nerede tutuyoruz? Cookie adı ve login olunca veritabanına aktarım mantığını açıklar mısın?",
+  "gold": [
+   "k-cart-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-cart-02",
+  "lang": "en",
+  "style": "fix",
+  "prompt": "When a customer logs in with items already in their session cart, how do we prevent duplicate rows for the same variant and handle inventory limits?",
+  "gold": [
+   "k-cart-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-cart-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Sepet birleştirme işleminde aynı varyant hem misafir hem üye sepetinde varsa adetler nasıl hesaplanıyordu? Mükerrer satır oluşmaması için ne kontrolü koymuştuk?",
+  "gold": [
+   "k-cart-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-cart-03",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Does adding a product to the cart lock the inventory, or when exactly does stock reservation happen and for how long?",
+  "gold": [
+   "k-cart-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-cart-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Stok rezervasyonu sepete eklerken mi yoksa checkout ödeme adımında mı başlıyor? Tablodaki hold süresi kaç dakikaydı?",
+  "gold": [
+   "k-cart-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-email-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to send a password reset email after form submission. Can I trigger Resend directly in the route handler or does it need to go through our background worker?",
+  "gold": [
+   "k-email-01",
+   "k-queue-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-email-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Yeni bir bildirim emaili göndereceğim, Resend API'sini direkt server action içinden mi çağırıyoruz yoksa kuyruk üzerinden mi gidiyor?",
+  "gold": [
+   "k-email-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-email-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "I need to design a new order cancellation email. Where do our email templates live and how do we preview them locally while editing?",
+  "gold": [
+   "k-email-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-email-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni bir kargo takip e-posta şablonu eklemem lazım, template'i hangi klasöre koyuyoruz ve tarayıcıda canlı görmek için dev komutu neydi?",
+  "gold": [
+   "k-email-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-email-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Some hotmail and outlook users reported not receiving order confirmations, or they land directly in junk. What DNS record did we need on the domain to stop that happening?",
+  "gold": [
+   "k-email-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-email-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Outlook kullanıcılarına giden sipariş mailleri spam klasörüne düşüyordu, bunu çözmek için domain ayarlarına ne eklemiştik?",
+  "gold": [
+   "k-email-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-queue-01",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "The background queue worker fails to start on fly, throwing connection refused on redis. What's the entrypoint file and which redis env variable should it use?",
+  "gold": [
+   "k-queue-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-queue-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Worker'ın redis bağlantısını kontrol edelim, upstash rest url'ini mi yoksa normal redis connection string'i mi vermemiz gerekiyordu worker.ts için?",
+  "gold": [
+   "k-queue-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-queue-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Whenever we deploy a new version to fly, queued BullMQ jobs get stuck in active status and never finish. Check our worker shutdown logic and fly.toml settings to ensure they drain properly.",
+  "gold": [
+   "k-queue-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-queue-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Deploy sonrası worker process aniden kesildiği için bazı job'lar active'de takılı kalıyor. fly.toml'da kill timeout ve kodda graceful shutdown nasıl ayarlanmıştı?",
+  "gold": [
+   "k-queue-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-test-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "What test frameworks do we use for unit vs end-to-end testing, and where should unit test files be placed in the project?",
+  "gold": [
+   "k-test-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-test-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Kupon hesaplama mantığındaki hatayı düzelttim, repo kurallarına uygun şekilde regression testini nereye ve hangi framework'le yazmalıyım?",
+  "gold": [
+   "k-test-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-test-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Playwright e2e tests are failing in CI with database connection errors. How is the test DB spun up and what secret does the pipeline need for it?",
+  "gold": [
+   "k-test-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-test-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "E2e testleri çalışırken prod/staging veritabanına dokunmamak için nasıl bir Neon branch yapısı kurmuştuk, global-setup ne yapıyor?",
+  "gold": [
+   "k-test-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-test-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "The checkout Playwright flow is flaking out again waiting for network idle because of third-party tracking scripts. What should it wait for instead?",
+  "gold": [
+   "k-test-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-test-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "checkout.spec.ts dosyasında networkidle yüzünden testler patlıyor, siparişin başarıyla bittiğini anlamak için hangi UI elementini beklememiz kararlaştırılmıştı?",
+  "gold": [
+   "k-test-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-test-04",
+  "lang": "en",
+  "style": "question",
+  "prompt": "What is our code coverage requirement in CI, and does it apply to our UI components or only the backend code?",
+  "gold": [
+   "k-test-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-test-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Yeni eklediğim server servisinin coverage'ı düşük diye CI patlar mı, threshold yüzde kaçtı ve component'lar buna dahil mi?",
+  "gold": [
+   "k-test-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ci-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "CI run times are getting longer in GitHub Actions. How are our dependencies and Turbo cache set up to be shared across pipeline runs?",
+  "gold": [
+   "k-ci-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ci-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "CI workflow'unda build'lerin hızlı bitmesi için turborepo cache'ini nasıl yapılandırdık, Vercel token'ı hâlâ kullanılıyor mu?",
+  "gold": [
+   "k-ci-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ci-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "A Renovate bot dependency update PR failed on CI with ERR_PNPM_OUTDATED_LOCKFILE. How did we configure CI and Renovate to avoid this?",
+  "gold": [
+   "k-ci-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ci-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Renovate PR açtıktan sonra CI'da pnpm outdated lockfile hatası aldık, bunu çözmek için workflow'a hangi install flag'ini koymuştuk?",
+  "gold": [
+   "k-ci-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ci-03",
+  "lang": "en",
+  "style": "question",
+  "prompt": "I'm about to merge my PR for the address form fixes. What are our merge requirements and commit format rules here before merging into main?",
+  "gold": [
+   "k-ci-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ci-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Feature branch'i maine merge edeceğim, PR checklist'e bakmadan geçmeyelim. Merge stratejimiz ve PR başlığı için hangi standartları takip ediyorduk?",
+  "gold": [
+   "k-ci-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-obs-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to set up Sentry client configuration for error reporting. Which region and sampling rate do we target, and is there any reason to keep session replays disabled?",
+  "gold": [
+   "k-obs-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-obs-01",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Sentry paneline bakıyordum da prod ortamı için client config'de replay açık mı kalmış? KVKK tarafında sorun yaşamamak için buradaki ayarlarımız neydi?",
+  "gold": [
+   "k-obs-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-obs-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm adding logs inside the iyzico webhook and checkout handlers. How are we doing structured logging on the server and forwarding it to Better Stack?",
+  "gold": [
+   "k-obs-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-obs-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Ödeme akışına log atıcam, log instance'ını nereden import ediyorduk ve order id bağlamak için standart child logger kullanımı nasıldı?",
+  "gold": [
+   "k-obs-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sec-01",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I'm adding customer phone verification logs to debug SMS delivery. Are there restrictions on what PII can appear in server output, and where is masking configured?",
+  "gold": [
+   "k-sec-01",
+   "k-obs-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sec-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Kullanıcı sipariş özetini loglarken kimlik no ve telefon alanlarının gizlenmesi gerekiyor, pino redact listesi hangi dosyadaydı ve neye dikkat etmeliyiz?",
+  "gold": [
+   "k-sec-01",
+   "k-obs-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sec-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "We're noticing high traffic spikes on auth endpoints. What rate limiting is configured in middleware right now, and which routes does it cover?",
+  "gold": [
+   "k-sec-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sec-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Ödeme ve login endpointlerine bot denemeleri gelirse middleware tarafında Upstash limitimiz ne kadardı? Bir IP dakikada kaç istek atabiliyor?",
+  "gold": [
+   "k-sec-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sec-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "The iyzico 3DS modal isn't rendering in the browser console due to Content Security Policy errors. What frame and script domains need to be whitelisted in next.config?",
+  "gold": [
+   "k-sec-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sec-03",
+  "lang": "tr",
+  "style": "fix",
+  "prompt": "iyzico checkout iframe'i CSP yüzünden engelleniyor diye şikayet geldi. next.config içindeki CSP header'ına hangi domain'leri eklememiz gerekiyordu?",
+  "gold": [
+   "k-sec-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-perf-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Why is the category listing page rendering dynamically while the landing page feels much faster? What caching/revalidation strategy do we have for them?",
+  "gold": [
+   "k-perf-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-perf-01",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Anasayfada ürün vitrinini güncelledim ama değişiklik anında yansımadı, burası ISR mi kullanıyordu? Kategori sayfalarında da aynı durum var mı?",
+  "gold": [
+   "k-perf-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-perf-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to build the new product comparison widget. Where should we do the data fetching vs keeping components client-side according to our architectural guidelines?",
+  "gold": [
+   "k-perf-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-perf-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Kategori filtresi ve sepet çekmecesi yaparken veri çekmeyi client'ta mı yapıyorduk yoksa server component kuralımız mı vardı?",
+  "gold": [
+   "k-perf-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-env-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We have to add a new third-party API key for tracking. Where do we provision the secrets for production, and what files must be kept in sync locally?",
+  "gold": [
+   "k-env-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-env-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Yeni bir env variable ekleyeceğim, fly'a secret girerken ve repo içinde dokümante ederken izlediğimiz akış nasıldı?",
+  "gold": [
+   "k-env-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-env-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I updated NEXT_PUBLIC_MEILI_HOST using flyctl secrets set, but the client still connects to the old address after fly restart. What's going on?",
+  "gold": [
+   "k-env-02",
+   "k-env-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-env-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Fly secrets'tan NEXT_PUBLIC ile başlayan bir değişkeni güncelledim ama sitede hala eski değer görünüyor, sadece restart atmak yetmiyor muydu?",
+  "gold": [
+   "k-env-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-monorepo-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to query the database inside apps/admin. Where should I import the PrismaClient from?",
+  "gold": [
+   "k-monorepo-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-monorepo-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Admin ile web arasındaki paket/uygulama yapısı nasıldı? Prisma client'ı direkt web'den mi çekiyoruz yoksa ortak bir paket mi var?",
+  "gold": [
+   "k-monorepo-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-admin-01",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "A seller tried to log into the admin dashboard at apps/admin using their seller credentials but couldn't get through. How is admin panel access restricted?",
+  "gold": [
+   "k-admin-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-admin-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Admin paneline yeni bir ekip arkadaşını dahil edeceğiz, giriş için ne tür bir hesap gerekiyor ve önünde ne tarz bir auth katmanı var?",
+  "gold": [
+   "k-admin-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-admin-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Can you check the pending task for the muhasebe team under admin orders? What specific field was requested for the export?",
+  "gold": [
+   "k-admin-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-admin-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Elif'in siparişler için istediği bir CSV export konusu vardı, hangi kolonu eklememiz gerekiyordu hatırlıyor musun?",
+  "gold": [
+   "k-admin-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-seo-01",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Google Search Console is showing checkout/cart pages in coverage errors, and our sitemap seems huge. How are we chunking product URLs and what pages are disallowed in robots?",
+  "gold": [
+   "k-seo-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-seo-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Sitemap'te ürün linklerini kaçarlık parçalara bölmüştük? Bir de sepet ve hesap sayfaları robots.txt'te kapalı mıydı?",
+  "gold": [
+   "k-seo-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-seo-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Write a helper to generate product URLs for new catalog items. We need to handle special Turkish characters and make sure old slugs redirect properly.",
+  "gold": [
+   "k-seo-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-seo-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Ürün başlığı değişince eski url kırılmasın istiyoruz. Slug oluştururken Türkçe harfleri nasıl dönüştürüyoruz ve eski linkleri nasıl yönlendiriyorduk?",
+  "gold": [
+   "k-seo-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ship-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How does cargo tracking work with our delivery partner? Do we receive webhooks when an order is delivered or is it polled?",
+  "gold": [
+   "k-ship-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ship-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yurtiçi Kargo entegrasyonunda kargo durumunu nasıl güncelliyoruz? Webhook var mı yoksa cron mu çalışıyor, takip numarası hangi kolonda tutuluyor?",
+  "gold": [
+   "k-ship-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ship-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "The Yurtiçi Kargo shipment status sync job was failing due to HTTP 429 errors. How did we resolve the rate limiting in that cron worker?",
+  "gold": [
+   "k-ship-02",
+   "k-ship-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-ship-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "trackShipments worker'ı Yurtiçi tarafında rate limit'e takılıyordu, istekleri kaçarlı paketleyip ne kadar delay koymuştuk?",
+  "gold": [
+   "k-ship-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-tax-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to generate an invoice payload for Paraşüt. How do our product prices treat VAT, and what is the current rate we use when calculating the net price?",
+  "gold": [
+   "k-tax-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-tax-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Paraşüt API ile e-arşiv fatura keserken KDV dahil mi hariç mi hesaplıyoruz? KDV oranımız kaçtı ve hangi dosyada yapılıyor bu ayrım?",
+  "gold": [
+   "k-tax-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-tax-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Our Paraşüt invoice integration stopped working after being idle for over a week during staging tests. What is the token expiration and refresh behavior?",
+  "gold": [
+   "k-tax-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-tax-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Paraşüt servisi faturayı kesememiş, token expire olmuş görünüyor. Access token süresi ve refresh token'ın geçerlilik limitleri ne kadardı?",
+  "gold": [
+   "k-tax-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pin-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Refactor the payment callback handler to parse arbitrary third-party payloads without using `any`. What is our project guideline for typing unknown inputs?",
+  "gold": [
+   "k-pin-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pin-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Yeni eklediğim serviste tip hatası almamak için any basıp geçmek istedim ama linter/kural izin vermedi, projede any yerine ne kullanıyorduk?",
+  "gold": [
+   "k-pin-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pin-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Create a new helper function in src/lib to validate Turkish phone numbers with Zod, and give me a quick walkthrough of how you implemented it.",
+  "gold": [
+   "k-pin-02",
+   "k-pin-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-pin-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Sepete kupon uygulama servisi için ufak bir refactor yapalım, kodun commit mesajını da hazırla.",
+  "gold": [
+   "k-pin-02",
+   "g-pref-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sess-01",
+  "lang": "en",
+  "style": "casual",
+  "prompt": "Where did I leave off with the partial refund work? I want to pick it back up today.",
+  "gold": [
+   "k-sess-01",
+   "k-pay-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sess-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Sipariş detayındaki kısmi iade butonunu eklemiştik en son, sırada ne kalmıştı hatırlıyor musun?",
+  "gold": [
+   "k-sess-01",
+   "k-pay-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sess-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Did we already solve the hydration mismatch bug on the user avatar in the header?",
+  "gold": [
+   "k-sess-02",
+   "k-auth-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sess-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Header'daki avatar hydration uyarısı veriyordu, ona geçen oturumda ne yapmıştık, testler geçmiş miydi?",
+  "gold": [
+   "k-sess-02",
+   "k-auth-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sess-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Check our checkout e2e specs—didn't we recently change how they wait for order completion because of network flakiness?",
+  "gold": [
+   "k-sess-03",
+   "k-test-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sess-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Playwright checkout testleri son çalıştırmalarda stabil miydi, en son nasıl bir düzeltme yapmıştık?",
+  "gold": [
+   "k-sess-03",
+   "k-test-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sess-04",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How did we address the Yurtiçi API rate limit issues on the tracking cron job?",
+  "gold": [
+   "k-sess-04",
+   "k-ship-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sess-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Yurtiçi kargo takip job'ı hala rate limite takılıyor mu yoksa geçen oturumda çözmüş müydük?",
+  "gold": [
+   "k-sess-04",
+   "k-ship-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sess-05",
+  "lang": "en",
+  "style": "casual",
+  "prompt": "What DB optimizations and schema tweaks did we try in the last session for the slow order queries?",
+  "gold": [
+   "k-sess-05",
+   "k-db-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-sess-05",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Siparişler tablosuna index atıp Neon tarafında test ortamı bakmıştık en son, o oturumda tam olarak ne yapmıştık?",
+  "gold": [
+   "k-sess-05",
+   "k-db-05",
+   "k-test-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-dup-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Which Fly.io region is our main app deployed to, and does the queue worker share the same app config?",
+  "gold": [
+   "k-dup-01",
+   "k-deploy-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-dup-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "fly.toml içinde worker ayrı bir app olarak mı tanımlı yoksa kervan-web altında process group mu? Region neresiydi?",
+  "gold": [
+   "k-dup-01",
+   "k-deploy-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-new-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm setting up a fresh dev machine. Which Node version do I need to pin in nvm for this repo?",
+  "gold": [
+   "k-new-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-new-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Projeyi yeni clone'ladım, .nvmrc hangi Node sürümüne bakıyor? Next ve Prisma uyumluluğu için ne kurmalıyım?",
+  "gold": [
+   "k-new-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-new-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need global state for the notification toast drawer. Where should the store live and what pattern do we follow for client state?",
+  "gold": [
+   "k-new-02",
+   "k-perf-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-new-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Mobil filtre menüsü açık/kapalı durumu için yeni bir store açalım, state yönetimi mimarimiz nasıldı?",
+  "gold": [
+   "k-new-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-stale-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Where do our product media assets originate—are we pulling images directly from an S3 bucket or another storage provider?",
+  "gold": [
+   "k-stale-01",
+   "k-ui-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-stale-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Ürün resimleri için CloudFront ve S3 tarafındaki bucket adını ve region'ı kontrol edebilir misin?",
+  "gold": [
+   "k-stale-01",
+   "k-ui-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "When does Elif need the Black Friday campaign banner ready by, and where does its copy actually come from in the database?",
+  "gold": [
+   "k-misc-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Elif'in bahsettiği Efsane Cuma banner'ı hangi tarihe yetişecekti? İçeriği çekmek için hangi tabloya bakmamız gerekiyor?",
+  "gold": [
+   "k-misc-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to check whether a specific feature is enabled inside a server component. How do we query flags and is there any caching on them?",
+  "gold": [
+   "k-misc-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Bizde feature flag sistemi nasıl çalışıyordu? DB'den her istekte tekrar mı okunuyor yoksa memory cache var mı?",
+  "gold": [
+   "k-misc-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "A customer reported seeing old 3-step checkout links. Did we keep the old multi-step flow as a fallback or was it completely dropped after testing?",
+  "gold": [
+   "k-misc-03",
+   "k-misc-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Checkout sayfasında eski 3 adımlı akış hala duruyor mu yoksa A/B bittikten sonra silindi mi?",
+  "gold": [
+   "k-misc-03",
+   "k-misc-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Let's log an analytics event when someone clicks 'buy now'. Which analytics helper should I call and do we need to worry about user consent?",
+  "gold": [
+   "k-misc-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Sepete ekleme gibi aksiyonları analitikte nasıl track ediyorduk? KVKK/çerez izni sormamız gerekiyor muydu?",
+  "gold": [
+   "k-misc-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-05",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Search latency is climbing on fly.io. Can we just scale kervan-search to 2 machines via fly scale count 2?",
+  "gold": [
+   "k-misc-05",
+   "k-search-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-05",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Meilisearch tarafında fly makinesini 2'ye çıkarmayı düşünüyordum, storage veya index tarafında bir sıkıntı çıkarır mı?",
+  "gold": [
+   "k-misc-05",
+   "k-search-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-06",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Product page Lighthouse score is around 70 on mobile. What were the heaviest culprits dragging down performance?",
+  "gold": [
+   "k-misc-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-06",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Ürün detay sayfasında mobil Lighthouse skoru neden düşüktü, en çok hangi scriptler puanı yiyordu?",
+  "gold": [
+   "k-misc-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-07",
+  "lang": "en",
+  "style": "fix",
+  "prompt": "A cron job scheduled in BullMQ is firing 3 hours earlier than intended. How did we solve the daily report timing issue previously?",
+  "gold": [
+   "k-misc-07",
+   "g-env-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-07",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Gece çalışacak yeni bir cron ekledim ama BullMQ bunu UTC algılayıp yanlış saatte tetikliyor. Günlük rapor cron'unda bunu nasıl düzeltmiştik?",
+  "gold": [
+   "k-misc-07",
+   "g-env-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-08",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to allow users to leave comments on products. What are the rules for who is allowed to review, and do they show up immediately?",
+  "gold": [
+   "k-misc-08"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-08",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Ürün değerlendirme formunu yapıyorum. Yorum yapabilmek için siparişin hangi statüde olması gerekiyor ve yorumlar direkt yayına mı giriyor?",
+  "gold": [
+   "k-misc-08"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-09",
+  "lang": "en",
+  "style": "convention",
+  "prompt": "I'm adding an address update form. Should I expose a route handler, use tRPC, or write a server action?",
+  "gold": [
+   "k-misc-09"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-09",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Kullanıcı profil güncelleme formunun backend bağlantısını yazacağım. Bizde form mutasyonları için route handler mı yoksa server action mı kullanılıyordu?",
+  "gold": [
+   "k-misc-09"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-10",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to validate promo codes at checkout. How are one-time coupons tracked against users to prevent reuse, and is case sensitivity handled?",
+  "gold": [
+   "k-misc-10"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-10",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Kupon kodlarını doğrulamayı yazıyorum. Kuponun aynı kullanıcı tarafından tekrar kullanılmasını hangi tabloda engelliyoruz, kodlar case-sensitive mi?",
+  "gold": [
+   "k-misc-10"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-11",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Customers are reporting that when applying a percentage promo code, the total in the checkout drawer is sometimes 1 kurus different from the actual charged amount. Where is that rounding discrepancy happening?",
+  "gold": [
+   "k-misc-11",
+   "k-db-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-11",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yüzdelik kupon uygulandığında sepet alt toplamıyla genel toplam arasında 1 kuruşluk sapma oluyor, satır bazlı yuvarlamayı düzeltelim.",
+  "gold": [
+   "k-misc-11",
+   "k-db-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-12",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Let's track queries that return no hits in Meilisearch so we know what extra synonyms to add. Can you hook that up?",
+  "gold": [
+   "k-misc-12",
+   "k-search-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "k-misc-12",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Aramada sonuç çıkmayan kelimeleri bir yere loglayacaktık eksik eşanlamlıları tespit etmek için, bunu nereye eklemeliyiz?",
+  "gold": [
+   "k-misc-12",
+   "k-search-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-pref-01",
+  "lang": "en",
+  "style": "casual",
+  "prompt": "How does our session revoking work when a seller gets banned? Explain in Turkish please, but keep any code snippet and commit in English.",
+  "gold": [
+   "g-pref-01",
+   "k-auth-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-pref-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Şu useAuthStore'daki hydration fix'ini özetle bana. Kod blokları ve commit mesajı İngilizce kalsın.",
+  "gold": [
+   "g-pref-01",
+   "k-auth-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-pref-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to implement partial refunds end-to-end with UI and tests, but keep my PR sizing preference in mind so it doesn't get bloated.",
+  "gold": [
+   "g-pref-04",
+   "k-pay-06",
+   "k-sess-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-pref-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Admin sipariş CSV export'u için gereken değişiklikleri hazırlayalım. Büyük diff sevmiyorum biliyorsun, 400 satırı aşarsa böl.",
+  "gold": [
+   "g-pref-04",
+   "k-admin-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-pref-07",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Add a helper for formatting kuruş amounts with TRY symbol. Add minimal comments explaining why kuruş integer is preferred, don't leave any dead code.",
+  "gold": [
+   "g-pref-07",
+   "k-db-06"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-pref-07",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "trackShipments worker'ına rate limit gecikmesini anlatan bir yorum satırı ekle, ne yaptığını değil neden yaptığımızı yaz ve kısa tut.",
+  "gold": [
+   "g-pref-07",
+   "k-ship-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-pref-10",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Create a new script to export Yurtiçi shipping statuses as JSON for debugging. Make sure the JSON output and file formatting follow my workspace indent rules.",
+  "gold": [
+   "g-pref-10",
+   "k-ship-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-pref-10",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Paraşüt webhook payload'unu simüle eden test verisi için yeni bir json fixture dosyası oluştur. İntentasyon ve satır sonu ayarlarına dikkat et.",
+  "gold": [
+   "g-pref-10",
+   "k-tax-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-env-03",
+  "lang": "en",
+  "style": "question",
+  "prompt": "When git commit runs in our terminal, how is it configured to sign the commit? I want to make sure I don't break the signature setup.",
+  "gold": [
+   "g-env-03",
+   "g-sess-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-env-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Commit atarken SSH signing hatası alırsam gitconfig ve anahtar yönetimim nasıl bağlıydı, 1password tarafında neye bakmalıyım?",
+  "gold": [
+   "g-env-03",
+   "g-env-05"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-rule-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to add the Paraşüt client secret to the project so we can test invoicing locally. Where should I put the mock values?",
+  "gold": [
+   "g-rule-01",
+   "k-tax-01",
+   "k-env-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-rule-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni bir SMS doğrulama servisi ekliyoruz, API key ve endpoint tanımlarını projeye ekle ama secret kuralımıza uygun yap.",
+  "gold": [
+   "g-rule-01",
+   "k-env-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-rule-04",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "We just added the RefundRequest table in prisma schema. Can I just run prisma migrate deploy directly against production from my Mac?",
+  "gold": [
+   "g-rule-04",
+   "k-deploy-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-rule-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Canlı veritabanında acil bir migration çalıştırmam lazım, laptopımdan direkt prod db URL'ine migrate deploy atayım mı?",
+  "gold": [
+   "g-rule-04",
+   "k-db-04",
+   "k-deploy-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-tool-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm done with the Yurtiçi shipment batching fix. Can you open the PR using the terminal CLI without opening GitHub in the browser?",
+  "gold": [
+   "g-tool-02",
+   "k-ship-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-tool-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Branch'i pushladım, terminalden gh ile PR'ı açıp CI check'lerinin durumunu kontrol edebilir misin?",
+  "gold": [
+   "g-tool-02",
+   "k-ci-03"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-know-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm adding an invoice filter by date range where users pick a 'start_date' string like '2025-05-10'. When I turn that into a Date object for filtering, it shifts back to the previous day in Istanbul time. Can you write a small helper to parse YYYY-MM-DD input without the UTC conversion trap?",
+  "gold": [
+   "g-know-02",
+   "g-env-04"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-know-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Admin panelinde siparişleri '2024-11-01' gibi gün bazlı filtrelerken new Date(dateString) yapınca tarih bir gün geriye, 31 Ekim gecesine kayıyor. Bu sadece tarih olan stringleri JS'te yerel günde tutarak nasıl düzgün parse ederiz?",
+  "gold": [
+   "g-know-02"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-auto-01",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I tried pushing my feature branch to GitHub from terminal and got hit with `Permission denied (publickey)`. Remember how we resolved this SSH key error last time?",
+  "gold": [
+   "g-auto-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "g-auto-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Yeni branch'i remote'a pushlarken `git push` patladı, permission denied publickey diyor. ssh config tarafında bir şey düzeltmiştik sanki, neydi o ayar?",
+  "gold": [
+   "g-auto-01"
+  ],
+  "project": "kervan"
+ },
+ {
+  "target": "p-deploy-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I built the latest image for pulsar, can you run the helm upgrade on our production cluster to roll it out?",
+  "gold": [
+   "p-deploy-01",
+   "p-deploy-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-deploy-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Yeni bir image build ettik, prod deploy akışımız nasıldı? kubectl ile mi basıyoruz yoksa helm repo üzerinden mi gidiyor?",
+  "gold": [
+   "p-deploy-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-deploy-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Which ArgoCD application name and namespace should I look for in the Argo UI to trigger the prod release, and does it auto-deploy?",
+  "gold": [
+   "p-deploy-02",
+   "p-deploy-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-deploy-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Main branch'e merge attım ama staging güncellenirken prod'da hiçbir hareket olmadı, Argo tarafında prod sync ayarı nasıl yapılandırılmıştı?",
+  "gold": [
+   "p-deploy-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-deploy-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "During rollouts, pods fail startup and restart repeatedly before the database migrations finish running. How did we resolve this startup race condition?",
+  "gold": [
+   "p-deploy-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-deploy-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Helm deployment template'inde readiness probe ayarlarını inceler misin? Alembic migration'ları bitmeden pod'ların ayağa kalkıp trafiğe girmemesi için ne kullanıyorduk?",
+  "gold": [
+   "p-deploy-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-deploy-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We're preparing today's production release. What's our tag naming format and where are we supposed to announce the release notes?",
+  "gold": [
+   "p-deploy-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-deploy-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Prod sync yapmadan önce slack'te nereye haber veriyorduk ve release tag'ini nasıl oluşturuyorduk formatı unuttum da?",
+  "gold": [
+   "p-deploy-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-deploy-05",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We want to roll out the new API version gradually using canary. What values file setting controls the traffic percentage and how long should we observe metrics before full promotion?",
+  "gold": [
+   "p-deploy-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-deploy-05",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Prod'a canary deploy açmak istiyorum, values-prod.yaml içinde hangi parametreyi ne kadar süreyle vermemiz gerekiyordu, hangi metriğe bakıyorduk?",
+  "gold": [
+   "p-deploy-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We are planning to scale the API deployment up to 16 pods. Can we safely increase PG_POOL_MAX or will that exceed our Cloud SQL connection budget?",
+  "gold": [
+   "p-db-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "db.py içindeki connection pool limitini artırabilir miyiz? Pod başına kaç bağlantı hakkımız var, Cloud SQL patlamasın?",
+  "gold": [
+   "p-db-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to add a complex analytical query for user retention cohorts. Should I write it using SQLAlchemy async models or raw SQL, and where should it live?",
+  "gold": [
+   "p-db-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Postgres tarafında veritabanı erişim standartlarımız neydi? Asyncpg ile SQLAlchemy 2.0 mı kullanıyoruz, raw sorgu yazmam gerekirse nereye koymalıyım?",
+  "gold": [
+   "p-db-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I made a typo in the previous migration that already ran on staging. Should I just edit that revision file directly to fix the column definition?",
+  "gold": [
+   "p-db-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-04",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Modellere yeni alanlar ekledim, migration dosyasını üretip uygulamak için izlememiz gereken kural neydi?",
+  "gold": [
+   "p-db-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-05",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Whenever I run alembic autogenerate, it keeps trying to drop and recreate all our existing Postgres enum types. Why is that happening and how did we handle enums?",
+  "gold": [
+   "p-db-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-05",
+  "lang": "tr",
+  "style": "fix",
+  "prompt": "Alembic env.py içinde enum tiplerinin sürekli silinip tekrar yaratılmasını engelleyen bir ayar yapmıştık, neydi o ve enum migration'larını nasıl yazıyorduk?",
+  "gold": [
+   "p-db-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-06",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "We need to add a non-nullable 'source' column with a default string value to the events_raw table. What is the safe migration strategy to avoid locking the table?",
+  "gold": [
+   "p-db-06"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-06",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "events_raw tablosuna default değerli NOT NULL bir kolon eklemem lazım, migration yazarken nelere dikkat etmeliydim kilitlenmemesi için?",
+  "gold": [
+   "p-db-06"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-07",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How does our API talk to Postgres in Kubernetes? I'm checking the deployment yaml and didn't see an external Cloud SQL IP anywhere.",
+  "gold": [
+   "p-db-07"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-db-07",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "localde docker compose ile postgres ayağa kaldırdım ama k8s pod'ları db'ye nasıl erişiyor tam hatırlayamadım, connection string'e 127.0.0.1 mi yazıyorduk proxy mi vardı?",
+  "gold": [
+   "p-db-07"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ch-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to add a new aggregated metric query for monthly active projects. Which database should I query for the raw events vs account metadata?",
+  "gold": [
+   "p-ch-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ch-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Postgres'te events tablosunu arıyorum ama göremedim, ham event verileri nerede tutuluyor ve Postgres'te hangi tablolar kaldı?",
+  "gold": [
+   "p-ch-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ch-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm updating writer.py. What are our thresholds for flushing events to ClickHouse? I want to make sure I don't write one row at a time.",
+  "gold": [
+   "p-ch-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ch-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "ClickHouse'a yazarken batch logic'i nasıl kurmuştuk? Kaç kayıtta bir veya kaç saniyede bir flush atıyorduk?",
+  "gold": [
+   "p-ch-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ch-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "ClickHouse is throwing 'too many parts' again after we touched the ingestion code. Didn't we already fix this by ensuring the writer instance wasn't being duplicated?",
+  "gold": [
+   "p-ch-03",
+   "p-ch-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ch-03",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Pod içinde ingest writer'ı instantiate ederken dikkat etmemiz gereken bir şey vardı, ClickHouse'da part patlaması yaşamıştık. writer.py'da singleton kuralı mı vardı?",
+  "gold": [
+   "p-ch-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ch-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "A customer requested a GDPR erasure for their event logs. How do we execute deletes in ClickHouse and verify they've actually completed?",
+  "gold": [
+   "p-ch-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ch-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Clickhouse'daki event retention süremiz ne kadardı? Bir de GDPR silme talebi geldiğinde mutation'ları nereden takip ediyorduk?",
+  "gold": [
+   "p-ch-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Please scaffold a new /members endpoint. Remind me how we organize router files and what rule we have about returning SQLAlchemy models directly.",
+  "gold": [
+   "p-api-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "src/pulsar/api altına yeni bir resource ekleyeceğim, model ve router dosya yapısı convention'ımız nasıldı? Endpoint'ten direkt ORM modelini dönebiliyor muyduk?",
+  "gold": [
+   "p-api-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "I need to inspect how API keys are verified on incoming requests. How do we identify the key in the database without storing the raw secret?",
+  "gold": [
+   "p-api-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni API key oluşturma fonksiyonu yazıyorum. Key'i kullanıcıya gösterdikten sonra veritabanına nasıl kaydediyorduk, prefix formatı nasıldı?",
+  "gold": [
+   "p-api-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We want to drop a deprecated field from the projects response payload. Can I make this breaking change directly on /v1/projects?",
+  "gold": [
+   "p-api-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "API'de bazı response modellerini sadeleştirmek istiyoruz ama breaking change olacak. URL versiyonlama kuralımız nasıldı, v1'e dokunabiliyor muyuz?",
+  "gold": [
+   "p-api-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-04",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "A customer is complaining that their bulk ingestion script is getting 429 errors. What's our current per-key rate limit and what header should they look for?",
+  "gold": [
+   "p-api-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-04",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "API middleware'deki rate limit ayarlarımız neydi? Redis'te sliding window ile dakikada kaç request'e izin veriyorduk?",
+  "gold": [
+   "p-api-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-05",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "A few clients sending ISO timestamps ending with 'Z' are reporting 422 validation errors in our schemas. How did we resolve this with Pydantic v2?",
+  "gold": [
+   "p-api-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-05",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Pydantic şemasında timestamp alanları Z ile bitince 422 atıyor, schemas.py'da normal datetime yerine ne kullanıyorduk?",
+  "gold": [
+   "p-api-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-06",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Customers are complaining that deep pages on the events endpoint are timing out when requesting large offsets. Let's switch to cursor-based pagination for /v2/events.",
+  "gold": [
+   "p-api-06"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-06",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "/v2/events endpoint'inde offset 10000'i geçince sorgular timeout'a düşüyor. Cursor pagination'a geçecektik, onun tasarımını yapıp başlayalım.",
+  "gold": [
+   "p-api-06"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-07",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Dashboard requests on the staging environment are getting blocked by CORS errors during preflight. Could you check our FastAPI CORS configuration?",
+  "gold": [
+   "p-api-07"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-api-07",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Staging frontend'i açtığımda API'ye giden OPTIONS istekleri CORS hatası veriyor, main.py içindeki izin verilen domain'lere staging adresini ekler misin?",
+  "gold": [
+   "p-api-07"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auth-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How does dashboard session renewal work under the hood? I need to know the JWT TTL and how refresh token rotation handles compromised tokens.",
+  "gold": [
+   "p-auth-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auth-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Dashboard auth akışında refresh token endpoint'ini güncelliyorum. Token reuse algılandığında tüm token ailesini nasıl revoke ettiğimizi ve DB'de nasıl tuttuğumuzu kontrol edip implementasyonu ona göre tamamla.",
+  "gold": [
+   "p-auth-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auth-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Where can external services fetch our public keys to verify JWT signatures, and how frequently do we rotate the signing key pair?",
+  "gold": [
+   "p-auth-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auth-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "JWT doğrulama için public key'leri servis ettiğimiz bir jwks endpoint'i var mıydı? Rotasyon periyodu ne kadardı?",
+  "gold": [
+   "p-auth-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-celery-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to dispatch a new data export task. What Celery queues do we currently have configured and which broker are we using?",
+  "gold": [
+   "p-celery-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-celery-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Arka plan işleri için hangi Celery kuyrukları tanımlı? Yeni bir raporlama task'ı ekleyeceğim de doğru kuyruğa yönlendirmek istiyorum.",
+  "gold": [
+   "p-celery-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-celery-02",
+  "lang": "en",
+  "style": "fix",
+  "prompt": "A huge CSV export caused the worker pod to run out of memory. How did we previously solve the OOM issues when streaming data to cloud storage?",
+  "gold": [
+   "p-celery-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-celery-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "CSV export task'ı büyük müşteri verisinde yine patlamasın. GCS'e chunk'lar halinde yazıp SQLAlchemy tarafında batch batch yield edecek şekilde kodu düzenleyebilir misin?",
+  "gold": [
+   "p-celery-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-celery-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Users reported getting duplicate scheduled report emails this morning. Could someone have accidentally scaled up the Celery beat deployment in Helm?",
+  "gold": [
+   "p-celery-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-celery-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Celery beat k8s deployment'ında kaç replica çalıştırmamız gerekiyordu? Yanlışlıkla birden fazla pod açarsak ne tür bir sorun oluyordu?",
+  "gold": [
+   "p-celery-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-celery-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Write a new background job to resend failed webhooks, making sure it respects our idempotency pattern and tracks completion in task_runs.",
+  "gold": [
+   "p-celery-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-celery-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni bir Celery task'ı yazıyorum. Bizim idempotency kuralına uyacak şekilde task_runs tablosuna status kontrolü ve yazma mantığını ekleyebilir misin?",
+  "gold": [
+   "p-celery-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-test-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I want to add some end-to-end integration tests that touch the database. What pytest marker should I use and how do we run the test suite locally in parallel?",
+  "gold": [
+   "p-test-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-test-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "When running parallel tests across workers, how does the test setup avoid data collisions in Postgres and ClickHouse without manual cleanup between cases?",
+  "gold": [
+   "p-test-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-test-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Lokalde testleri hızlandırmak için paralel nasıl çalıştırıyoruz? Bir de integration testlerini ayırmak için hangi marker'ı koyuyorduk?",
+  "gold": [
+   "p-test-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-test-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "ClickHouse için yeni bir test yazıyorum da, test bittiğinde veriler diğer worker'ları etkiler mi? conftest içinde rollback ve veritabanı ayrımı nasıl kurgulanmış?",
+  "gold": [
+   "p-test-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-test-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Running tests in parallel with xdist keeps randomly throwing 'Event loop is closed' errors on some async fixtures. How did we solve that before?",
+  "gold": [
+   "p-test-03",
+   "p-test-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-test-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "pytest-xdist ile testleri koştururken event loop closed hatası alıyoruz ara ara, conftest'te bunun için yaptığımız ayarı kontrol edip düzeltir misin?",
+  "gold": [
+   "p-test-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-test-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to write a test for the new project settings endpoint. How do we generate dummy accounts and api keys in our test suite?",
+  "gold": [
+   "p-test-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-test-04",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Testler için mock veri üretirken factory'leri nereden çekiyoruz, event ve account için hazır factory class'ları var mıydı?",
+  "gold": [
+   "p-test-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-tool-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Need to add a new package for parsing user agents. What's the workflow for adding dependencies in this repo?",
+  "gold": [
+   "p-tool-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-tool-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "projeye httpx benzeri ufak bir lib eklemem lazım, paket yöneticisi ne kullanıyorduk poetry mi kalmıştı yoksa uv mi?",
+  "gold": [
+   "p-tool-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-tool-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Set up a new lint script or verify why my pre-commit check failed on line length and type errors under src/.",
+  "gold": [
+   "p-tool-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-tool-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Localde commit atmadan önce linter ve type check kuralları neydi, ruff ve mypy konfigürasyonumuz hangi kurallara bakıyor?",
+  "gold": [
+   "p-tool-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-tool-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "mypy is complaining about missing type stubs for clickhouse-connect across multiple files. How should we configure pyproject.toml to handle this without littering type ignores?",
+  "gold": [
+   "p-tool-03",
+   "p-tool-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-tool-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "clickhouse-connect importlarında mypy patlıyor stubs bulamadım diye. Her yere type ignore koymak yerine config'de nasıl çözmüştük?",
+  "gold": [
+   "p-tool-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-tool-04",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Which Python runtime and base docker image are we standardized on for Pulsar?",
+  "gold": [
+   "p-tool-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-tool-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Dockerfile'ı güncellerken base image olarak hangi python sürümünü baz alıyoruz, .python-version ile eşleştirelim.",
+  "gold": [
+   "p-tool-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-obs-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Where do our application traces and prometheus metrics get sent, and what's our telemetry stack configured with?",
+  "gold": [
+   "p-obs-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-obs-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni eklediğimiz servise tracing ekleyeceğiz, OpenTelemetry ayarlarını nereye OTLP export edecek şekilde bağlamamız gerekiyor?",
+  "gold": [
+   "p-obs-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-obs-02",
+  "lang": "en",
+  "style": "casual",
+  "prompt": "Which Grafana board has the ClickHouse flush lag and ingest throughput, and where do alerts ping if things go red?",
+  "gold": [
+   "p-obs-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-obs-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Ingest pipeline'ındaki anlık event hızını ve Celery kuyruk doluluğunu takip ettiğimiz Grafana dashboard'unun adı neydi, alarmlar hangi Slack kanalına gidiyor?",
+  "gold": [
+   "p-obs-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-obs-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "When looking at Tempo traces I can't jump directly to the relevant logs in Grafana. How do we ensure structlog captures the trace context?",
+  "gold": [
+   "p-obs-03",
+   "p-obs-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-obs-03",
+  "lang": "tr",
+  "style": "fix",
+  "prompt": "Loglarda trace_id ve span_id görünmüyor, trace korelasyonu için structlog tarafında ne eksik kalmış?",
+  "gold": [
+   "p-obs-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-obs-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to add some logging inside the webhook delivery worker. What formatting conventions and field restrictions do we have for logs?",
+  "gold": [
+   "p-obs-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-obs-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Kodda print() kalmış onları log'a çevireceğim, logger kurallarımız neydi structlog formatı ve gizlilik açısından nelere dikkat ediyoruz?",
+  "gold": [
+   "p-obs-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ingest-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How does the pipeline handle an incoming event from /v1/track all the way into ClickHouse? Does the endpoint write to the database synchronously?",
+  "gold": [
+   "p-ingest-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ingest-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Track endpoint'ine gelen event'leri doğrudan ClickHouse'a insert eden bir logic yazmayı düşünüyordum, mimarideki mevcut akış nasıl çalışıyor bakar mısın?",
+  "gold": [
+   "p-ingest-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ingest-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Why are we using Redis streams instead of setting up a Kafka cluster for event ingestion? Was there an evaluation done for this?",
+  "gold": [
+   "p-ingest-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ingest-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Ingest buffer için Kafka'ya geçelim mi diye soruyorlar, şu anki Redis Streams throughput limitimiz ve kararımız neydi?",
+  "gold": [
+   "p-ingest-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ingest-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "ClickHouse had a slowdown earlier and Redis memory shot up. What guardrails or backpressure mechanisms do we already have on the ingest stream?",
+  "gold": [
+   "p-ingest-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ingest-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Redis stream'e event eklerken bellek taşmasını önlemek için bir sınır koymuştuk sanki, writer tarafındaki MAXLEN ve lag durumunda dönülen 503 kontrolünü kontrol eder misin?",
+  "gold": [
+   "p-ingest-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ingest-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Some mobile clients submit events with timestamps set weeks in the future. How should we normalize incoming event timestamps on ingest?",
+  "gold": [
+   "p-ingest-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-ingest-04",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Dashboard'da gelecekteki tarihlerle event'ler görünüyor, telefon saatleri yanlış olan kullanıcılar için ts alanını nasıl kırpıyorduk?",
+  "gold": [
+   "p-ingest-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-k8s-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "What are the CPU and memory limits set on our API pods, and what replica range does the HPA use in production?",
+  "gold": [
+   "p-k8s-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-k8s-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Trafik artışı için prod helm values dosyasına bakıp API deployment'ının pod resource request/limit ve HPA scaling ayarlarını özetler misin?",
+  "gold": [
+   "p-k8s-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-k8s-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "API containers keep getting OOM killed after several days of uptime. How did we configure uvicorn to prevent worker memory leaks?",
+  "gold": [
+   "p-k8s-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-k8s-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Dockerfile'da uvicorn worker parametreleri nasıldı? Uzun süreli çalışmada memory leak yapmasın diye request limiti koymuştuk.",
+  "gold": [
+   "p-k8s-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-k8s-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to add a new external service token to the helm chart. Can I inject it directly into values-prod.yaml or how do secrets get provisioned in GKE?",
+  "gold": [
+   "p-k8s-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-k8s-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Prod ortamında secret'ları pod'lara nasıl aktarıyoruz? Values dosyasına plain text yazmamamız gerekiyordu galiba.",
+  "gold": [
+   "p-k8s-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-k8s-04",
+  "lang": "en",
+  "style": "question",
+  "prompt": "We want to optimize our cloud spend on Kubernetes. Are our worker pods already running on spot instances?",
+  "gold": [
+   "p-k8s-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-k8s-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Celery worker'ları spot node pool'a taşımıştık, node preemption olduğunda worker'lar bunu tolere edebiliyor mu?",
+  "gold": [
+   "p-k8s-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sec-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Make sure we scrub incoming IP addresses before saving them to analytics storage so we comply with GDPR.",
+  "gold": [
+   "p-sec-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sec-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Kullanıcıların IP adreslerini kaydederken GDPR kuralımız neydi, subnet maskeleme /24 şeklinde mi yapılıyordu?",
+  "gold": [
+   "p-sec-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sec-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "My pull request failed the CI pipeline on a security check step. What tool is scanning our codebase for accidentally committed credentials?",
+  "gold": [
+   "p-sec-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sec-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Localde commit atarken secret sızıntısını engelleyen hook hangisi? CI build'inde de fail veriyor mu kontrol et.",
+  "gold": [
+   "p-sec-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sec-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm adding support for custom user webhook endpoints. What safety checks are we running on target destinations to make sure customers can't hit our internal services?",
+  "gold": [
+   "p-sec-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sec-03",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Webhook modülüne yeni bir endpoint ekleyeceğim de kullanıcıların verdiği URL'ler için SSRF koruması nasıl yapılmıştı, nereyi kontrol etmem lazım?",
+  "gold": [
+   "p-sec-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-wh-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How do we sign outgoing webhooks so clients can verify they come from us, and what does our retry policy look like when their server is down?",
+  "gold": [
+   "p-wh-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-wh-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Dışarıya attığımız webhook'larda signature header'ı neydi bir de retry kaç kere yapılıyordu?",
+  "gold": [
+   "p-wh-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-report-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "When exactly are the automated weekly summary PDFs generated and sent to customers, and what provider sends the mail?",
+  "gold": [
+   "p-report-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-report-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Haftalık müşteri raporlarının mail gönderim saatini ve hangi tool ile pdf üretildiğini hatırlatır mısın, bir ayarını değiştireceğim.",
+  "gold": [
+   "p-report-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-report-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Customer complained that special characters like ş and ğ appear as square boxes in their downloaded PDF report. Why is that happening?",
+  "gold": [
+   "p-report-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-report-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Pdf raporlarında türkçe karakterler yine bozulmuş kutu şeklinde çıkıyor, image'a hangi font paketi lazımdı?",
+  "gold": [
+   "p-report-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-billing-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How does our Stripe metered billing sync work? Are we sending an increment for each ingested event or aggregating somewhere first?",
+  "gold": [
+   "p-billing-01",
+   "p-ch-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-billing-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Stripe'a kullanım verilerini bildiren servisi incelemek istiyorum, event sayıları Stripe'a ne sıklıkla ve nereden çekilip aktarılıyor?",
+  "gold": [
+   "p-billing-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-billing-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Working on the Stripe webhook handler. Can we just read the subscription status directly from the incoming event data or is there a specific pattern we follow?",
+  "gold": [
+   "p-billing-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-billing-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Stripe webhook'ları sıra dışı gelince subscription state saçmalayabiliyor, burada veriyi güncellemek için nasıl bir yol izliyorduk?",
+  "gold": [
+   "p-billing-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-billing-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to work on the pending ticket for quota notifications. Where should we plug in the warning mail when a customer hits 80% usage?",
+  "gold": [
+   "p-billing-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-billing-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Billing tarafında yapılacaklar listesinde kota aşım uyarısı vardı, plan limitinin yüzde kaçında mail atılacaktı?",
+  "gold": [
+   "p-billing-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-cache-01",
+  "lang": "en",
+  "style": "casual",
+  "prompt": "What key format and TTL do we use in Redis for caching project configs, and do we invalidate them on update?",
+  "gold": [
+   "p-cache-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-cache-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Project metadata endpoint'ini güncellerken Redis'teki ayar önbelleğini patlatmam lazım, cache key kalıbı ve expire süresi neydi?",
+  "gold": [
+   "p-cache-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-dev-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Fresh laptop setup here: how do I spin up all the required databases and start the FastAPI dev server locally?",
+  "gold": [
+   "p-dev-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-dev-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Lokal ortamı ayağa kaldırmak için make komutu neydi, hangi servisleri başlatıp hangi porttan API'ı açıyordu?",
+  "gold": [
+   "p-dev-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-dev-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I'm on a Mac M2 and the clickhouse container in compose just shuts down immediately with no useful error. What do I need to tweak?",
+  "gold": [
+   "p-dev-02",
+   "g-env-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-dev-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Apple Silicon'da docker-compose up yapınca clickhouse sessizce çöküyor, docker-compose.yml dosyasına platform ve ulimit olarak ne yazmamız gerekiyordu?",
+  "gold": [
+   "p-dev-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sess-01",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I was working on pagination for the events endpoint before stepping away. Where did we leave off and why were tests breaking?",
+  "gold": [
+   "p-sess-01",
+   "p-api-06"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sess-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "/v2/events için cursor pagination işini toparlayalım, geçen oturumda encode/decode helper'larını yazmıştık sanırım. Sıralama eşitliklerinde testler patlıyordu, bakabilir misin?",
+  "gold": [
+   "p-sess-01",
+   "p-api-06"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sess-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Did we already increase Postgres connection pool limits recently? I remember we had pool timeouts during imports.",
+  "gold": [
+   "p-sess-02",
+   "p-db-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sess-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Geçen session'da Cloud SQL tarafında pool limitini kaça çekmiştik? Değerleri helm ve db.py'de eşitlemiştik sanki.",
+  "gold": [
+   "p-sess-02",
+   "p-db-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sess-03",
+  "lang": "en",
+  "style": "question",
+  "prompt": "What ingest backpressure settings did we land on after the recent load test? Need to double check before tweaking stream limits.",
+  "gold": [
+   "p-sess-03",
+   "p-ingest-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sess-03",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "ClickHouse yavaşlayınca Redis patlamasın diye son oturumda XADD tarafına bir tavan koyup 503 dönmüştük, kaç k req/s test etmiştik onu?",
+  "gold": [
+   "p-sess-03",
+   "p-ingest-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sess-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Can you check how we wired up trace identifiers into our structlog configuration in the recent session? A new log line is missing trace context.",
+  "gold": [
+   "p-sess-04",
+   "p-obs-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-sess-04",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Geçen gün structlog ile Tempo trace'lerini bağlamıştık ya, logger'a trace_id nasıl inject ediliyordu hatırlatır mısın?",
+  "gold": [
+   "p-sess-04",
+   "p-obs-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auto-01",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "pytest -n auto is failing with a 422 vs 200 assertion in the api schemas. Wasn't this exact test failure fixed recently?",
+  "gold": [
+   "p-auto-01",
+   "p-api-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auto-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "schemas.py içinde 422 hatası yüzünden test patlamıştı daha önce, otomatik fix geçmişine bakıp benzer bir validasyon hatasını düzelt.",
+  "gold": [
+   "p-auto-01",
+   "p-api-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auto-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "alembic upgrade head just blew up saying type plan_tier already exists. Which migration script previously resolved this duplicate enum error?",
+  "gold": [
+   "p-auto-02",
+   "p-db-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auto-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "alembic upgrade head çalıştırırken 'plan_tier already exists' hatası alıyorum, 0042 migration'ında bunu nasıl çözmüştük bir bakıp düzeltir misin?",
+  "gold": [
+   "p-auto-02",
+   "p-db-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auto-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "pytest tests/tasks is running out of memory again. Where did we apply the fix when task exports crashed with MemoryError?",
+  "gold": [
+   "p-auto-03",
+   "p-celery-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auto-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Export testlerini koşarken MemoryError alıyoruz yine. tasks/exports.py içinde hafıza patlamasını engellemek için ne yapmıştık?",
+  "gold": [
+   "p-auto-03",
+   "p-celery-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auto-04",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "docker build is failing because uv complains the lockfile is out of date. How should we sync the Dockerfile build with the lockfile?",
+  "gold": [
+   "p-auto-04",
+   "p-tool-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-auto-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Docker build alırken 'uv: lockfile out of date' diye hata aldım, Dockerfile ve uv.lock uyumsuzluğunu nasıl çözüyorduk?",
+  "gold": [
+   "p-auto-04",
+   "p-tool-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-dup-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How do we run the test suite locally in parallel, and do integration tests need any background containers running?",
+  "gold": [
+   "p-dup-01",
+   "p-test-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-dup-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Bütün testleri xdist ile paralel koşmak istiyorum, integration işaretli testler için hangi compose servislerini ayağa kaldırmam gerekiyordu?",
+  "gold": [
+   "p-dup-01",
+   "p-test-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-dup-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "What are the exact limits and sliding window headers returned by our API rate limiter middleware?",
+  "gold": [
+   "p-dup-02",
+   "p-api-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-dup-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "API anahtarı başına rate limit kotamız kaçtı? Limit aşılınca dönen header ve status code neydi?",
+  "gold": [
+   "p-dup-02",
+   "p-api-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Where does the frontend tracking library live in this repo and how does it queue up events before sending them over the wire?",
+  "gold": [
+   "p-misc-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "browser sdk'sında sayfa kapanırken event kayıplarını engellemek için unload mekanizmasını elden geçirelim, paket nerede duruyordu?",
+  "gold": [
+   "p-misc-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to add a small feature to the python client. Should I spin up a background worker thread for sending batches, or how is the client designed?",
+  "gold": [
+   "p-misc-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "python sdk'sında varsayılan client sync mi çalışıyordu async mi? yeni endpoint eklicem de mimariyi hatırlayamadım.",
+  "gold": [
+   "p-misc-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "PagerDuty went off for high ingestion lag and I'm on call tonight. Where do we keep the mitigation guides and operational runbooks?",
+  "gold": [
+   "p-misc-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "bu hafta on-call bende de alarm gelirse bakacağımız runbook dökümanları projenin neresinde tutuluyor?",
+  "gold": [
+   "p-misc-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We just added a new parameter to an endpoint. How do our external API docs get updated and hosted?",
+  "gold": [
+   "p-misc-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-04",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "docs.pulsar.dev üzerindeki api dokümantasyonunu güncellemek için ne yapmamız gerekiyor? fastapi openapi'yi nereye pushluyoruz?",
+  "gold": [
+   "p-misc-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-05",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "A customer is reporting that daily event counts for yesterday don't match their local midnight cutoff. What might be missing in our ClickHouse aggregate query?",
+  "gold": [
+   "p-misc-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-05",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "src/pulsar/queries altındaki günlük rapor sorgularını kontrol edelim, kullanıcıların yerel saat farkından dolayı gün sınırları kayıyor gibi duruyor.",
+  "gold": [
+   "p-misc-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-06",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Users opening generated CSV exports in Microsoft Excel say special characters look broken. Can we fix the export encoding?",
+  "gold": [
+   "p-misc-06",
+   "p-celery-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-06",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "exports.py içindeki csv çıktılarında türkçe karakterler excel'de bozuk çıkıyormuş, dosya başına utf-8 bom ekleyip çözelim.",
+  "gold": [
+   "p-misc-06",
+   "p-celery-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-07",
+  "lang": "en",
+  "style": "question",
+  "prompt": "I'm creating a new table for project-level metadata. How do we isolate tenant data in Postgres—are we doing separate schemas or row-level security?",
+  "gold": [
+   "p-misc-07",
+   "p-db-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-07",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "yeni bir postgres tablosu ekliyorum, multi-tenant yapımızda tenant ayrımını ve rls politikasını nasıl kurgulamamız gerekiyor?",
+  "gold": [
+   "p-misc-07"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-08",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Let's plan the ClickHouse upgrade from 23.8 to 24.3 LTS. What should we verify regarding query execution compatibility before rolling it out?",
+  "gold": [
+   "p-misc-08"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-08",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "ClickHouse sürümünü 24.3 LTS'e yükseltirken reporting sorgularımızın patlamaması için özellikle hangi yeni özelliği test etmemiz gerekiyordu?",
+  "gold": [
+   "p-misc-08"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-09",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I want to guard this new endpoint behind a feature toggle. Which toggle provider are we using, and how do I mock it in integration tests?",
+  "gold": [
+   "p-misc-09",
+   "p-test-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-09",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "yeni servis için feature flag eklicem, sistemde flag kontrolü nasıl yapılıyor ve pytest tarafında fixture'ı var mı?",
+  "gold": [
+   "p-misc-09"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-10",
+  "lang": "en",
+  "style": "casual",
+  "prompt": "Creating a git branch for the rate limit fix under ticket PUL-412. What was our branch naming convention again?",
+  "gold": [
+   "p-misc-10",
+   "g-tool-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-10",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Linear'daki PUL-584 kartı için yeni branch açıcam, branch isim standardımız tam olarak nasıldı?",
+  "gold": [
+   "p-misc-10",
+   "g-tool-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-11",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Can you give me a high-level overview of our architecture and the managed cloud infrastructure we run on?",
+  "gold": [
+   "p-misc-11"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-11",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Ekibe yeni katılan biri için sistemin genel mimarisini, ana bileşenleri ve kullandığımız cloud servislerini kısaca özetler misin?",
+  "gold": [
+   "p-misc-11"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-12",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I'm trying to run a diagnostic script from my laptop to inspect the Redis stream buffer directly, but the connection keeps hanging. What's required to reach our cloud Redis?",
+  "gold": [
+   "p-misc-12"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "p-misc-12",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Lokal makinemden staging Redis'e bağlanıp key'leri kontrol etmek istiyorum, connection timeout alıyorum. Bağlanabilmek için ne yapmam gerekiyordu?",
+  "gold": [
+   "p-misc-12"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-pref-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Draft a commit message for the changes where we fixed the CSV export OOM by streaming chunks to GCS.",
+  "gold": [
+   "g-pref-02",
+   "p-celery-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-pref-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Az önce API rate limit middleware'indeki bug'ı düzelttim, bana kurallarımıza uygun bir commit mesajı yazar mısın?",
+  "gold": [
+   "g-pref-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-pref-05",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to install a new dev dependency for bundling inside sdks/js. Which package manager command should I run?",
+  "gold": [
+   "g-pref-05",
+   "p-misc-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-pref-05",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "JS SDK tarafında yeni bir paket eklemem gerekiyor, npm mi yarn mı kullanıyorduk yoksa başka bir tercihimiz var mı?",
+  "gold": [
+   "g-pref-05",
+   "p-misc-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-pref-08",
+  "lang": "en",
+  "style": "casual",
+  "prompt": "How can we reject requests exceeding 5MB right in the ingest endpoint before reading the entire body? Give me the snippet.",
+  "gold": [
+   "g-pref-08"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-pref-08",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "FastAPI ingest router'ında gelen payload boyutu sınırını kontrol eden middleware fonksiyonunu yaz.",
+  "gold": [
+   "g-pref-08"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-env-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "I want to add a shell function for local dev shortcuts. What shell and machine architecture am I on?",
+  "gold": [
+   "g-env-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-env-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Terminal yapılandırmam ve yerel makine mimarim neydi, binary indirirken hangi arm/x86 versiyonunu seçmeliyim?",
+  "gold": [
+   "g-env-01"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-env-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We want to schedule a new customer reminder email Celery beat task to run at 9:00 AM every business day. Set up the crontab with my local timezone.",
+  "gold": [
+   "g-env-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-env-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Kullanıcılara gidecek sabah bildirimini saat 09:30'a ayarlayacak bir cron job ekle, saat dilimini benim bulunduğum konuma göre ver.",
+  "gold": [
+   "g-env-04"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-rule-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to parse user agent strings in the ingest route to extract device brands. Should we pull in a library from PyPI?",
+  "gold": [
+   "g-rule-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-rule-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Query string parametrelerini normalize etmek için harici bir URL parsing paketi ekleyelim mi?",
+  "gold": [
+   "g-rule-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-rule-05",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Wrap the external webhook dispatch in webhooks.py with proper error handling so failures don't get lost.",
+  "gold": [
+   "g-rule-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-rule-05",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Redis stream'e event yazarken oluşabilecek connection exception'ları için try-catch ekle, hatalar sessizce kaybolmasın.",
+  "gold": [
+   "g-rule-05"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-tool-03",
+  "lang": "en",
+  "style": "casual",
+  "prompt": "I'm starting work on ticket PUL-204 to update the Stripe webhook handling. What should I name my git branch?",
+  "gold": [
+   "g-tool-03",
+   "p-misc-10"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-tool-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Linear'daki PUL-312 numaralı kart için yeni bir feature branch açacağım, branch adlandırma kuralımız nasıldı?",
+  "gold": [
+   "g-tool-03",
+   "p-misc-10"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-know-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to call Stripe's usage sync API from a new script. What HTTP client library should I use here to make the outbound calls?",
+  "gold": [
+   "g-know-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-know-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "webhook retry servisi için dış servislere istek atıcam, python'da http client olarak requests mi kurayım yoksa başka bir şey mi tercih ediyorduk?",
+  "gold": [
+   "g-know-03"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-pref-11",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Can you do a code review on my latest changes in src/pulsar/tasks/exports.py before I open the PR?",
+  "gold": [
+   "g-pref-11",
+   "p-celery-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "g-pref-11",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "src/pulsar/billing/webhooks.py dosyasına yeni yazdığım subscription handling koduna bi göz atıp review eder misin? Varsa sıkıntıları söyle.",
+  "gold": [
+   "g-pref-11",
+   "p-billing-02"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "target": "a-build-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Can I just archive the iOS build directly from Xcode to get this hotfix out faster, or do we have a rule against local archives?",
+  "gold": [
+   "a-build-01",
+   "a-dup-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-build-01",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "EAS sırası beklemek istemiyorum da release build'i yerel makinede Xcode'dan alıp yüklesem sıkıntı çıkar mı?",
+  "gold": [
+   "a-build-01",
+   "a-dup-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-build-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "How do we submit the production build to TestFlight and the Play Store internal track once EAS finishes building?",
+  "gold": [
+   "a-build-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-build-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Production build bittiğinde mağazalara göndermek için hangi submit komutunu çalıştırıyorduk, ASC secret'ları nereden alıyor?",
+  "gold": [
+   "a-build-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-build-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "The iOS build is throwing 'Multiple commands produce PrivacyInfo.xcprivacy'. Didn't we already solve this config plugin conflict?",
+  "gold": [
+   "a-build-03",
+   "a-auto-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-build-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "iOS EAS build pod aşamasında duplicate PrivacyInfo.xcprivacy hatası veriyor, Podfile tarafındaki dedupe çözümünü kontrol eder misin?",
+  "gold": [
+   "a-build-03",
+   "a-auto-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-build-04",
+  "lang": "en",
+  "style": "question",
+  "prompt": "I need to bump the app version for the next release. Where is it configured and what's our policy on runtimeVersion?",
+  "gold": [
+   "a-build-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-build-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Yeni release için versiyonu nereden yükseltiyoruz bir de runtimeVersion politikamız neydi?",
+  "gold": [
+   "a-build-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-build-05",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Android release build keeps crashing on EAS during Hermes compilation with an out of memory error. How do we allocate more RAM to Gradle?",
+  "gold": [
+   "a-build-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-build-05",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "EAS'ta Android build alırken Hermes OOM verip patlıyor, gradle.properties'teki heap limitini ayarlar mısın?",
+  "gold": [
+   "a-build-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ota-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "We just fixed a typo in a React hook and bumped an icon. Can we ship this as an OTA update to prod or does it need a full store release?",
+  "gold": [
+   "a-ota-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ota-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "JS tarafında ufak bir UI bug'ı çözdüm, native kod değişmedi. Bunu direkt OTA mı geçiyoruz yoksa store build mi lazım?",
+  "gold": [
+   "a-ota-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ota-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "What is the exact eas update command to publish our latest JS changes to the live production users?",
+  "gold": [
+   "a-ota-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ota-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Production kullanıcılarına OTA güncellemesi atmak için eas update komutunu nasıl çağırıyorduk?",
+  "gold": [
+   "a-ota-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ota-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "If we push an OTA update, will it crash users who are still on older app binaries that don't have recent native packages?",
+  "gold": [
+   "a-ota-03",
+   "a-build-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ota-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Eski versiyondaki kullanıcılar yeni OTA güncellemesini aldığında native uyuşmazlığından çökmesin diye nasıl bir önlem almıştık?",
+  "gold": [
+   "a-ota-03",
+   "a-build-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-nav-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to add a new account details screen under the profile stack. How is routing structured here?",
+  "gold": [
+   "a-nav-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-nav-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Projeye yeni bir sayfa ekleyeceğim de routing yapısı nasıl kurgulandı, expo-router dosyalarını nereye koyuyoruz?",
+  "gold": [
+   "a-nav-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-nav-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How do deep links and universal links work in this project? Where is the AASA file hosted?",
+  "gold": [
+   "a-nav-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-nav-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "atlas:// linklerini ve universal link yönlendirmesini test edeceğim, domain ve AASA konfigürasyonu nerede tutuluyordu?",
+  "gold": [
+   "a-nav-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-nav-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "When testing on Android hardware, pressing the system back button inside a nested screen under the trips tab exits the application entirely instead of navigating back. How did we set up the tab layouts to prevent this?",
+  "gold": [
+   "a-nav-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-nav-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Profil sekmesinde detay sayfasına girince Android fiziksel geri tuşuna basınca uygulama kapanıyor. Trip sekmesindeki layout yapısına bakıp aynısını profile de uygular mısın?",
+  "gold": [
+   "a-nav-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-state-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Need to manage the new trip filter drawer state across components. Do we have Redux or something similar, or what's our convention for local vs server state?",
+  "gold": [
+   "a-state-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-state-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni ekleyeceğimiz favori mekanlar listesi için state management kurmamız lazım. Projedeki standart neydi, server ve UI state'i nasıl ayırıyoruz?",
+  "gold": [
+   "a-state-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-state-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to persist some simple onboarding flag on the device. Should I pull in AsyncStorage or do we have a designated fast storage helper?",
+  "gold": [
+   "a-state-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-state-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Kullanıcının son seçtiği para birimini telefonda saklamak istiyorum. Eskiden asyncstorage vardı sanki ama android açılışında yavaşlık yapıyordu, yerine ne kullanıyorduk?",
+  "gold": [
+   "a-state-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-state-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "If a user puts the phone in airplane mode and launches the app cold, the trips screen shows an empty state even though they had trips loaded earlier. How did we configure the query cache persistence?",
+  "gold": [
+   "a-state-03",
+   "a-state-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-state-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Uygulama baştan açıldığında offline trip listesi kayboluyor diye bir bug çözmüştük, query client'ı MMKV'ye bağlarken gcTime kaç saat ayarlanmıştı?",
+  "gold": [
+   "a-state-03",
+   "a-state-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-state-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm updating the auth flow and need to access the logged in user's refresh token. Is it kept in mmkv with the rest of our stores or somewhere else?",
+  "gold": [
+   "a-state-04",
+   "a-state-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-state-04",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Supabase auth session'ını tuttuğumuz yer useSessionStore'du sanırım, peki JWT ve sensitive token'lar düz storage'da mı yoksa SecureStore'da mı saklanıyor?",
+  "gold": [
+   "a-state-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-be-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "We need to run a background job that interacts with third-party APIs using our private secrets. Are we running a separate Node backend for this or using Supabase capabilities?",
+  "gold": [
+   "a-be-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-be-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Gizli api key gerektiren yeni bir servis çağrısı yapacağız, mimaride ayrı backend var mıydı yoksa supabase edge function ile mi çözüyoruz?",
+  "gold": [
+   "a-be-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-be-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Create a new table `trip_collaborators` in Supabase with read and write permissions tied to the authenticated user ID. Make sure it follows our repo rules for security policies.",
+  "gold": [
+   "a-be-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-be-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni eklediğimiz user_notes tablosu için RLS politikalarını dashboard'dan elle açsam olur mu, yoksa migration dosyasına mı yazmamız gerekiyordu?",
+  "gold": [
+   "a-be-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-be-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I just ran a local Supabase migration that adds a new column to the bookings table. How do I refresh the frontend TypeScript types?",
+  "gold": [
+   "a-be-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-be-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Veritabanına migration attıktan sonra frontend'deki database.ts'i güncellemek için hangi supabase cli komutunu çalıştırıyorduk?",
+  "gold": [
+   "a-be-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-be-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "The new edge function has terrible cold start latency in production, taking multiple seconds on first hit. What did we do on the booking function to fix that?",
+  "gold": [
+   "a-be-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-be-04",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Yazdığım yeni edge function cold start yiyince 2-3 saniye bekletiyor. Booking edge function'ında bunu engellemek için importları falan nasıl düzenlemiştik?",
+  "gold": [
+   "a-be-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-be-05",
+  "lang": "en",
+  "style": "casual",
+  "prompt": "Trying to run supabase locally for development but the containers keep crashing on startup. Any specific resource requirements or ports I should check?",
+  "gold": [
+   "a-be-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-be-05",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Lokalde `supabase start` çalıştırıyorum studio arayüzü hangi portta açılıyordu? Bir de Docker için özel bir ram limiti var mıydı?",
+  "gold": [
+   "a-be-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-map-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Why are we using Mapbox instead of react-native-maps in this app? Someone asked if we can just swap it to cut dependencies.",
+  "gold": [
+   "a-map-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-map-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Harita kütüphanesini react-native-maps'e taşısak mı diyorduk ama seyahat sırasında internet olmadan harita indirme ihtiyacımız vardı, mevcut paket seçim kararımız neydi?",
+  "gold": [
+   "a-map-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-map-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Setting up a fresh machine for EAS build, which tokens do I need to configure for Mapbox so both the build downloads the SDK and the client can render maps?",
+  "gold": [
+   "a-map-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-map-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Mapbox token'larını nereye koyuyorduk? EAS secret ile expo env tarafındaki token isimleri neydi tam?",
+  "gold": [
+   "a-map-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-map-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I'm refactoring TripMap.tsx camera animations. Make sure we don't reintroduce that crash on newer Androids when the user backs out while animating.",
+  "gold": [
+   "a-map-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-map-03",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Android 14 test cihazında harita ekranından hızlıca çıkınca crash oluyordu, oraya nasıl bir unmount / blur koruması koymuştuk?",
+  "gold": [
+   "a-map-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-push-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Where do we store incoming push tokens on the backend, and what push provider architecture are we using for notifications?",
+  "gold": [
+   "a-push-01",
+   "a-be-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-push-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Bildirim servisini inceliyorum da, expo push token'ları veritabanında hangi tabloya yazıyoruz ve android FCM tarafı nasıl ayarlı?",
+  "gold": [
+   "a-push-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-push-02",
+  "lang": "en",
+  "style": "casual",
+  "prompt": "A few testers on Android 14 mentioned they never receive any push alerts. Did we handle the runtime notification permission properly?",
+  "gold": [
+   "a-push-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-push-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Android 13 ve üstünde bildirim izni isteme akışını nereye koymuştuk? Kullanıcı kayıt olduktan hemen sonra mı soruyoruz?",
+  "gold": [
+   "a-push-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-push-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I'm testing APNs push triggers from backend against my local dev client on an iPhone and nothing arrives. Is APNs working on dev builds?",
+  "gold": [
+   "a-push-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-push-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Development build yüklü iOS cihazımda push notification test ediyorum ama gitmiyor, prod APNs ile dev build tokenları uyumlu mu?",
+  "gold": [
+   "a-push-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-i18n-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to add French support. Where are the locale json files located and which library setups are handling localization right now?",
+  "gold": [
+   "a-i18n-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-i18n-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Uygulamada şu an hangi diller aktif ve çeviri dosyaları tam olarak hangi klasör altında tutuluyor?",
+  "gold": [
+   "a-i18n-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-i18n-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Add the title and subtitle for the new hotel filters screen, make sure to follow our i18n key hierarchy and linting constraints.",
+  "gold": [
+   "a-i18n-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-i18n-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Yeni eklediğim butona direkt JSX içinde 'Kaydet' yazınca linter kızdı, çeviri anahtarlarını nasıl isimlendiriyorduk ve kural neydi?",
+  "gold": [
+   "a-i18n-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-i18n-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Hermes on Android is formatting Turkish plural strings weirdly again like '1 günler'. What was the fix for i18next plural rules here?",
+  "gold": [
+   "a-i18n-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-i18n-03",
+  "lang": "tr",
+  "style": "fix",
+  "prompt": "Türkçe çoğullarda '1 günler' hatasını çözmek için i18n konfigürasyonuna ve Hermes tarafına ne eklemiştik?",
+  "gold": [
+   "a-i18n-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-test-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "What test frameworks do we use for unit tests and where do our Maestro e2e flows run in CI?",
+  "gold": [
+   "a-test-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-test-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni bir e2e test akışı ekleyeceğim, Maestro senaryoları hangi klasörde duruyor ve EAS üzerinde hangi profilde koşuyor?",
+  "gold": [
+   "a-test-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-test-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I'm writing a new test for the trip storage helper and Jest blows up complaining about react-native-mmkv being a native module. How did we resolve this in our test setup?",
+  "gold": [
+   "a-test-02",
+   "a-state-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-test-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "jest çalıştırdığımda mmkv importu yüzünden patlıyor, setup dosyasında mocklama işini nasıl yapmıştık bi bakar mısın?",
+  "gold": [
+   "a-test-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-test-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "The booking e2e test in Maestro keeps randomly failing on iOS 17 simulators. It seems to stall around the form inputs, any idea why?",
+  "gold": [
+   "a-test-03",
+   "a-test-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-test-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "maestro booking akışı ios simülatörde yine flaky oldu takılıyor, klavye ile ilgili bi ayar yapmıştık sanki?",
+  "gold": [
+   "a-test-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-obs-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Where do we configure our Sentry DSN and how are crash reports and source maps wired up during EAS builds?",
+  "gold": [
+   "a-obs-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-obs-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni bir hata yakalama ekranı ekleyeceğim, Sentry crash reporting kurulumumuz nasıldı ve env değişkeni neydi?",
+  "gold": [
+   "a-obs-01",
+   "a-sec-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-obs-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "We pushed an OTA update earlier today and now Sentry is displaying totally minified stack traces for incoming errors. What step did we miss?",
+  "gold": [
+   "a-obs-02",
+   "a-ota-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-obs-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "eas update attıktan sonra sentry'deki stack trace'ler minified görünüyor, sourcemap yükleme komutunu eas.json'a eklemiştik onu çalıştırır mısın?",
+  "gold": [
+   "a-obs-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-perf-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "We need to optimize the trip list component, scrolling gets choppy with hundreds of trips. What list component and item sizing convention do we use here?",
+  "gold": [
+   "a-perf-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-perf-01",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Gezilerim sayfası çok fazla kayıt olunca takılarak kayıyor, FlatList yerine neye geçmiştik ve item size kaç verilmişti?",
+  "gold": [
+   "a-perf-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-perf-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Add a hotel thumbnail component for the trip card. Make sure it adheres to our project's image loading and placeholder standards.",
+  "gold": [
+   "a-perf-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-perf-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Uygulama genelinde resimleri basarken react-native içindeki Image yerine ne kullanıyoruz, blurhash desteği nasıldı?",
+  "gold": [
+   "a-perf-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-perf-03",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Why is the app's cold start taking over 3 seconds on budget Android devices? What was identified as the main culprit?",
+  "gold": [
+   "a-perf-03",
+   "a-i18n-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-perf-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Düşük segment androidlerde cold start niye bu kadar yavaş kalıyordu, profil incelemesinde en çok ne vakit alıyordu?",
+  "gold": [
+   "a-perf-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ui-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Let's build a new banner component. What is our styling system in this repo, and can I use styled-components?",
+  "gold": [
+   "a-ui-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ui-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Projeye yeni UI parçası yazarken stillendirmeyi nasıl yapıyoruz, Tailwind desteğimiz hangi kütüphaneyle kurulu?",
+  "gold": [
+   "a-ui-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ui-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Header content is overlapping under the Dynamic Island on iPhone 15. How do we properly handle safe areas in root layouts?",
+  "gold": [
+   "a-ui-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ui-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni eklediğim ekran dynamic island altına taşıyor, SafeAreaView'ı hangi paketten import etmemiz gerekiyordu düzeltelim.",
+  "gold": [
+   "a-ui-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ui-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Create a reusableIconButton component. Keep in mind our accessibility label and minimum touch target size rules.",
+  "gold": [
+   "a-ui-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ui-03",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Tıklanabilir buton ve ikonlar için erişilebilirlik ve minimum dokunma alanı (touch target) standardımız neydi?",
+  "gold": [
+   "a-ui-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ui-04",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Where are we loading our custom Inter font in the mobile app, and how do we prevent the screen from popping before it's ready?",
+  "gold": [
+   "a-ui-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-ui-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Root layout'a yeni bir font varyantı daha eklemek istiyorum, mevcut Inter fontunu expo-font ile nerede yüklüyorduk bakalım ve splash screen gizleme mantığını kontrol edelim.",
+  "gold": [
+   "a-ui-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-store-01",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Apple rejected our latest build citing guideline 5.1.1 about user account management. How did we previously satisfy this in the app?",
+  "gold": [
+   "a-store-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-store-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Settings içine kullanıcı hesabı silme butonunu nereye bağlamıştık? App store ret yediğimizde hangi edge function'ı çağırmıştık?",
+  "gold": [
+   "a-store-01",
+   "a-sess-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-store-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Double check our Android build configuration in app.config.ts to make sure targetSdkVersion meets Google Play's 34 requirement.",
+  "gold": [
+   "a-store-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-store-02",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Google Play target sdk 34 zorunluluğunu app.config içinde expo-build-properties ile nasıl ayarlamıştık?",
+  "gold": [
+   "a-store-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-store-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "App Store Connect is throwing a privacy manifest warning about UserDefaults access reasons. Which standard reason code did we use?",
+  "gold": [
+   "a-store-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-store-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "ASC privacy manifest hatası verdi gene, UserDefaults için hangi NSPrivacy reason kodunu tanımlıyorduk?",
+  "gold": [
+   "a-store-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-pay-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Add a lock icon next to the offline maps button if the user is not premium. How do we check the pro subscription status in our React Native components?",
+  "gold": [
+   "a-pay-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-pay-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Atlas içinde in-app purchase için RevenueCat kütüphanesini kullanıyorduk değil mi, pro entitlement kontrol eden hook'un adı neydi?",
+  "gold": [
+   "a-pay-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-pay-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "I'm testing IAP renewals on iOS and the subscription expired way too fast. Is sandbox renewal timing accelerated, and where do I manage sandbox test accounts?",
+  "gold": [
+   "a-pay-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-pay-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Abonelik test ederken 5 dakikada bir yenileniyor, sandbox ortamında süreler hızlandırılmış mıydı bir de yeni test user'ı App Store Connect'ten mi açıyorduk?",
+  "gold": [
+   "a-pay-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-pay-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Users complain that purchasing Pro on an iPhone doesn't show up when opening the app on their iPad. How does our RevenueCat webhook update the user's profile table?",
+  "gold": [
+   "a-pay-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-pay-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "İkinci cihazda pro rozeti görünmüyor sorunu için bir webhook yazmıştık ya, profiles tablosundaki is_pro kolonunu nereden tetikliyorduk?",
+  "gold": [
+   "a-pay-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sec-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to integrate a third-party translation API with a private secret key. Can I put it into app.config.ts or where should it live according to our env rules?",
+  "gold": [
+   "a-sec-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sec-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Uygulamada hassas API key'leri app.config'e koyabiliyor muyuz yoksa Expo tarafında sadece EXPO_PUBLIC prefixli olanlar mı kalıyordu?",
+  "gold": [
+   "a-sec-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sec-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Did we ever implement SSL certificate pinning for our API requests, or are we relying solely on HTTPS and Supabase RLS?",
+  "gold": [
+   "a-sec-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sec-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Güvenlik denetimi için soruyorlar, mobilde cert pinning var mıydı yoksa OTA yüzünden yapmamaya mı karar vermiştik?",
+  "gold": [
+   "a-sec-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-tool-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Need to run the expo local server and install a new helper package. What package manager and CLI command do we use in this project?",
+  "gold": [
+   "a-tool-01",
+   "a-tool-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-tool-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Yeni bir bağımlılık kurup projeyi ayağa kaldıracağım, atlas'ta expo komutlarını bunx expo ile mi çalıştırıyorduk?",
+  "gold": [
+   "a-tool-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-tool-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Why did my CI pipeline fail on a minor ESLint warning? Did we set up strict rules for the linter?",
+  "gold": [
+   "a-tool-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-tool-02",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Projeye yeni eklediğimiz ekran için linter'ı çalıştırıp kontrol et, CI'da patlamasın diye warning kalmaması gerekiyor değil mi?",
+  "gold": [
+   "a-tool-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-tool-04",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to add a new dependency for date formatting. What package manager are we locked to in Atlas?",
+  "gold": [
+   "a-tool-04",
+   "g-rule-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-tool-04",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Atlas projesinde paketleri pnpm ile mi kuruyorduk yoksa bun mıydı, lock dosyası hangisi?",
+  "gold": [
+   "a-tool-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sess-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Let's pick up the offline map pack download feature we started. What part was still missing?",
+  "gold": [
+   "a-sess-01",
+   "a-misc-02",
+   "a-map-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sess-01",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Geçen oturumda haritanın offline indirme ilerlemesini bağlamıştık ama yarım kalmıştı, en son ne eksikti?",
+  "gold": [
+   "a-sess-01",
+   "a-map-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sess-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Did we already solve the Turkish pluralization bug on Android Hermes, or is that still an open issue?",
+  "gold": [
+   "a-sess-02",
+   "a-i18n-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sess-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Türkçe çoğullarda 1 günler sorunu için Intl polyfill'i eklemiş miydik, son durum neydi?",
+  "gold": [
+   "a-sess-02",
+   "a-i18n-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sess-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I remember replacing the scroll view on the trip list during our last session, which list component did we switch to?",
+  "gold": [
+   "a-sess-03",
+   "a-perf-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sess-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Geziler listesindeki takılmaları çözmek için geçen oturumda ne yapmıştık, performans testi nasıl sonuç verdi?",
+  "gold": [
+   "a-sess-03",
+   "a-perf-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sess-04",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Did we finish the account deletion flow and edge function for Apple guideline 5.1.1 compliance?",
+  "gold": [
+   "a-sess-04",
+   "a-store-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-sess-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "App Store rejection'ı için hesap silme edge function'ını yazmıştık, frontend Settings ekranına bağladığımız akışı bir kontrol etsene.",
+  "gold": [
+   "a-sess-04",
+   "a-store-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-auto-01",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Jest tests suddenly can't resolve react-native-mmkv in a fresh environment. Where did we set up the mock previously?",
+  "gold": [
+   "a-auto-01",
+   "a-test-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-auto-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Testleri çalıştırınca react-native-mmkv bulunamadı hatası veriyor, bunu jest.setup içinde nasıl mocklamıştık?",
+  "gold": [
+   "a-auto-01",
+   "a-test-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-auto-02",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Our iOS preview build crashed on EAS with duplicate PrivacyInfo.xcprivacy errors. How did we resolve this earlier?",
+  "gold": [
+   "a-auto-02",
+   "a-build-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-auto-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "EAS iOS build alırken PrivacyInfo.xcprivacy birden fazla komut üretiyor hatası verdi, config plugin ile çözmüştük sanırım?",
+  "gold": [
+   "a-auto-02",
+   "a-build-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-auto-03",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "Android app crashes immediately on launch with SecurityException POST_NOTIFICATIONS. What was our fix for this?",
+  "gold": [
+   "a-auto-03",
+   "a-push-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-auto-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Android cihazda bildirimler gelmiyor, hatta izin istemediği için patlamıştı. notifications.ts içinde nerede izin istiyorduk?",
+  "gold": [
+   "a-auto-03",
+   "a-push-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Which analytics tool are we using for user screen tracking, and does it automatically catch route changes in expo-router?",
+  "gold": [
+   "a-misc-01",
+   "a-nav-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-01",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Yeni ekleyeceğimiz rezervasyon onay ekranının analytics event'ini yollamam lazım, projede hangi analytics kütüphanesi kurulu?",
+  "gold": [
+   "a-misc-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-02",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Let's finish up the offline map download UI. What outstanding tasks are left for managing downloaded packs?",
+  "gold": [
+   "a-misc-02",
+   "a-sess-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-02",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Ayarlar ekranına harita paketleri için bir alan ekleyelim, ne kadar disk alanı tuttuğunu göstermek ve indirmeyi yarıda kesebilmek kalmıştı sanırım?",
+  "gold": [
+   "a-misc-02",
+   "a-sess-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-03",
+  "lang": "en",
+  "style": "question",
+  "prompt": "We want to show the upcoming trip right on the iOS home screen without opening the app. What library do we need to set that up?",
+  "gold": [
+   "a-misc-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "iOS tarafına bir widget ekleme planımız vardı sıradaki geziyi göstermek için, bunun için hangi expo paketini kurmamız gerekiyordu?",
+  "gold": [
+   "a-misc-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-04",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "A user in New York reported that their itinerary shows arrival on Friday even though the booking is for Saturday. Why are trip dates shifting?",
+  "gold": [
+   "a-misc-04",
+   "g-know-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-04",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Seyahat tarihleri batıdaki timezone'larda bir gün geriye kayıyor gibi görünüyor, parse mantığını düzeltip local date kullanacak hale getirelim.",
+  "gold": [
+   "a-misc-04",
+   "g-know-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-05",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Where are the UI designs hosted, who is our designer, and how should we name the newly created screen components?",
+  "gold": [
+   "a-misc-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-06",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Figma'daki yeni komponentleri kodlarken isimleri nasıl veriyorduk, tasarım dosyasının adı ve tasarımcı kimdi?",
+  "gold": [
+   "a-misc-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-06",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I need to build the new checkout form. How do we structure forms and validation so it stays in sync with our backend edge function?",
+  "gold": [
+   "a-misc-06"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-06",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Yeni bir form sayfası yapacağım, validation için hangi kütüphaneleri kullanıyorduk ve şemayı Supabase function tarafıyla nasıl paylaşıyorduk?",
+  "gold": [
+   "a-misc-06"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-07",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I'm about to bump Expo SDK to the latest version. Can I just update react-native and dependencies directly in package.json?",
+  "gold": [
+   "a-misc-07"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-07",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Expo SDK yükseltmesi yaparken react-native sürümünü manuel mi güncelliyorduk, bunun kuralı ve komutu neydi?",
+  "gold": [
+   "a-misc-07"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-08",
+  "lang": "en",
+  "style": "question",
+  "prompt": "How does hotel availability querying work under the hood, and are partner responses cached anywhere to avoid rate limits?",
+  "gold": [
+   "a-misc-08"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-08",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Otel uygunluk verilerini partner API'den çekerken veritabanında bir yerde önbelleğe alıyor muyduk, ne kadar süre tutuluyordu?",
+  "gold": [
+   "a-misc-08"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-09",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Which release target is planned for Deniz's bottom sheet trip detail redesign with the day tabs?",
+  "gold": [
+   "a-misc-09",
+   "a-misc-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-09",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Deniz'in hazırladığı alt sekme seyahat detayı bottom sheet tasarımı hangi sürümde yayına girecekti?",
+  "gold": [
+   "a-misc-09",
+   "a-misc-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-10",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Which Supabase backend instances do preview and production EAS builds point to respectively?",
+  "gold": [
+   "a-misc-10",
+   "a-ota-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-misc-10",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Preview profilinde staging DB yerine prod verilerini görmeyelim, EAS build ortamları ile Supabase eşleşmesini nereden kontrol ediyoruz?",
+  "gold": [
+   "a-misc-10"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-dup-01",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "EAS build queue is backed up today. Can I just archive the project in local Xcode and push directly to App Store Connect?",
+  "gold": [
+   "a-dup-01",
+   "a-build-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "a-dup-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "iOS için App Store paketini EAS yerine lokal Xcode'dan archive alıp manuel yükleyebilir miyiz, yoksa kural neydi?",
+  "gold": [
+   "a-dup-01",
+   "a-build-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-pref-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "I rebased my branch against main to resolve some merge conflicts. Can you push the updated commits to remote for me?",
+  "gold": [
+   "g-pref-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-pref-03",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "main branchindeki son commitleri yanlışlıkla bozdum galiba, resetleyip remote'a force pushlasana düzelsin.",
+  "gold": [
+   "g-pref-03",
+   "g-rule-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-pref-06",
+  "lang": "en",
+  "style": "task",
+  "prompt": "The trip date parsing bug in src/lib/dates.ts is fixed now. Go ahead and commit the change with an appropriate message.",
+  "gold": [
+   "g-pref-06",
+   "a-misc-04",
+   "g-pref-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-pref-06",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "src/lib/purchases.ts içindeki ufak refactor bitti, hemen commit atabilirsin.",
+  "gold": [
+   "g-pref-06",
+   "g-pref-02"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-pref-09",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Create a new helper file src/types/itinerary.ts to represent an itinerary stop and day plan, exporting all the relevant models.",
+  "gold": [
+   "g-pref-09"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-pref-09",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "src/lib/dates.ts içine formatlama seçenekleri için yeni bir tip tanımla ve dosyadan dışarı aç, ekranlarda kullanalım.",
+  "gold": [
+   "g-pref-09"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-env-02",
+  "lang": "en",
+  "style": "question",
+  "prompt": "I need to spin up the local Supabase stack for testing migrations. Do I need Docker Desktop installed and running on this machine?",
+  "gold": [
+   "g-env-02",
+   "a-be-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-env-02",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "supabase start çalıştırınca docker containerları ayağa kalkmadı, makinede docker daemon olarak ne kullanıyorduk?",
+  "gold": [
+   "g-env-02",
+   "a-be-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-env-05",
+  "lang": "en",
+  "style": "situational",
+  "prompt": "I ran `git push origin my-feature` in Ghostty and the terminal has been completely frozen for 2 minutes with no output. Any idea what's hanging?",
+  "gold": [
+   "g-env-05",
+   "g-env-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-env-05",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Remote'a push atarken terminal öylece bekliyor hiçbir hata basmıyor, neye takılmış olabilir?",
+  "gold": [
+   "g-env-05"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-rule-03",
+  "lang": "en",
+  "style": "task",
+  "prompt": "The test database has some garbage records from yesterday. Drop the trips table and run migrations from scratch.",
+  "gold": [
+   "g-rule-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-rule-03",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Çalıştığım branch çok karıştı, son 5 commiti komple silip HEAD'i origin/main'e hard reset atsana.",
+  "gold": [
+   "g-rule-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-tool-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "What primary editor and terminal setups are configured on this machine for coding?",
+  "gold": [
+   "g-tool-01",
+   "g-env-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-tool-01",
+  "lang": "tr",
+  "style": "casual",
+  "prompt": "Kod düzenlerken vim tuş kombinasyonları mı kullanıyorum, editör ortamım nasıldı?",
+  "gold": [
+   "g-tool-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-know-01",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Write a utility function in src/lib/strings.ts that normalizes category keys into uppercase tracking tags for PostHog event properties.",
+  "gold": [
+   "g-know-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-know-01",
+  "lang": "tr",
+  "style": "situational",
+  "prompt": "Kullanıcı cihazı Türkçe olduğunda rota id'lerini toUpperCase ile çevirince API tarafında 404 alıyoruz, buradaki problem ne olabilir?",
+  "gold": [
+   "g-know-01"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-sess-01",
+  "lang": "en",
+  "style": "question",
+  "prompt": "Did we already configure commit signing on this laptop, and how is the SSH key authenticated?",
+  "gold": [
+   "g-sess-01",
+   "g-env-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-sess-01",
+  "lang": "tr",
+  "style": "question",
+  "prompt": "Git commit imzalama ayarlarını 1Password ile en son nasıl bağlamıştık, hatırlatır mısın?",
+  "gold": [
+   "g-sess-01",
+   "g-env-03"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-pref-12",
+  "lang": "en",
+  "style": "task",
+  "prompt": "Add a state flag and helper in useSessionStore to track whether the user has finished the onboarding flow.",
+  "gold": [
+   "g-pref-12",
+   "a-state-04"
+  ],
+  "project": "atlas"
+ },
+ {
+  "target": "g-pref-12",
+  "lang": "tr",
+  "style": "task",
+  "prompt": "Harita ekranındaki filtreleme için seçili kategorileri ve yükleme durumunu tutacak state değişkenlerini tanımlar mısın?",
+  "gold": [
+   "g-pref-12"
+  ],
+  "project": "atlas"
+ }
+]

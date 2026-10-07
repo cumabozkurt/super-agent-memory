@@ -1,0 +1,97 @@
+# Format: key | kind | ageDays | tags (@pin, @impX.X allowed) | files | text  [|| body]
+# project: kervan  — Turkish e-commerce storefront: Next.js 14 app router, Prisma + Postgres (Neon), fly.io, zustand, iyzico, Meilisearch
+@project kervan
+k-deploy-01 | decision | 210 | deploy ci | .github/workflows/deploy.yml fly.toml | Deploy via fly.io from GitHub Actions on every merge to main; no manual flyctl deploy from laptops || We moved off Vercel because image optimisation costs exploded and we needed a long-lived worker for BullMQ. The workflow runs pnpm build, then flyctl deploy --remote-only. Laptop deploys skipped migrations twice.
+k-deploy-02 | fact | 150 | deploy fly | fly.toml | fly.io app name is kervan-web (region ams), the BullMQ worker runs as a separate process group "worker" in the same fly.toml
+k-deploy-03 | fix | 95 | deploy fly migrations | .github/workflows/deploy.yml | Deploy failed with P3009 failed migration; fixed by running prisma migrate resolve --rolled-back on the release_command machine before redeploying
+k-deploy-04 | convention | 120 | release | CHANGELOG.md | Canlıya çıkmadan önce staging'de (kervan-staging.fly.dev) en az bir smoke test koşulur, cuma 16:00'dan sonra prod deploy yapılmaz
+k-deploy-05 | note | 40 | deploy rollback | | Rollback: flyctl releases list then flyctl deploy --image <previous image ref>; prisma migrations are NOT rolled back automatically, write a down script
+k-db-01 | decision | 300 | database postgres neon @imp0.9 | prisma/schema.prisma | Postgres on Neon instead of PlanetScale, because we need foreign keys and Prisma relation mode was too slow on joins
+k-db-02 | fact | 200 | database prisma pooling | .env.example src/server/db.ts | DATABASE_URL must use the Neon pooled host (-pooler) with ?pgbouncer=true&connection_limit=1 in serverless routes; DIRECT_URL is the unpooled host used only by prisma migrate
+k-db-03 | fix | 60 | prisma | src/server/db.ts | "too many connections" in dev was caused by hot reload creating a new PrismaClient each time; fixed with the globalThis.prisma singleton in src/server/db.ts
+k-db-04 | convention | 180 | prisma migrations | prisma/migrations | Migration isimleri snake_case ve fiil ile başlar (add_order_status_index); şemayı elle düzenledikten sonra her zaman pnpm db:migrate --name ile migration üret, db push kullanma
+k-db-05 | note | 25 | database index perf | prisma/schema.prisma | Order listing page was slow (1.8s); added composite index on (userId, createdAt desc) — now 40ms
+k-db-06 | decision | 90 | database money | prisma/schema.prisma src/lib/money.ts | Money is stored as integer kuruş (Int) never Float or Decimal; format with formatTRY() from src/lib/money.ts
+k-db-07 | fact | 70 | seed | prisma/seed.ts | pnpm db:seed creates 3 test users (admin@kervan.test / Test1234!) and 200 fake products from prisma/seed.ts
+k-auth-01 | decision | 250 | auth session @imp0.85 | src/auth.ts | Auth.js (next-auth v5) with database sessions, not JWT, because we need to revoke sessions when a seller is banned
+k-auth-02 | fact | 140 | auth state zustand | src/stores/useAuthStore.ts | useAuthStore (zustand, src/stores/useAuthStore.ts) only mirrors the server session for client components; never treat it as the source of truth for permissions
+k-auth-03 | fix | 35 | auth hydration | src/stores/useAuthStore.ts src/app/providers.tsx | Hydration mismatch on header avatar: useAuthStore was persisted to localStorage; fixed by skipHydration and calling rehydrate() inside useEffect in providers.tsx
+k-auth-04 | fact | 110 | auth google oauth | .env.example | Google OAuth callback URL must be added for every preview domain; staging uses AUTH_URL=https://kervan-staging.fly.dev
+k-auth-05 | convention | 160 | auth roles rbac | src/server/rbac.ts | Rol kontrolü sadece sunucuda: requireRole('seller') src/server/rbac.ts içinde; client tarafında rol kontrolü sadece UI gizlemek için
+k-auth-06 | bug | 12 | auth logout | src/app/api/auth | Logout does not clear the cart cookie, so the next user on a shared device sees the previous cart
+k-pay-01 | decision | 230 | payments iyzico stripe @imp0.9 | src/server/payments/iyzico.ts | Payments go through iyzico, not Stripe: Stripe does not onboard Turkish merchants and taksit (installments) is a must-have
+k-pay-02 | fact | 130 | payments iyzico 3ds | src/app/api/payments/callback/route.ts | iyzico 3DS callback is a POST form to /api/payments/callback; it cannot read our session cookie (SameSite=Lax), so we look up the order by conversationId
+k-pay-03 | fix | 45 | payments webhook | src/app/api/payments/callback/route.ts | Double-charged orders: iyzico retried the callback and we created two payments; fixed with a unique index on Payment.providerPaymentId and an upsert
+k-pay-04 | fact | 100 | payments sandbox | .env.example | iyzico sandbox test card 5528790000000008, any future expiry, CVC 123; 3DS SMS code is always 283126 in sandbox
+k-pay-05 | convention | 90 | payments money | src/server/payments | Ödeme tutarlarını iyzico'ya gönderirken kuruşu TL string'e çevir: toIyzicoPrice(12990) -> "129.90"; asla parseFloat ile toplama yapma
+k-pay-06 | todo | 8 | payments refunds | src/server/payments/refund.ts | Partial refunds for multi-item orders are not implemented; refund.ts only supports full refund
+k-search-01 | decision | 190 | search meilisearch | src/server/search | Product search uses Meilisearch (self-hosted on fly, app kervan-search) instead of Postgres full text, because Turkish typo tolerance and facets out of the box
+k-search-02 | fact | 120 | search index sync | src/jobs/syncSearch.ts | Meilisearch index is synced by the BullMQ job syncSearch on product update; full reindex: pnpm search:reindex (takes ~4 min for 60k products)
+k-search-03 | fix | 50 | search turkish | src/server/search/settings.ts | Searching "ılık" did not match "ILIK" — set Meilisearch localizedAttributes locales ["tur"] in settings.ts so İ/ı fold correctly
+k-search-04 | note | 30 | search synonyms | src/server/search/settings.ts | Meili synonyms list includes telefon/cep telefonu/akıllı telefon and kulaklık/headphone; edit settings.ts and run search:settings
+k-ui-01 | convention | 260 | ui components tailwind @imp0.85 | src/components/ui | UI built with shadcn/ui components copied into src/components/ui; never install another component library, extend with cva variants
+k-ui-02 | convention | 140 | ui tailwind | tailwind.config.ts | Colours only via CSS variables in globals.css (--primary, --muted); no raw hex in className
+k-ui-03 | fact | 75 | images r2 | next.config.mjs src/lib/images.ts | Product images live on Cloudflare R2 behind images.kervan.com.tr; next/image uses a custom loader (src/lib/images.ts) because fly has no image optimiser
+k-ui-04 | fix | 20 | ui layout shift | src/components/ProductCard.tsx | CLS on category pages fixed by giving ProductCard images a fixed aspect-ratio 4/5 and sizes attribute
+k-ui-05 | note | 15 | ui dark mode | src/app/layout.tsx | Dark mode is postponed; next-themes is installed but ThemeProvider forced to light
+k-i18n-01 | decision | 170 | i18n locale | src/i18n messages | i18n with next-intl, locales tr (default) and en, URLs prefixed only for en (/en/...); Turkish has no prefix for SEO
+k-i18n-02 | convention | 100 | i18n translations | messages/tr.json messages/en.json | Yeni metin eklerken önce messages/tr.json'a ekle, en.json eksikse build uyarı verir ama kırmaz; anahtarlar nokta ile: checkout.summary.total
+k-i18n-03 | fix | 55 | i18n dates | src/lib/date.ts | Dates showed in UTC on server render; fixed by passing timeZone: 'Europe/Istanbul' to next-intl getRequestConfig
+k-cart-01 | decision | 160 | cart redis | src/server/cart.ts | Guest cart stored in Upstash Redis keyed by a signed cookie cart_id (TTL 30 days); merged into the DB cart on login
+k-cart-02 | fix | 28 | cart merge | src/server/cart.ts | Cart merge duplicated line items when the same variant existed in both carts; now we sum quantities and cap at stock
+k-cart-03 | fact | 65 | cart stock | src/server/cart.ts | Stock is reserved only at payment start (15 min hold in StockReservation table), not when adding to cart
+k-email-01 | decision | 125 | email resend queue | src/jobs/email.ts | Transactional email via Resend, sent from the BullMQ email queue, never inline in a request handler
+k-email-02 | fact | 80 | email templates | emails/ | Email templates are react-email components in emails/; preview with pnpm email:dev on port 3001
+k-email-03 | gotcha-note | 33 | email spf dkim | | Order confirmation mails went to spam at Outlook until we added the Resend DKIM CNAMEs on the kervan.com.tr zone
+k-queue-01 | fact | 110 | queue bullmq redis | src/jobs/worker.ts | BullMQ worker entrypoint is src/jobs/worker.ts; it needs REDIS_URL pointing at the fly Upstash instance, not the Upstash REST URL
+k-queue-02 | fix | 42 | queue bullmq | src/jobs/worker.ts | Jobs stuck in "active" after deploy: worker was killed without graceful shutdown; added SIGTERM handler calling worker.close() and kill_timeout = 60 in fly.toml
+k-test-01 | convention | 200 | testing vitest playwright @imp0.8 | vitest.config.ts playwright.config.ts | Unit tests with Vitest next to the file (*.test.ts), e2e with Playwright in e2e/; every bug fix gets a regression test
+k-test-02 | fact | 90 | testing e2e db | e2e/global-setup.ts | Playwright e2e uses a throwaway Neon branch created in e2e/global-setup.ts and deleted after the run; needs NEON_API_KEY in CI
+k-test-03 | fix | 38 | testing flaky | e2e/checkout.spec.ts | Flaky checkout e2e: waited for networkidle which never fires with analytics; switched to waiting on the "Siparişiniz alındı" heading
+k-test-04 | note | 18 | testing coverage | | Coverage threshold set to 70% lines for src/server only; UI components excluded
+k-ci-01 | fact | 150 | ci github actions cache | .github/workflows/ci.yml | CI uses pnpm store cache + turbo remote cache (Vercel token TURBO_TOKEN still used for cache only)
+k-ci-02 | fix | 26 | ci pnpm | .github/workflows/ci.yml | CI broke with ERR_PNPM_OUTDATED_LOCKFILE after a renovate PR; we now run pnpm install --frozen-lockfile and renovate does lockfile maintenance weekly
+k-ci-03 | convention | 85 | ci pr review | .github/pull_request_template.md | PR'lar en az bir onay ve yeşil CI olmadan merge edilmez; squash merge, başlık conventional commit formatında
+k-obs-01 | decision | 145 | sentry monitoring | sentry.client.config.ts | Errors go to Sentry (EU region) with tracesSampleRate 0.1 in prod; session replay disabled because of KVKK
+k-obs-02 | fact | 70 | logging pino | src/server/log.ts | Server logs via pino to stdout, fly forwards them to Better Stack; use log.child({ orderId }) in payment code
+k-sec-01 | convention | 175 | security kvkk pii | src/server/log.ts | Never log TC kimlik no, full card numbers or phone numbers; the pino redact list in src/server/log.ts must be updated when adding PII fields
+k-sec-02 | fact | 60 | security rate limit | src/middleware.ts | Login and /api/payments are rate limited with @upstash/ratelimit (10 req/min per IP) in middleware.ts
+k-sec-03 | fix | 22 | security csp | next.config.mjs | iyzico checkout form was blocked by CSP; added *.iyzipay.com to frame-src and script-src in next.config.mjs headers
+k-perf-01 | note | 48 | perf caching | src/app/(shop)/page.tsx | Home page uses ISR revalidate 300; category pages are dynamic because of stock badges
+k-perf-02 | decision | 68 | perf rsc | | Prefer React Server Components for data fetching; client components only for interactivity (cart drawer, filters)
+k-env-01 | fact | 130 | env secrets | .env.example | Secrets live in fly secrets (flyctl secrets set) and GitHub Actions secrets; .env.example lists every variable, .env.local is gitignored
+k-env-02 | gotcha-note | 44 | env next public | | NEXT_PUBLIC_ variables are inlined at build time; changing them in fly secrets needs a rebuild, not just a restart
+k-monorepo-01 | decision | 280 | monorepo turborepo pnpm | turbo.json pnpm-workspace.yaml | Turborepo monorepo: apps/web, apps/admin, packages/ui, packages/db; shared Prisma client lives in packages/db
+k-admin-01 | fact | 95 | admin panel | apps/admin | Admin panel (apps/admin) is a separate Next app behind Cloudflare Access; only @kervan.com.tr Google accounts
+k-admin-02 | todo | 10 | admin export | apps/admin/src/app/orders | CSV export of orders for muhasebe (accounting) requested by Elif; needs e-fatura number column
+k-seo-01 | fact | 58 | seo sitemap | src/app/sitemap.ts | sitemap.ts generates product URLs in chunks of 5000; robots disallows /sepet and /hesap
+k-seo-02 | decision | 105 | seo slugs | src/lib/slug.ts | Product slugs are Turkish-transliterated (ç->c, ğ->g, ı->i) via slugify in src/lib/slug.ts; old slugs 301 via ProductSlugHistory
+k-ship-01 | fact | 52 | shipping cargo | src/server/shipping | Kargo entegrasyonu Yurtiçi Kargo API ile; takip numarası Order.trackingCode alanında, webhook yok, her saat cron ile durum çekiliyor
+k-ship-02 | fix | 14 | shipping cron | src/jobs/trackShipments.ts | trackShipments cron hit Yurtiçi rate limits; batched to 50 per request and added 1s delay
+k-tax-01 | fact | 88 | tax kdv invoice | src/server/invoice.ts | Prices are KDV dahil (VAT included, 20%); invoice.ts splits net and KDV for e-arşiv fatura via Paraşüt API
+k-tax-02 | gotcha-note | 32 | invoice parasut | src/server/invoice.ts | Paraşüt API tokens expire every 2 hours; the client refreshes on 401 but the refresh token itself lasts only 7 days without use
+k-pin-01 | convention | 320 | style typescript @pin | tsconfig.json | TypeScript strict everywhere; no any — use unknown and narrow with zod
+k-pin-02 | preference | 300 | language @pin | | Kullanıcıya Türkçe yanıt ver, kod ve commit mesajları İngilizce
+k-sess-01 | session | 3 | | src/server/payments/refund.ts src/app/(account)/orders/[id]/page.tsx | Session: started partial refund support; added RefundRequest model, UI button on order detail; tests not written yet
+k-sess-02 | session | 6 | | src/stores/useAuthStore.ts src/app/providers.tsx | Session: fixed avatar hydration mismatch (useAuthStore skipHydration); ran pnpm test, all green
+k-sess-03 | session | 11 | | e2e/checkout.spec.ts | Session: stabilised checkout e2e, removed networkidle waits, CI green 5 runs in a row
+k-sess-04 | session | 20 | | src/jobs/trackShipments.ts | Session: Yurtiçi kargo takip cron'u batch'lendi, rate limit hataları bitti
+k-sess-05 | session | 45 | | prisma/schema.prisma | Session: added composite index on orders(userId, createdAt); explored Neon branching for e2e
+k-dup-01 | fact | 140 | deploy fly | fly.toml | fly.io app kervan-web runs in ams; the queue worker is the "worker" process group in fly.toml
+k-old-01 | fact | 400 | node version | .nvmrc | Node version: 18 LTS (.nvmrc)
+k-new-01 | fact | 60 | node version | .nvmrc | Node version: 20 LTS (.nvmrc), required by next 14.2 and Prisma 5
+k-old-02 | decision | 380 | state | | State management: Redux Toolkit for client state
+k-new-02 | decision | 200 | state zustand | src/stores | State management: zustand stores in src/stores, one store per concern (useAuthStore, useCartStore, useUIStore)
+k-stale-01 | fact | 330 | images | | Product images are served from S3 eu-central-1 bucket kervan-media via CloudFront
+k-misc-01 | note | 5 | meeting | | Elif wants the campaign banner (Black Friday / Efsane Cuma) ready by 20 Nov; banner content comes from the admin CMS table Banner
+k-misc-02 | fact | 85 | feature flags | src/lib/flags.ts | Feature flags are rows in the FeatureFlag table read via isEnabled('new-checkout'); cached 60s in memory
+k-misc-03 | decision | 66 | checkout | src/app/(shop)/checkout | New one-page checkout behind the new-checkout flag; old 3-step checkout removed after 2 weeks of A/B
+k-misc-04 | fact | 40 | analytics | src/lib/analytics.ts | Analytics: Plausible self-hosted (no cookie banner needed); events via track('add_to_cart', props)
+k-misc-05 | gotcha-note | 27 | fly volumes | fly.toml | Meilisearch on fly needs a volume (meili_data) and a single machine; scaling to 2 machines splits the index
+k-misc-06 | note | 9 | perf lighthouse | | Mobile Lighthouse on product page is 71; biggest items are the iyzico script and the reviews widget
+k-misc-07 | fix | 16 | cron timezone | src/jobs/schedule.ts | Daily report cron ran at 03:00 Istanbul instead of 06:00 because BullMQ repeat uses UTC; set tz: 'Europe/Istanbul'
+k-misc-08 | fact | 100 | reviews | src/server/reviews.ts | Only customers with a delivered order can review a product; reviews are moderated in admin before publishing
+k-misc-09 | convention | 70 | api trpc | src/server/api | Server actions for mutations from forms; route handlers only for webhooks and third-party callbacks; no tRPC
+k-misc-10 | fact | 36 | coupons | src/server/coupons.ts | Kupon kodları büyük/küçük harf duyarsız, tek kullanımlık kuponlar CouponRedemption tablosunda unique (couponId,userId)
+k-misc-11 | bug | 7 | coupons rounding | src/server/coupons.ts | Percentage coupons round each line separately so totals can be 1 kuruş off from the summary
+k-misc-12 | todo | 4 | search analytics | | Log zero-result searches to find missing synonyms

@@ -1,0 +1,150 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: test · ${{ matrix.os }} · node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ['22.16', '24']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Node and SQLite versions
+        shell: bash
+        run: |
+          node --version
+          node -e "const {DatabaseSync}=require('node:sqlite');const d=new DatabaseSync(':memory:');console.log('sqlite', d.prepare('select sqlite_version() v').get().v);d.exec(\"create virtual table t using fts5(x, tokenize='trigram')\");console.log('fts5 + trigram ok')"
+      - name: Tests
+        run: npm test
+        env:
+          # never shell out to the real `claude` CLI or touch the runner's agent configs
+          SAM_TEST: '1'
+      - name: Hook latency (report only; Windows and macOS numbers come from here)
+        run: node bench/hook-latency.mjs 20 60
+        continue-on-error: true
+
+  gate:
+    name: unsupported Node gets a clear error (22.15 has node:sqlite without FTS5)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.15.0
+      - name: CLI exits 1 with the version message; hooks exit 0 silently
+        shell: bash
+        run: |
+          set +e
+          node bin/sam.js doctor 2> err.txt; code=$?
+          set -e
+          test "$code" = 1
+          grep -q '22.16' err.txt
+          echo '{}' | node bin/sam.js hook SessionStart --agent claude 2> hook.err
+          test ! -s hook.err
+
+  bench:
+    name: benchmark
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm run bench | tee bench.txt
+      - name: Benchmark summary
+        shell: bash
+        run: |
+          {
+            echo '### Token benchmark'
+            echo '```'
+            cat bench.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  package:
+    name: pack + global install smoke · ${{ matrix.os }} · node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ['22.16', '24']
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: npm pack
+        run: |
+          npm pack --dry-run
+          npm pack
+          ls -l super-agent-memory-*.tgz
+      - name: Install the tarball into a throwaway global prefix
+        run: |
+          npm i -g --prefix "$RUNNER_TEMP/g" ./super-agent-memory-*.tgz
+          # POSIX puts shims in <prefix>/bin, Windows in <prefix>
+          echo "$RUNNER_TEMP/g/bin" >> "$GITHUB_PATH"
+          echo "$RUNNER_TEMP/g" >> "$GITHUB_PATH"
+      - name: Smoke test from an unrelated directory
+        env:
+          SAM_HOME: ${{ runner.temp }}/sam-home
+          SAM_INSTALL_HOME: ${{ runner.temp }}/sam-user
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/elsewhere" && cd "$RUNNER_TEMP/elsewhere"
+          sam --version
+          sam-memory --version
+          super-agent-memory --version
+          sam doctor
+          sam install --all --dry-run
+          # real install into the throwaway home: writes the ~/.sam/bin launcher and self-tests every
+          # installed hook/MCP command through its host's shell (bash/PowerShell/cmd on Windows)
+          sam install --all
+          sam doctor
+          sam uninstall --all
+          # an unknown command / agent is a usage error
+          set +e; sam frobnicate 2>/dev/null; code=$?; set -e; test "$code" = 2
+          set +e; sam install nosuchagent 2>/dev/null; code=$?; set -e; test "$code" = 2
+          sam add "smoke: packaging works from any directory" -k fact
+          sam q "packaging smoke" | grep -q "packaging works"
+          # hook output must be clean JSON or empty, with nothing on stderr (no ExperimentalWarning)
+          echo '{"session_id":"ci","cwd":"'"$PWD"'","source":"startup"}' | sam hook SessionStart --agent claude > hook.out 2> hook.err
+          test ! -s hook.err || { echo "hook wrote to stderr:"; cat hook.err; exit 1; }
+          if [ -s hook.out ]; then node -e "JSON.parse(require('fs').readFileSync('hook.out','utf8'))"; fi
+          # MCP handshake
+          printf '%s\n' \
+            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"0"}}}' \
+            '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+            | sam mcp > mcp.out 2> mcp.err
+          grep -q '"serverInfo"' mcp.out
+          grep -q '"mem_search"' mcp.out
+          test ! -s mcp.err || { cat mcp.err; exit 1; }
+          # output vault keeps the child's exit code
+          set +e; sam run -- node -e "process.exit(3)"; code=$?; set -e
+          test "$code" = 3

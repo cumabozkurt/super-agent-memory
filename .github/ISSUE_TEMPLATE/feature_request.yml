@@ -1,0 +1,29 @@
+name: Feature request
+description: Suggest an improvement or a new host integration
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do, and what gets in the way today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should SAM do? Note the token cost if it adds anything to an agent's context.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: principles
+    attributes:
+      label: Fit with SAM's principles
+      options:
+        - label: Works without new npm dependencies
+        - label: Needs no model call in the hook path

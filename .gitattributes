@@ -1,0 +1,4 @@
+# Keep LF everywhere so tests that compare file contents behave the same on Windows checkouts.
+* text=auto eol=lf
+*.png binary
+*.jpg binary

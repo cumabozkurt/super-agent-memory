@@ -1,0 +1,968 @@
+{
+ "meta": {
+  "seed": 20261007,
+  "writer": "google/gemini-3.8-flash"
+ },
+ "items": [
+  {
+   "id": "dd000",
+   "kind": "decision",
+   "a": "Use Auth0 for client authentication instead of Firebase.",
+   "b": "Decision: Auth0 will be used for client authentication rather than Firebase.",
+   "should_merge": true,
+   "why": "Both record the exact same architectural choice of Auth0 over Firebase."
+  },
+  {
+   "id": "dd001",
+   "kind": "convention",
+   "a": "React hook files must be named using camelCase prefix with `use`, e.g., useWindowSize.ts.",
+   "b": "All custom React hooks should follow camelCase naming starting with `use` (e.g. `useWindowSize.ts`).",
+   "should_merge": true,
+   "why": "Same naming convention for React hooks with trivial phrasing variation."
+  },
+  {
+   "id": "dd002",
+   "kind": "fix",
+   "a": "Fixed Postgres connection exhaustion by setting connection_limit=5 in database URL.",
+   "b": "Resolved DB pool exhaustion in Postgres by adding connection_limit=5 parameter to the Prisma connection string.",
+   "should_merge": true,
+   "why": "Same fix addressing Postgres connection pool exhaustion using connection_limit=5."
+  },
+  {
+   "id": "dd003",
+   "kind": "fact",
+   "a": "Redis cache runs on port 6379 in Docker compose.",
+   "b": "Docker compose ortamında Redis cache 6379 portunda çalışıyor.",
+   "should_merge": true,
+   "why": "Identical technical fact stated in English and Turkish."
+  },
+  {
+   "id": "dd004",
+   "kind": "preference",
+   "a": "Always use pnpm, never run npm or yarn.",
+   "b": "Developer prefers pnpm over npm and yarn for package management.",
+   "should_merge": true,
+   "why": "Both describe the developer's strict package manager preference for pnpm."
+  },
+  {
+   "id": "dd005",
+   "kind": "decision",
+   "a": "Adopt Zustand for global state management; deprecate Redux Toolkit.",
+   "b": "We decided to migrate from Redux Toolkit to Zustand for all global state.",
+   "should_merge": true,
+   "why": "Same architectural migration decision from Redux Toolkit to Zustand."
+  },
+  {
+   "id": "dd006",
+   "kind": "convention",
+   "a": "Commit messages must follow Conventional Commits standard (feat:, fix:, chore:, etc.).",
+   "b": "Enforce Conventional Commits specification for all git commits (e.g. fix:, feat:).",
+   "should_merge": true,
+   "why": "Identical git commit formatting convention."
+  },
+  {
+   "id": "dd007",
+   "kind": "fix",
+   "a": "FastAPI CORS hatası allow_origins listesine staging domaini eklenerek çözüldü.",
+   "b": "Staging domaini FastAPI allow_origins listesine eklendi ve CORS problemi giderildi.",
+   "should_merge": true,
+   "why": "Same fix in Turkish describing how the FastAPI CORS error was resolved."
+  },
+  {
+   "id": "dd008",
+   "kind": "fact",
+   "a": "Production runtime target is Node 20 LTS.",
+   "b": "The project runs on Node v20 LTS in production.",
+   "should_merge": true,
+   "why": "Exact same runtime version fact for production."
+  },
+  {
+   "id": "dd009",
+   "kind": "decision",
+   "a": "All REST endpoints must wrap responses in standard `{ data, error, meta }` envelope.",
+   "b": "Standardize REST API responses to return an object with `{ data, error, meta }`.",
+   "should_merge": true,
+   "why": "Same architectural rule for API response payload structuring."
+  },
+  {
+   "id": "dd010",
+   "kind": "convention",
+   "a": "Use Tailwind CSS utility classes directly; avoid custom CSS unless creating complex keyframe animations.",
+   "b": "Karmaşık animasyonlar haricinde özel CSS yazılmamalı, doğrudan Tailwind utility sınıfları kullanılmalı.",
+   "should_merge": true,
+   "why": "Same CSS convention stating Tailwind utility classes should be used unless complex animations are required."
+  },
+  {
+   "id": "dd011",
+   "kind": "fix",
+   "a": "Next.js standalone build was failing OOM; added NODE_OPTIONS=--max-old-space-size=4096 to Dockerfile.",
+   "b": "Fixed OOM during Next.js build step in Docker by setting NODE_OPTIONS=\"--max-old-space-size=4096\".",
+   "should_merge": true,
+   "why": "Identical bug fix for Next.js Docker build OOM using the same flag and memory size."
+  },
+  {
+   "id": "dd012",
+   "kind": "decision",
+   "a": "Selected Vitest over Jest for unit and integration testing.",
+   "b": "Use Vitest instead of Jest across the repository for all unit/integration tests.",
+   "should_merge": true,
+   "why": "Both capture the choice to adopt Vitest rather than Jest."
+  },
+  {
+   "id": "dd013",
+   "kind": "preference",
+   "a": "Prefer early returns and guard clauses over deeply nested if statements.",
+   "b": "Keep nesting minimal by using guard clauses and returning early.",
+   "should_merge": true,
+   "why": "Both describe the exact same clean code styling preference for early exits."
+  },
+  {
+   "id": "dd014",
+   "kind": "fact",
+   "a": "The frontend SPA is hosted on AWS S3 behind CloudFront CDN.",
+   "b": "AWS CloudFront CDN serves the frontend SPA backed by an S3 bucket.",
+   "should_merge": true,
+   "why": "Same infrastructure deployment topology described with inverted clause order."
+  },
+  {
+   "id": "dd015",
+   "kind": "decision",
+   "a": "Use Tailwind CSS v3 for client UI components.",
+   "b": "Use Tailwind CSS v4 for client UI components.",
+   "should_merge": false,
+   "why": "Different major versions with breaking config differences (v3 vs v4)."
+  },
+  {
+   "id": "dd016",
+   "kind": "convention",
+   "a": "Unit tests must reside in a `__tests__` directory alongside the target file.",
+   "b": "Unit tests must reside in the root `tests/unit` directory mirroring the `src` structure.",
+   "should_merge": false,
+   "why": "Conflicting conventions on test file placement (colocated vs central root directory)."
+  },
+  {
+   "id": "dd017",
+   "kind": "fact",
+   "a": "Backend API gateway listens on port 8080.",
+   "b": "Backend API gateway listens on port 8000.",
+   "should_merge": false,
+   "why": "Different port assignments (8080 vs 8000)."
+  },
+  {
+   "id": "dd018",
+   "kind": "fix",
+   "a": "Fixed memory leak in auth-service by unregistering EventSource listeners on unmount.",
+   "b": "Fixed memory leak in billing-service by unregistering EventSource listeners on unmount.",
+   "should_merge": false,
+   "why": "Different microservices (auth-service vs billing-service)."
+  },
+  {
+   "id": "dd019",
+   "kind": "decision",
+   "a": "Store session tokens in httpOnly cookies for security.",
+   "b": "Store session tokens in localStorage to support offline PWA access.",
+   "should_merge": false,
+   "why": "Opposite security and architecture decisions (httpOnly cookie vs localStorage)."
+  },
+  {
+   "id": "dd020",
+   "kind": "convention",
+   "a": "API hata mesajları daima Türkçe dönmelidir.",
+   "b": "API hata mesajları daima İngilizce dönmelidir.",
+   "should_merge": false,
+   "why": "Contradictory localization standards (Turkish vs English error messages)."
+  },
+  {
+   "id": "dd021",
+   "kind": "preference",
+   "a": "Prefers arrow functions for all component definitions.",
+   "b": "Prefers standard `function` declarations for top-level component definitions.",
+   "should_merge": false,
+   "why": "Conflicting syntax preferences for component declaration."
+  },
+  {
+   "id": "dd022",
+   "kind": "fact",
+   "a": "Database SSL is disabled in development environment.",
+   "b": "Database SSL is required in staging and production environments.",
+   "should_merge": false,
+   "why": "Applies to distinct environments with opposite SSL configuration requirements."
+  },
+  {
+   "id": "dd023",
+   "kind": "decision",
+   "a": "Use cursor-based pagination for the `/feed` endpoint.",
+   "b": "Use offset-based pagination for the `/admin/users` endpoint.",
+   "should_merge": false,
+   "why": "Distinct endpoints requiring intentionally different pagination mechanics."
+  },
+  {
+   "id": "dd024",
+   "kind": "fix",
+   "a": "Resolved null pointer exception in `calculateTax` when discount exceeds total.",
+   "b": "Resolved rounding error in `calculateTax` when dealing with multi-currency conversions.",
+   "should_merge": false,
+   "why": "Two distinct bugs and fixes in the same function."
+  },
+  {
+   "id": "dd025",
+   "kind": "fact",
+   "a": "Primary RDS cluster is hosted in eu-central-1 (Frankfurt).",
+   "b": "Yedek RDS cluster eu-west-1 (Ireland) bölgesinde konumlandırıldı.",
+   "should_merge": false,
+   "why": "Refers to two distinct database clusters in different AWS regions (primary vs backup)."
+  },
+  {
+   "id": "dd026",
+   "kind": "convention",
+   "a": "Utility helper files must use kebab-case (e.g., date-utils.ts).",
+   "b": "React component files must use PascalCase (e.g., DatePicker.tsx).",
+   "should_merge": false,
+   "why": "Two complementary but distinct rules for completely different file types."
+  },
+  {
+   "id": "dd027",
+   "kind": "decision",
+   "a": "Set default log level to `debug` for local development in docker-compose.",
+   "b": "Set default log level to `warn` in production container images.",
+   "should_merge": false,
+   "why": "Different log levels explicitly targeting different execution environments."
+  },
+  {
+   "id": "dd028",
+   "kind": "fix",
+   "a": "Fixed 404 error on `/api/v1/orders` by correcting route prefix.",
+   "b": "Fixed 404 error on `/api/v1/invoices` by correcting route prefix.",
+   "should_merge": false,
+   "why": "Separate fixes affecting different API endpoints."
+  },
+  {
+   "id": "dd029",
+   "kind": "decision",
+   "a": "Implement soft deletes for `User` records using a `deleted_at` timestamp.",
+   "b": "Implement hard deletes for `AuditLog` records older than 90 days.",
+   "should_merge": false,
+   "why": "Different database retention strategies applied to different domain entities."
+  },
+  {
+   "id": "dd030",
+   "kind": "convention",
+   "a": "Git commit mesajları Türkçe ve emir kipiyle yazılmalı.",
+   "b": "Commit mesajlarında Türkçe emir kipi kullanılacak (ör. 'ekle', 'düzelt').",
+   "should_merge": true,
+   "why": "Aynı kuralın farklı kelimelerle ve örnekle detaylandırılmış restatement hali."
+  },
+  {
+   "id": "dd031",
+   "kind": "decision",
+   "a": "Global state yönetimi için Zustand seçildi.",
+   "b": "Projede state management aracı olarak Zustand kullanılacak.",
+   "should_merge": true,
+   "why": "Aynı mimari kararın hafif kelime sırası farkıyla ifadesi."
+  },
+  {
+   "id": "dd032",
+   "kind": "fact",
+   "a": "Local Redis sunucusu 6379 portunda çalışıyor.",
+   "b": "Redis default port: 127.0.0.1:6379",
+   "should_merge": true,
+   "why": "Aynı teknik parametrenin Türkçe tam cümle ve kısa not formatında yazımı."
+  },
+  {
+   "id": "dd033",
+   "kind": "fix",
+   "a": "Axios interceptor'da 401 hatası yakalanıp refreshToken çağrısı tetiklendi.",
+   "b": "401 unauthorized hatasında interceptor üzerinden refresh token akışı sağlandı.",
+   "should_merge": true,
+   "why": "Aynı hata düzeltmesinin eşanlamlı açıklaması."
+  },
+  {
+   "id": "dd034",
+   "kind": "preference",
+   "a": "Paket yöneticisi olarak pnpm tercih edilecek.",
+   "b": "Paket yöneticisi: pnpm (npm veya yarn kullanmayın).",
+   "should_merge": true,
+   "why": "Aynı tercihin parantez içi açıklamayla desteklenmiş eşdeğeri."
+  },
+  {
+   "id": "dd035",
+   "kind": "convention",
+   "a": "React bileşenleri PascalCase olarak adlandırılmalı.",
+   "b": "Bileşen dosya ve fonksiyon isimleri PascalCase formatında olmalıdır.",
+   "should_merge": true,
+   "why": "Aynı isimlendirme kuralının farklı ifadesi."
+  },
+  {
+   "id": "dd036",
+   "kind": "fact",
+   "a": "Minimum Node.js sürümü 20.0.0 olmalı.",
+   "b": "Node engine gereksinimi: >=20.0.0",
+   "should_merge": true,
+   "why": "Node sürüm koşulunun Türkçe ve semver karşılığı."
+  },
+  {
+   "id": "dd037",
+   "kind": "decision",
+   "a": "Styling tarafında Tailwind CSS kullanılmasına karar verildi.",
+   "b": "CSS framework olarak TailwindCSS kullanılacak.",
+   "should_merge": true,
+   "why": "Aynı teknoloji seçiminin restatement'ı."
+  },
+  {
+   "id": "dd038",
+   "kind": "fix",
+   "a": "Docker build sırasında OOM hatasını önlemek için NODE_OPTIONS=--max-old-space-size=4096 tanımlandı.",
+   "b": "Docker derlemesinde memory leak/out of memory için max-old-space-size 4096 olarak set edildi.",
+   "should_merge": true,
+   "why": "Aynı bellek artırımı çözümünün farklı teknik tabirlerle anlatımı."
+  },
+  {
+   "id": "dd039",
+   "kind": "convention",
+   "a": "Tüm REST API hata gövdeleri { error: string, code: number } formatında dönmeli.",
+   "b": "API error response şeması: { error, code }",
+   "should_merge": true,
+   "why": "Aynı API yanıt standardının tam cümle ve şema özeti versiyonu."
+  },
+  {
+   "id": "dd040",
+   "kind": "decision",
+   "a": "Veritabanı migration işlemleri Prisma Migrate ile yönetilecek.",
+   "b": "DB migration aracı: prisma migrate",
+   "should_merge": true,
+   "why": "Aynı veritabanı kararı."
+  },
+  {
+   "id": "dd041",
+   "kind": "fact",
+   "a": "Staging backend URL'i: https://api.staging.example.com",
+   "b": "Staging API ortam adresi https://api.staging.example.com/ olarak ayarlandı.",
+   "should_merge": true,
+   "why": "Sondaki slash haricinde aynı ortam adresi bilgisi."
+  },
+  {
+   "id": "dd042",
+   "kind": "preference",
+   "a": "Girinti (indentation) için 2 space boşluk kullanılacak.",
+   "b": "EditorConfig tab_size: 2 spaces",
+   "should_merge": true,
+   "why": "Aynı kod stili tercihinin iki ayrı ifade biçimi."
+  },
+  {
+   "id": "dd043",
+   "kind": "fix",
+   "a": "CORS hatasını gidermek için Next.js rewrites config'e Access-Control-Allow-Origin başlığı eklendi.",
+   "b": "Access-Control-Allow-Origin header'ı next.config.js içine yazılarak CORS problemi çözüldü.",
+   "should_merge": true,
+   "why": "Aynı dosyadaki aynı CORS çözümünün ters kelime sırasıyla aktarımı."
+  },
+  {
+   "id": "dd044",
+   "kind": "convention",
+   "a": "Custom React hook isimleri kesinlikle 'use' prefix'i ile başlamalı.",
+   "b": "Tüm özel hook'lar 'use' önekiyle adlandırılmalıdır (örn. useAuth).",
+   "should_merge": true,
+   "why": "Aynı convention kuralının ek örnek barındıran hali."
+  },
+  {
+   "id": "dd045",
+   "kind": "fact",
+   "a": "Development ortamında backend 3000 portunda dinliyor.",
+   "b": "Production ortamında backend 8080 portunda dinliyor.",
+   "should_merge": false,
+   "why": "Farklı çalışma ortamları (dev vs prod) ve farklı port numaraları."
+  },
+  {
+   "id": "dd046",
+   "kind": "convention",
+   "a": "Unit testler Vitest ile yazılmalıdır.",
+   "b": "E2E testler Playwright ile yazılmalıdır.",
+   "should_merge": false,
+   "why": "Test kapsamları (unit vs E2E) ve kullanılan kütüphaneler tamamen farklı."
+  },
+  {
+   "id": "dd047",
+   "kind": "decision",
+   "a": "Admin paneli kimlik doğrulamasında Auth0 kullanılacak.",
+   "b": "Müşteri mobil uygulamasında kimlik doğrulaması için Firebase Auth kullanılacak.",
+   "should_merge": false,
+   "why": "Farklı alt sistemler için alınmış iki ayrı kimlik doğrulama kararı."
+  },
+  {
+   "id": "dd048",
+   "kind": "preference",
+   "a": "TypeScript kodlarında satır sonlarında noktalı virgül (semicolon) kullanılmalı.",
+   "b": "TypeScript dosyalarında noktalı virgül (semicolon) kullanılmamalı, prettier semi=false olmalı.",
+   "should_merge": false,
+   "why": "Birbirine zıt/çelişen iki farklı tercih."
+  },
+  {
+   "id": "dd049",
+   "kind": "fact",
+   "a": "Access token süresi 15 dakikadır.",
+   "b": "Refresh token geçerlilik süresi 30 gündür.",
+   "should_merge": false,
+   "why": "Aynı auth mekanizmasında yer alsa da iki farklı token türünün farklı ömürleri."
+  },
+  {
+   "id": "dd050",
+   "kind": "fix",
+   "a": "userService.ts içindeki null pointer hatası optional chaining ile düzeltildi.",
+   "b": "paymentService.ts içindeki null pointer hatası optional chaining ile düzeltildi.",
+   "should_merge": false,
+   "why": "Çözüm yöntemi benzese de tamamen farklı dosya ve işlevlerdeki düzeltmeler."
+  },
+  {
+   "id": "dd051",
+   "kind": "decision",
+   "a": "Yeni sayfalarda Next.js App Router mimarisi uygulanacak.",
+   "b": "Eski raporlama modülü Next.js Pages Router altında kalmaya devam edecek.",
+   "should_merge": false,
+   "why": "Projenin farklı modüllerine uygulanan iki farklı mimari karar."
+  },
+  {
+   "id": "dd052",
+   "kind": "convention",
+   "a": "Kullanıcı verisi silme işlemleri DELETE /api/v1/users/:id endpoint'i ile yapılmalı.",
+   "b": "Kullanıcıyı pasife alma işlemleri PATCH /api/v1/users/:id/status endpoint'i ile yapılmalı.",
+   "should_merge": false,
+   "why": "Silme ve durum güncelleme işlemleri için ayrı ayrı API konvansiyonları."
+  },
+  {
+   "id": "dd053",
+   "kind": "fact",
+   "a": "Production veritabanı PostgreSQL 16 sürümündedir.",
+   "b": "Lokal test ortamında in-memory SQLite veritabanı kullanılır.",
+   "should_merge": false,
+   "why": "Farklı ortamlar için geçerli farklı veritabanı motoru bilgileri."
+  },
+  {
+   "id": "dd054",
+   "kind": "preference",
+   "a": "Feature branch isimleri 'feat/' prefix'i ile açılmalıdır.",
+   "b": "Hata düzeltme branch isimleri 'fix/' öneki ile açılmalıdır.",
+   "should_merge": false,
+   "why": "Branch tipine göre belirlenmiş iki ayrı kural, birbirinin yerine geçemez."
+  },
+  {
+   "id": "dd055",
+   "kind": "fix",
+   "a": "API Gateway tarafında upstream timeout süresi 60 saniyeye çıkarıldı.",
+   "b": "Database connection pool timeout değeri 5 saniyeye düşürüldü.",
+   "should_merge": false,
+   "why": "Farklı katmanlardaki farklı timeout optimizasyonları."
+  },
+  {
+   "id": "dd056",
+   "kind": "convention",
+   "a": "Tüm yardımcı fonksiyonlar (utils) kebab-case ile adlandırılmalı.",
+   "b": "Tüm sabit değerler (constants) UPPER_SNAKE_CASE ile yazılmalı.",
+   "should_merge": false,
+   "why": "Farklı kod ögeleri (utils vs constants) için konvansiyonlar."
+  },
+  {
+   "id": "dd057",
+   "kind": "decision",
+   "a": "Frontend dağıtımı Vercel üzerinde barındırılacak.",
+   "b": "Backend mikroservisleri AWS ECS Fargate üzerinde çalıştırılacak.",
+   "should_merge": false,
+   "why": "Frontend ve backend için ayrı bulut altyapısı kararları."
+  },
+  {
+   "id": "dd058",
+   "kind": "fact",
+   "a": "E-posta gönderim kuyruğunun RabbitMQ exchange adı: notifications.email",
+   "b": "SMS gönderim kuyruğunun RabbitMQ exchange adı: notifications.sms",
+   "should_merge": false,
+   "why": "İki farklı bildirim kanalı için tanımlanmış ayrı kuyruk isimleri."
+  },
+  {
+   "id": "dd059",
+   "kind": "fix",
+   "a": "Sipariş oluşturma sırasındaki race condition Redis distributed lock ile çözüldü.",
+   "b": "Stok güncelleme sırasındaki race condition PostgreSQL SELECT FOR UPDATE ile çözüldü.",
+   "should_merge": false,
+   "why": "Benzer problem türü (race condition) ancak farklı iş mantıkları ve farklı çözüm teknolojileri."
+  },
+  {
+   "id": "dd060",
+   "kind": "decision",
+   "a": "We require Node.js >= 20.10.0 across all microservices.",
+   "b": "Node version must be at least 20.10.0 for all services.",
+   "should_merge": true,
+   "why": "Identical semantic rule with minor rewording and synonym usage."
+  },
+  {
+   "id": "dd061",
+   "kind": "convention",
+   "a": "Always name React component files in PascalCase (e.g., UserProfile.tsx).",
+   "b": "React component files should always use PascalCase, e.g. UserProfile.tsx.",
+   "should_merge": true,
+   "why": "Same convention with identical casing rule and matching example."
+  },
+  {
+   "id": "dd062",
+   "kind": "fact",
+   "a": "Redis production cache is exposed on port 6379.",
+   "b": "Canlı ortamda Redis önbellek portu 6379 olarak belirlendi.",
+   "should_merge": true,
+   "why": "Direct translation between English and Turkish describing the exact same infrastructure configuration."
+  },
+  {
+   "id": "dd063",
+   "kind": "fix",
+   "a": "Resolved token refresh race condition by locking the refresh endpoint with an in-memory mutex.",
+   "b": "Fixed token refresh race condition; added an in-memory mutex around the refresh call.",
+   "should_merge": true,
+   "why": "Same bug fix and implementation detail restated with alternate phrasing."
+  },
+  {
+   "id": "dd064",
+   "kind": "preference",
+   "a": "Developer prefers pnpm over npm or yarn for all package management.",
+   "b": "Use pnpm instead of yarn/npm whenever running install commands.",
+   "should_merge": true,
+   "why": "Expresses the exact same developer tool preference."
+  },
+  {
+   "id": "dd065",
+   "kind": "decision",
+   "a": "Switched Python linter and formatter from Flake8 + Black to Ruff.",
+   "b": "Replaced Black and Flake8 with Ruff for Python formatting and linting.",
+   "should_merge": true,
+   "why": "Same tooling migration decision restated in reverse order."
+  },
+  {
+   "id": "dd066",
+   "kind": "convention",
+   "a": "REST endpoints must use plural nouns for resources (e.g., /api/v1/orders).",
+   "b": "API routes should always pluralize resource names, such as /api/v1/orders.",
+   "should_merge": true,
+   "why": "Equivalent API naming convention with matching route example."
+  },
+  {
+   "id": "dd067",
+   "kind": "fact",
+   "a": "PostgreSQL connection pool max size is set to 25.",
+   "b": "Postgres pool size: max 25 connections.",
+   "should_merge": true,
+   "why": "Terse abbreviated note of the identical configuration limit."
+  },
+  {
+   "id": "dd068",
+   "kind": "fix",
+   "a": "Patched memory leak in LiveDataConsumer by removing the EventEmitter listener in ngOnDestroy.",
+   "b": "LiveDataConsumer: cleaned up EventEmitter listener inside ngOnDestroy to stop memory leak.",
+   "should_merge": true,
+   "why": "Same component, root cause, and lifecycle hook fix described."
+  },
+  {
+   "id": "dd069",
+   "kind": "convention",
+   "a": "Git commit mesajları Conventional Commits formatında olmalı (örn: feat: ..., fix: ...).",
+   "b": "All commit messages must adhere to Conventional Commits specification (e.g. feat:, fix:).",
+   "should_merge": true,
+   "why": "Bilingual duplicate defining the same commit message standard."
+  },
+  {
+   "id": "dd070",
+   "kind": "fact",
+   "a": "Celery uses Redis logical DB 1 as its message broker.",
+   "b": "Celery broker URI points to redis://localhost:6379/1.",
+   "should_merge": true,
+   "why": "Both establish that Redis DB 1 is allocated as the broker."
+  },
+  {
+   "id": "dd071",
+   "kind": "decision",
+   "a": "Adopted Drizzle ORM instead of Prisma due to cold start latency in AWS Lambda.",
+   "b": "Chose Drizzle over Prisma to reduce Lambda cold starts.",
+   "should_merge": true,
+   "why": "Same architectural migration decision with the exact same rationale."
+  },
+  {
+   "id": "dd072",
+   "kind": "convention",
+   "a": "Database migrations must include both up and down SQL scripts.",
+   "b": "DB migration files require both forward and rollback (up/down) steps.",
+   "should_merge": true,
+   "why": "Same database migration schema requirement with synonymous terms."
+  },
+  {
+   "id": "dd073",
+   "kind": "fix",
+   "a": "Added credentials: true to Apollo Server CORS options to allow frontend session cookies.",
+   "b": "Fixed missing session cookie issue by enabling credentials: true in Apollo CORS setup.",
+   "should_merge": true,
+   "why": "Same bug and identical configuration fix applied."
+  },
+  {
+   "id": "dd074",
+   "kind": "fact",
+   "a": "Dokku deployment domain is configured as api.staging.internal.",
+   "b": "Staging Dokku adresi api.staging.internal olarak atandı.",
+   "should_merge": true,
+   "why": "Equivalent factual statement about staging domain in English and Turkish."
+  },
+  {
+   "id": "dd075",
+   "kind": "fact",
+   "a": "Minimum required Node.js runtime version is 18.18.0.",
+   "b": "Minimum required Node.js runtime version is 20.10.0.",
+   "should_merge": false,
+   "why": "Contradictory runtime version numbers."
+  },
+  {
+   "id": "dd076",
+   "kind": "decision",
+   "a": "Use Vitest as the primary unit testing framework for client packages.",
+   "b": "Use Jest as the primary unit testing framework for client packages.",
+   "should_merge": false,
+   "why": "Conflicting framework choices for the same test suite."
+  },
+  {
+   "id": "dd077",
+   "kind": "fact",
+   "a": "Production Redis instance listens on port 6379.",
+   "b": "Staging Redis instance listens on port 6380.",
+   "should_merge": false,
+   "why": "Different environments (production vs staging) and distinct port numbers."
+  },
+  {
+   "id": "dd078",
+   "kind": "convention",
+   "a": "Use PascalCase for React web component filenames.",
+   "b": "Use kebab-case for React Native mobile component filenames.",
+   "should_merge": false,
+   "why": "Different conventions scoped to different platforms (web vs mobile)."
+  },
+  {
+   "id": "dd079",
+   "kind": "fix",
+   "a": "Fixed socket disconnect issue by setting pingTimeout to 30000ms.",
+   "b": "Fixed socket disconnect issue by setting pingTimeout to 60000ms.",
+   "should_merge": false,
+   "why": "Conflicting timeout configuration values (30s vs 60s)."
+  },
+  {
+   "id": "dd080",
+   "kind": "preference",
+   "a": "Developer prefers using Bun for running local scripts.",
+   "b": "Developer prefers using pnpm for running local scripts.",
+   "should_merge": false,
+   "why": "Conflicting package runner preferences."
+  },
+  {
+   "id": "dd081",
+   "kind": "fact",
+   "a": "Celery uses Redis DB 1 for task queuing.",
+   "b": "Celery uses Redis DB 2 for storing task results.",
+   "should_merge": false,
+   "why": "Distinct architectural roles using separate database indices (broker vs backend)."
+  },
+  {
+   "id": "dd082",
+   "kind": "decision",
+   "a": "Store user authentication tokens in httpOnly secure cookies.",
+   "b": "Store user authentication tokens in browser localStorage.",
+   "should_merge": false,
+   "why": "Diametrically opposed and incompatible security storage decisions."
+  },
+  {
+   "id": "dd083",
+   "kind": "convention",
+   "a": "Public REST endpoints must be prefixed with /api/v1.",
+   "b": "Internal REST endpoints must be prefixed with /internal/v1.",
+   "should_merge": false,
+   "why": "Different prefixes scoped to public vs internal APIs."
+  },
+  {
+   "id": "dd084",
+   "kind": "fact",
+   "a": "PostgreSQL max connection pool size is 25 in production.",
+   "b": "PostgreSQL max connection pool size is 5 in development.",
+   "should_merge": false,
+   "why": "Different numeric limits applied to different deployment environments."
+  },
+  {
+   "id": "dd085",
+   "kind": "fix",
+   "a": "Resolved CORS blocking on Apollo Server in auth-service.",
+   "b": "Resolved CORS blocking on Express gateway in payment-service.",
+   "should_merge": false,
+   "why": "Fixes applied to two different microservices and server frameworks."
+  },
+  {
+   "id": "dd086",
+   "kind": "convention",
+   "a": "PR'lar ana dala birleştirilmeden önce en az 1 onay almalıdır.",
+   "b": "PR'lar ana dala birleştirilmeden önce en az 2 onay almalıdır.",
+   "should_merge": false,
+   "why": "Different approval count thresholds in PR review policies."
+  },
+  {
+   "id": "dd087",
+   "kind": "fact",
+   "a": "S3 asset upload bucket is named media-uploads-prod.",
+   "b": "S3 asset upload bucket is named media-uploads-staging.",
+   "should_merge": false,
+   "why": "Distinct bucket names representing separate environments."
+  },
+  {
+   "id": "dd088",
+   "kind": "fix",
+   "a": "Resolved hydration error in NavbarComponent by wrapping dynamic date with client-only check.",
+   "b": "Resolved hydration error in FooterComponent by wrapping dynamic date with client-only check.",
+   "should_merge": false,
+   "why": "Fixes addressing distinct components (NavbarComponent vs FooterComponent)."
+  },
+  {
+   "id": "dd089",
+   "kind": "decision",
+   "a": "Deploy application containers using AWS ECS Fargate.",
+   "b": "Deploy application containers using Google Cloud Run.",
+   "should_merge": false,
+   "why": "Mutually exclusive target cloud deployment services."
+  },
+  {
+   "id": "dd090",
+   "kind": "fix",
+   "a": "Auth token expired bug fixed by adding a refresh token interceptor in apiClient.ts",
+   "b": "apiClient.ts dosyasına refresh token interceptor eklenerek süresi biten auth token hatası giderildi.",
+   "should_merge": true,
+   "why": "Both describe the exact same fix for token expiration using an interceptor in apiClient.ts in Turkish and English."
+  },
+  {
+   "id": "dd091",
+   "kind": "fix",
+   "a": "Safari date parsing NaN issue resolved by replacing '-' with '/' in date strings before parsing",
+   "b": "Fixed NaN date bug on Safari: formatted date strings with '/' instead of '-'",
+   "should_merge": true,
+   "why": "Identical bug and fix regarding Safari date parsing and hyphen-to-slash replacement."
+  },
+  {
+   "id": "dd092",
+   "kind": "fix",
+   "a": "Memory leak in WebSocket client closed by invoking ws.removeAllListeners() inside cleanup()",
+   "b": "WebSocket bellek sızıntısı: cleanup() fonksiyonu içinde ws.removeAllListeners() çağrılarak temizlendi",
+   "should_merge": true,
+   "why": "Same WebSocket memory leak resolution using removeAllListeners in cleanup."
+  },
+  {
+   "id": "dd093",
+   "kind": "fix",
+   "a": "PostgreSQL connection pool exhausted during bulk export; resolved by batching records in chunks of 500",
+   "b": "Bulk export sırasında PG connection pool patlıyordu, 500'lük chunklar halinde batchlenerek çözüldü.",
+   "should_merge": true,
+   "why": "Same issue with PostgreSQL connection pool exhaustion during export fixed by 500-item chunks."
+  },
+  {
+   "id": "dd094",
+   "kind": "fix",
+   "a": "CORS error on /api/v1/webhooks fixed by explicitly adding POST to Fastify allowed CORS methods",
+   "b": "Fastify CORS options updated to explicitly allow POST to fix CORS error on /api/v1/webhooks",
+   "should_merge": true,
+   "why": "Restatement of allowing POST method in Fastify CORS config for /api/v1/webhooks."
+  },
+  {
+   "id": "dd095",
+   "kind": "fix",
+   "a": "Docker build fails on Apple Silicon M1; fixed by passing --platform linux/amd64 to docker buildx",
+   "b": "M1 Mac üzerinde Docker build hatası: buildx komutuna --platform linux/amd64 parametresi eklenerek çözüldü.",
+   "should_merge": true,
+   "why": "Same Docker build fix on Apple Silicon specifying the linux/amd64 platform."
+  },
+  {
+   "id": "dd096",
+   "kind": "fix",
+   "a": "Redis OOM crash mitigated by setting maxmemory-policy allkeys-lru in redis.conf",
+   "b": "redis.conf içinde maxmemory-policy allkeys-lru tanımlanarak Redis OOM çökmesi önlendi",
+   "should_merge": true,
+   "why": "Same Redis OOM fix via maxmemory-policy allkeys-lru configuration."
+  },
+  {
+   "id": "dd097",
+   "kind": "fix",
+   "a": "Next.js 14 hydration error fixed by adding suppressHydrationWarning to the <body> tag",
+   "b": "Next.js 14 hydration mismatch resolved: suppressHydrationWarning added to body element",
+   "should_merge": true,
+   "why": "Exact same hydration error workaround on the body tag in Next.js 14."
+  },
+  {
+   "id": "dd098",
+   "kind": "fix",
+   "a": "Stripe webhook signature verification failure fixed by mounting express.raw({ type: 'application/json' }) before express.json()",
+   "b": "Stripe webhook imza doğrulama hatası express.raw middleware'i express.json önüne alınarak çözüldü",
+   "should_merge": true,
+   "why": "Same root cause and fix for Stripe signature validation in Express via express.raw."
+  },
+  {
+   "id": "dd099",
+   "kind": "fix",
+   "a": "Null pointer when avatar is null in UserCard.vue fixed with optional chaining user?.avatarUrl",
+   "b": "UserCard.vue: user?.avatarUrl optional chaining ile profil resmi null gelme hatası giderildi",
+   "should_merge": true,
+   "why": "Same component and code fix for null avatar handling."
+  },
+  {
+   "id": "dd100",
+   "kind": "fix",
+   "a": "Prisma migration timeout on staging resolved by setting migration_engine timeout to 120s",
+   "b": "Staging Prisma migration timeout sorunu timeout süresi 120 saniyeye çıkarılarak çözüldü",
+   "should_merge": true,
+   "why": "Same environment, tool, and 120s timeout adjustment."
+  },
+  {
+   "id": "dd101",
+   "kind": "fix",
+   "a": "S3 multipart upload 403 error solved by attaching s3:AbortMultipartUpload action to worker IAM role",
+   "b": "S3 multipart upload 403 hatası worker IAM rolüne s3:AbortMultipartUpload izni verilerek giderildi",
+   "should_merge": true,
+   "why": "Same AWS IAM permission fix for S3 multipart uploads."
+  },
+  {
+   "id": "dd102",
+   "kind": "fix",
+   "a": "Infinite re-render in DashboardPage caused by missing dependency array in useEffect; added []",
+   "b": "DashboardPage infinite loop bug: added missing empty dependency array to useEffect",
+   "should_merge": true,
+   "why": "Identical React re-render bug fixed with empty dependency array in DashboardPage."
+  },
+  {
+   "id": "dd103",
+   "kind": "fix",
+   "a": "Celery worker deadlock during database reconnect fixed by setting acks_late=False",
+   "b": "Celery DB yeniden bağlanma sırasındaki deadlock acks_late=False yapılarak çözüldü",
+   "should_merge": true,
+   "why": "Same Celery task configuration fix disabling late ack to avoid deadlock."
+  },
+  {
+   "id": "dd104",
+   "kind": "fix",
+   "a": "Android keyboard pushes footer upwards in React Native; fixed via android:windowSoftInputMode=\"adjustPan\"",
+   "b": "React Native Android klavyenin footer'ı yukarı itmesi adjustPan soft input modu ile düzeltildi",
+   "should_merge": true,
+   "why": "Same mobile layout issue and Android manifest fix."
+  },
+  {
+   "id": "dd105",
+   "kind": "fix",
+   "a": "Redis OOM crash mitigated by setting maxmemory-policy allkeys-lru in redis.conf",
+   "b": "Redis OOM crash mitigated by setting maxmemory-policy volatile-lru in redis.conf",
+   "should_merge": false,
+   "why": "Different eviction policies (allkeys-lru evicts any key, volatile-lru only evicts keys with TTL)."
+  },
+  {
+   "id": "dd106",
+   "kind": "fix",
+   "a": "CORS error on /api/v1/webhooks fixed by adding POST to Fastify allowed CORS methods",
+   "b": "CORS error on /api/v1/auth fixed by adding POST to Fastify allowed CORS methods",
+   "should_merge": false,
+   "why": "Targets two distinct API endpoints (/webhooks vs /auth)."
+  },
+  {
+   "id": "dd107",
+   "kind": "fix",
+   "a": "Auth token expired bug fixed by adding refresh token interceptor in frontend apiClient.ts",
+   "b": "Auth token expired bug fixed by increasing backend JWT expiration time to 24h",
+   "should_merge": false,
+   "why": "Completely different architectural solutions (frontend auto-refresh vs backend token lifetime increase)."
+  },
+  {
+   "id": "dd108",
+   "kind": "fix",
+   "a": "Memory leak in WebSocket client closed by invoking ws.removeAllListeners() inside cleanup()",
+   "b": "Memory leak in WebSocket server closed by calling clearInterval(heartbeatInterval) on disconnect",
+   "should_merge": false,
+   "why": "Different sides of the connection (client cleanup vs server heartbeat cleanup)."
+  },
+  {
+   "id": "dd109",
+   "kind": "fix",
+   "a": "Next.js 14 hydration mismatch resolved: suppressHydrationWarning added to Header.tsx",
+   "b": "Next.js 14 hydration mismatch resolved: suppressHydrationWarning added to Footer.tsx",
+   "should_merge": false,
+   "why": "Applies to two completely different UI components."
+  },
+  {
+   "id": "dd110",
+   "kind": "fix",
+   "a": "Prisma migration timeout on staging resolved by setting timeout to 120s",
+   "b": "Prisma migration timeout on production resolved by setting timeout to 300s",
+   "should_merge": false,
+   "why": "Different environments (staging vs production) and different timeout values (120s vs 300s)."
+  },
+  {
+   "id": "dd111",
+   "kind": "fix",
+   "a": "Null pointer when avatar is null in UserCard.vue fixed with optional chaining user?.avatarUrl",
+   "b": "Null pointer when avatar is null in UserCard.vue fixed by defining default prop defaultAvatarUrl",
+   "should_merge": false,
+   "why": "Different fix mechanisms (optional chaining expression vs default component prop)."
+  },
+  {
+   "id": "dd112",
+   "kind": "fix",
+   "a": "React Native Android klavye footer'ı yukarı itme sorunu adjustPan ile çözüldü",
+   "b": "React Native Android klavye footer'ı yukarı itme sorunu adjustResize ile çözüldü",
+   "should_merge": false,
+   "why": "Mutually exclusive Android window soft input modes (adjustPan vs adjustResize)."
+  },
+  {
+   "id": "dd113",
+   "kind": "fix",
+   "a": "S3 multipart upload 403 error solved by attaching s3:AbortMultipartUpload action to IAM role",
+   "b": "S3 multipart upload 403 error solved by adding s3:PutObjectTagging to worker IAM policy",
+   "should_merge": false,
+   "why": "Different IAM permissions granted for different root causes."
+  },
+  {
+   "id": "dd114",
+   "kind": "fix",
+   "a": "Celery worker memory leak fixed by setting max_tasks_per_child=100 in celery.py",
+   "b": "Celery worker memory leak fixed by configuring max_memory_per_child=200000 in celery.py",
+   "should_merge": false,
+   "why": "Different configuration parameters for worker recycling (task count vs memory threshold)."
+  },
+  {
+   "id": "dd115",
+   "kind": "fix",
+   "a": "Safari date parsing NaN issue fixed in utils/formatDate.ts",
+   "b": "Safari date parsing NaN issue fixed in hooks/useDatePicker.ts",
+   "should_merge": false,
+   "why": "Fixed in two distinct files with different scopes."
+  },
+  {
+   "id": "dd116",
+   "kind": "fix",
+   "a": "Docker build fails on Apple Silicon M1; fixed by passing --platform linux/amd64 to buildx",
+   "b": "Docker build fails on Apple Silicon M1; fixed by switching base image from alpine to debian-slim",
+   "should_merge": false,
+   "why": "Two completely different solutions to a build failure."
+  },
+  {
+   "id": "dd117",
+   "kind": "fix",
+   "a": "Stripe webhook 400 error caused by invalid signing secret in environment variables",
+   "b": "Stripe webhook 400 error caused by missing express.raw() body parser",
+   "should_merge": false,
+   "why": "Different root causes for Stripe webhook failure (bad env secret vs raw body parsing missing)."
+  },
+  {
+   "id": "dd118",
+   "kind": "fix",
+   "a": "Infinite loop in useAuth hook fixed by memoizing fetchUser callback with useCallback",
+   "b": "Infinite loop in useAuth hook fixed by removing token from useEffect dependency list",
+   "should_merge": false,
+   "why": "Different code-level fixes to solve the infinite loop."
+  },
+  {
+   "id": "dd119",
+   "kind": "fix",
+   "a": "Elasticsearch query latency resolved by setting routing key to organization_id",
+   "b": "Elasticsearch query latency resolved by increasing cluster JVM heap size to 16GB",
+   "should_merge": false,
+   "why": "Different levels of optimization (index routing design vs JVM infrastructure change)."
+  }
+ ]
+}

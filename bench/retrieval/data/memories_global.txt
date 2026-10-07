@@ -1,0 +1,32 @@
+# global memories — apply to every project
+@project global
+g-pref-01 | preference | 300 | language replies @pin | | Bana Türkçe cevap ver; kod, yorumlar ve commit mesajları İngilizce olsun
+g-pref-02 | preference | 280 | git commits | | Commit messages follow Conventional Commits (feat:, fix:, chore:), imperative mood, no emojis
+g-pref-03 | preference | 260 | git safety @imp0.9 | | Never force-push to main or master; force-with-lease only on my own feature branches
+g-pref-04 | preference | 200 | pr size | | Küçük PR'ları tercih ederim: 400 satırı geçen değişiklikleri parçalara böl
+g-pref-05 | preference | 240 | node package manager | | For Node projects prefer pnpm over npm or yarn unless the repo already uses something else
+g-pref-06 | preference | 150 | testing before commit | | Run the test suite and the linter before every commit; do not commit with failing tests
+g-pref-07 | preference | 120 | style comments | | Keep code comments short and explain why, not what; no commented-out code
+g-pref-08 | preference | 90 | explanations | | Uzun açıklama yazma, önce kodu göster sonra 2-3 cümle açıklama yeter
+g-pref-09 | preference | 180 | typescript style | | In TypeScript prefer type aliases over interfaces except for public library APIs; named exports only, no default exports
+g-pref-10 | preference | 210 | editor formatting | | Indentation is 2 spaces for JS/TS/JSON/YAML, 4 for Python; LF line endings
+g-env-01 | fact | 170 | machine macos | | My machine is a MacBook Pro M2 (arm64) running macOS 15; shell is fish, terminal is Ghostty
+g-env-02 | fact | 140 | docker orbstack | | I use OrbStack instead of Docker Desktop; docker compose commands work the same
+g-env-03 | fact | 60 | gpg signing | | Git commits are signed with SSH signing (gpg.format ssh), key in 1Password SSH agent
+g-env-04 | fact | 100 | timezone | | I am in Istanbul (Europe/Istanbul, UTC+3, no DST); schedule cron jobs in this timezone when it's user-facing
+g-env-05 | gotcha-note | 45 | 1password ssh agent | | If git push hangs, the 1Password SSH agent is waiting for Touch ID approval
+g-rule-01 | convention | 230 | secrets env | | Never paste real secrets into code, tests or memory; use .env files that are gitignored and keep .env.example updated
+g-rule-02 | convention | 160 | dependencies | | Ask before adding a new runtime dependency; prefer the standard library or what the project already uses
+g-rule-03 | convention | 130 | destructive commands | | Ask before running destructive commands: rm -rf outside the repo, DROP TABLE, git reset --hard, deleting branches
+g-rule-04 | convention | 75 | migrations prod | | Production database migrations are never run from my laptop; only through the project's CI/CD pipeline
+g-rule-05 | convention | 110 | errors | | Do not swallow errors: no empty catch blocks; log with context or rethrow
+g-tool-01 | fact | 190 | editor | | Editor is Cursor with Vim mode; I also use Claude Code and Codex in the terminal
+g-tool-02 | fact | 80 | github cli | | GitHub CLI (gh) is authenticated; use gh pr create --fill and gh pr checks instead of the web UI
+g-tool-03 | fact | 55 | linear | | Tickets are in Linear; branch names include the ticket id
+g-know-01 | note | 70 | turkish locale gotcha | | Turkish locale gotcha: "i".toUpperCase() in tr-TR gives "İ"; use toLocaleUpperCase('en-US') for identifiers and keys
+g-know-02 | note | 35 | dates | | When parsing date-only strings (YYYY-MM-DD) in JS, new Date() treats them as UTC; use a date library or construct local dates
+g-know-03 | note | 150 | http clients | | For Python HTTP prefer httpx over requests (async support, timeouts by default)
+g-sess-01 | session | 8 | | | Session: set up SSH commit signing with 1Password, updated global gitconfig
+g-auto-01 | fix | 30 | | | `git push` failed (Permission denied (publickey)) → fixed via ~/.ssh/config
+g-pref-11 | preference | 20 | reviews | | When reviewing my code, list problems by severity (blocker, should-fix, nit) and skip praise
+g-pref-12 | preference | 65 | naming | | Değişken isimlerinde kısaltma kullanma (usr, cfg yerine user, config); boolean'lar is/has/can ile başlasın

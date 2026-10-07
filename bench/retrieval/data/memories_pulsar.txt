@@ -1,0 +1,86 @@
+# project: pulsar — Python FastAPI event-ingestion / analytics API, Postgres + ClickHouse, Celery, k8s (GKE) via Helm + ArgoCD
+@project pulsar
+p-deploy-01 | decision | 240 | deploy argocd gitops @imp0.85 | deploy/helm/pulsar | Releases are GitOps: CI builds the image and bumps image.tag in deploy/helm/pulsar/values-prod.yaml, ArgoCD syncs it to GKE; nobody runs kubectl apply or helm upgrade by hand || Decided after an incident where a hand-run helm upgrade used a stale values file and dropped the HPA. ArgoCD auto-sync is on for staging, manual sync button for prod.
+p-deploy-02 | fact | 130 | deploy argocd | deploy/argocd/app-prod.yaml | Prod ArgoCD app is pulsar-prod in the argocd namespace; sync is manual, staging (pulsar-staging) auto-syncs from main
+p-deploy-03 | fix | 70 | deploy k8s probes | deploy/helm/pulsar/templates/deployment.yaml | Pods were killed during rollout because the readiness probe hit /health before Alembic finished; added a separate migration Job (pre-sync hook) and /ready endpoint
+p-deploy-04 | convention | 110 | release tags | | Release tag'leri vYYYY.MM.DD-N formatında; prod sync'ten önce #pulsar-releases kanalına changelog yazılır
+p-deploy-05 | note | 30 | deploy canary | deploy/helm/pulsar/values-prod.yaml | Canary: set canary.weight in values-prod.yaml (Argo Rollouts), 10% for 30 min, watch p99 in Grafana before promoting
+p-db-01 | fact | 160 | database pool asyncpg | src/pulsar/db.py | PG_POOL_MAX: 20 (asyncpg pool size per pod); PG_POOL_MIN 5
+p-db-02 | fact | 25 | database pool asyncpg | src/pulsar/db.py | PG_POOL_MAX: 40 per pod since the move to Cloud SQL Enterprise Plus (max_connections 800); keep pods*PG_POOL_MAX under 600 || Raised from 20 after connection-acquire timeouts during the Monday batch import. 12 pods * 40 = 480.
+p-db-03 | decision | 300 | database sqlalchemy @imp0.9 | src/pulsar/models | SQLAlchemy 2.0 async ORM with asyncpg driver; raw SQL only in src/pulsar/queries/ for reporting queries
+p-db-04 | convention | 200 | database alembic migrations | alembic/versions | Every schema change is an Alembic revision generated with alembic revision --autogenerate and then hand-reviewed; never edit an applied revision
+p-db-05 | fix | 85 | database alembic | alembic/env.py | Autogenerate kept emitting drop/create for enum types; fixed by compare_type=False and handling enums manually with op.execute
+p-db-06 | gotcha-note | 55 | database locks migrations | | Adding a NOT NULL column with default on the events_raw table locks it for minutes; add nullable, backfill in batches, then set NOT NULL
+p-db-07 | fact | 120 | database cloud sql proxy | deploy/helm/pulsar/templates/deployment.yaml | Pods connect to Cloud SQL through the cloud-sql-proxy sidecar on 127.0.0.1:5432; local dev uses docker compose postgres:16
+p-ch-01 | decision | 220 | clickhouse analytics events | src/pulsar/clickhouse | Raw events go to ClickHouse (MergeTree partitioned by toYYYYMM(ts)); Postgres keeps only accounts, projects and API keys || Postgres events table hit 2B rows and aggregations took minutes.
+p-ch-02 | fact | 90 | clickhouse insert batching | src/pulsar/ingest/writer.py | ClickHouse inserts are batched: flush every 5000 rows or 2s, whichever first (writer.py); single-row inserts create too many parts
+p-ch-03 | fix | 40 | clickhouse too many parts | src/pulsar/ingest/writer.py | "Too many parts" errors on ClickHouse after deploy: two writers per pod; fixed by making the writer a singleton per process
+p-ch-04 | gotcha-note | 18 | clickhouse ttl | | ClickHouse TTL for events is 13 months; GDPR delete uses ALTER TABLE ... DELETE which is async (mutation), check system.mutations
+p-api-01 | convention | 210 | api fastapi routers | src/pulsar/api | One APIRouter per resource in src/pulsar/api/<resource>.py; request/response models in schemas.py with Pydantic v2, never return ORM objects directly
+p-api-02 | fact | 150 | api auth keys | src/pulsar/auth/api_keys.py | API keys are shown once, stored as argon2id hash plus an 8-char prefix (pk_live_abcd1234) for lookup
+p-api-03 | decision | 175 | api versioning | src/pulsar/api | API versioned in the URL (/v1, /v2); v1 is frozen, breaking changes only in v2
+p-api-04 | fact | 60 | api rate limit | src/pulsar/middleware/ratelimit.py | Rate limit is 1000 req/min per API key using a Redis sliding window; returns 429 with Retry-After
+p-api-05 | fix | 33 | api pydantic | src/pulsar/api/schemas.py | 422 errors for timestamps with Z suffix after the Pydantic v2 upgrade; switched field type to AwareDatetime
+p-api-06 | todo | 9 | api pagination | src/pulsar/api/events.py | Replace offset pagination on /v2/events with cursor pagination (offset > 10k times out)
+p-api-07 | bug | 6 | api cors | src/pulsar/main.py | CORS preflight fails for the dashboard on the staging domain; allow_origins is missing https://app.staging.pulsar.dev
+p-auth-01 | decision | 140 | auth jwt rotation | src/pulsar/auth/jwt.py | Dashboard auth uses short-lived JWTs (15 min) with rotating refresh tokens stored hashed in Postgres; reuse of a refresh token revokes the whole family
+p-auth-02 | fact | 75 | auth jwks | src/pulsar/auth/jwt.py | JWT signing keys rotate monthly; public keys served at /.well-known/jwks.json, kid in header
+p-celery-01 | fact | 165 | celery redis queues | src/pulsar/tasks | Background jobs: Celery with Redis broker; queues default, reports, exports; workers deployed as pulsar-worker deployment
+p-celery-02 | fix | 65 | celery memory | src/pulsar/tasks/exports.py | Export workers OOMKilled on large CSV exports; now stream rows with yield_per(5000) and write to GCS in chunks, plus worker_max_tasks_per_child=50
+p-celery-03 | gotcha-note | 48 | celery beat | | Celery beat must run as exactly one replica; two beat pods sent every scheduled report twice
+p-celery-04 | convention | 95 | celery tasks idempotent | src/pulsar/tasks | Görevler idempotent olmalı: her task bir idempotency_key alır ve tamamlananlar task_runs tablosuna yazılır
+p-test-01 | convention | 190 | testing pytest @imp0.8 | pyproject.toml tests | Tests with pytest + pytest-asyncio, run in parallel with pytest -n auto; integration tests marked @pytest.mark.integration and need docker compose up
+p-test-02 | fact | 100 | testing fixtures db | tests/conftest.py | Each test runs in a transaction rolled back at the end (conftest.py db_session fixture); ClickHouse tests use a per-worker database pulsar_test_gw0..N
+p-test-03 | fix | 44 | testing flaky asyncio | tests/conftest.py | "Event loop is closed" flakes with pytest-xdist; fixed by setting asyncio_mode=auto and scope="session" loop fixture
+p-test-04 | fact | 70 | testing factories | tests/factories.py | Test data via factory_boy factories in tests/factories.py (AccountFactory, ApiKeyFactory, EventFactory)
+p-tool-01 | decision | 130 | tooling uv deps | pyproject.toml uv.lock | Dependency management with uv (uv.lock committed); poetry removed; add deps with uv add, never pip install into the venv
+p-tool-02 | convention | 180 | tooling ruff mypy lint | pyproject.toml | ruff for lint+format (line length 100) and mypy --strict on src/; pre-commit runs both
+p-tool-03 | fix | 50 | tooling mypy | pyproject.toml | mypy complained about missing stubs for clickhouse-connect; added it to ignore_missing_imports override instead of type: ignore everywhere
+p-tool-04 | fact | 140 | tooling python version | .python-version | Python version: 3.12 (.python-version), the Docker base image is python:3.12-slim
+p-tool-05 | fact | 420 | tooling python version | .python-version | Python version: 3.10
+p-obs-01 | decision | 155 | observability otel | src/pulsar/telemetry.py | Tracing with OpenTelemetry SDK exporting OTLP to Grafana Tempo; metrics via Prometheus /metrics scraped by Grafana Agent
+p-obs-02 | fact | 80 | observability dashboards | | Grafana dashboard "Pulsar / Ingest" shows events/s, ClickHouse flush latency and Celery queue depth; alerts route to #pulsar-alerts
+p-obs-03 | fix | 28 | observability logs | src/pulsar/logging.py | Logs were not correlated with traces; added trace_id/span_id to the structlog JSON processor
+p-obs-04 | convention | 120 | logging structlog | src/pulsar/logging.py | Logging via structlog JSON only, no print(); log keys snake_case, never log raw API keys or event payloads
+p-ingest-01 | fact | 110 | ingest pipeline | src/pulsar/ingest | Ingest path: POST /v1/track -> validate -> enqueue in Redis stream events:in -> writer pods batch to ClickHouse; the API never writes to ClickHouse directly
+p-ingest-02 | decision | 100 | ingest redis streams kafka | src/pulsar/ingest | Redis Streams instead of Kafka for the ingest buffer: volume is ~3k events/s, Kafka ops cost not justified; revisit above 20k/s
+p-ingest-03 | fix | 22 | ingest backpressure | src/pulsar/ingest/writer.py | Redis memory spiked when ClickHouse was slow; added MAXLEN ~ 5,000,000 on XADD and a 503 when stream lag exceeds 2M
+p-ingest-04 | gotcha-note | 15 | ingest clock skew | | Client timestamps can be days in the future (bad phone clocks); clamp ts to server time + 5 min and keep the original in client_ts
+p-k8s-01 | fact | 145 | k8s hpa resources | deploy/helm/pulsar/values-prod.yaml | API pods: requests 500m CPU / 512Mi, limits 1 CPU / 1Gi; HPA 4–12 replicas at 65% CPU
+p-k8s-02 | fix | 58 | k8s oom gunicorn | Dockerfile | API pods OOM after a week: gunicorn workers leaked; now uvicorn workers=2 with --limit-max-requests 10000
+p-k8s-03 | fact | 90 | k8s secrets | deploy/helm/pulsar/templates/externalsecret.yaml | Secrets come from Google Secret Manager via External Secrets Operator; never put secrets in values files
+p-k8s-04 | note | 35 | k8s cost | | GKE node pool switched to spot VMs for workers (not API) to cut cost ~45%; workers must tolerate preemption
+p-sec-01 | fact | 105 | security gdpr | src/pulsar/privacy.py | IP addresses are truncated to /24 (IPv4) and /48 (IPv6) before storage for GDPR; full IP is never written
+p-sec-02 | convention | 160 | security secrets | | Secrets must never be committed; gitleaks runs in pre-commit and CI, a hit fails the build
+p-sec-03 | fix | 47 | security ssrf | src/pulsar/webhooks.py | Webhook URLs could target internal IPs (SSRF); now resolved and blocked for private ranges before sending
+p-wh-01 | fact | 88 | webhooks retry | src/pulsar/webhooks.py | Outgoing webhooks are signed with HMAC-SHA256 header X-Pulsar-Signature, retried with exponential backoff up to 8 times over ~24h
+p-report-01 | fact | 72 | reports celery pdf | src/pulsar/tasks/reports.py | Weekly reports rendered with WeasyPrint to PDF and emailed via Postmark every Monday 08:00 Europe/Istanbul
+p-report-02 | fix | 31 | reports fonts | Dockerfile | Turkish characters (ş, ğ, İ) rendered as boxes in PDF reports; installed fonts-dejavu in the Docker image
+p-billing-01 | decision | 115 | billing stripe | src/pulsar/billing | Billing via Stripe Billing with metered usage; usage reported hourly from ClickHouse counts, not per event
+p-billing-02 | gotcha-note | 39 | billing stripe webhooks | src/pulsar/billing/webhooks.py | Stripe webhooks can arrive out of order; always re-fetch the subscription from Stripe instead of trusting the event payload
+p-billing-03 | todo | 12 | billing invoices | | Send a usage warning email at 80% of the plan quota
+p-cache-01 | fact | 67 | cache redis | src/pulsar/cache.py | Project settings cached in Redis for 60s with key proj:{id}:settings; invalidate on PATCH /v2/projects/{id}
+p-dev-01 | fact | 125 | dev setup docker compose | docker-compose.yml Makefile | Local setup: make dev starts postgres, redis, clickhouse via docker compose and runs uvicorn --reload on :8000
+p-dev-02 | gotcha-note | 52 | dev apple silicon | docker-compose.yml | clickhouse image on Apple Silicon needs platform: linux/arm64 and ulimits nofile 262144 or it exits silently
+p-sess-01 | session | 2 | | src/pulsar/api/events.py | Session: started cursor pagination for /v2/events, wrote encode/decode cursor helpers, tests failing on ordering ties
+p-sess-02 | session | 5 | | src/pulsar/db.py deploy/helm/pulsar/values-prod.yaml | Session: raised PG_POOL_MAX to 40 after acquire timeouts; checked Cloud SQL max_connections
+p-sess-03 | session | 13 | | src/pulsar/ingest/writer.py | Session: added XADD MAXLEN and 503 backpressure on ingest; load-tested at 8k events/s
+p-sess-04 | session | 24 | | src/pulsar/logging.py | Session: logs ile trace'ler birleştirildi, structlog'a trace_id eklendi
+p-auto-01 | fix | 19 | | src/pulsar/api/schemas.py | `pytest -n auto` failed (AssertionError: 422 != 200) → fixed via src/pulsar/api/schemas.py
+p-auto-02 | fix | 29 | | alembic/versions/0042_add_retention.py | `alembic upgrade head` failed (DuplicateObject: type "plan_tier" already exists) → fixed via alembic/versions/0042_add_retention.py
+p-auto-03 | fix | 61 | | src/pulsar/tasks/exports.py | `pytest tests/tasks` failed (MemoryError) → fixed via src/pulsar/tasks/exports.py
+p-auto-04 | fix | 11 | | Dockerfile | `docker build .` failed (uv: lockfile out of date) → fixed via uv.lock Dockerfile
+p-dup-01 | convention | 150 | tests pytest | pyproject.toml | Run tests in parallel with pytest -n auto; integration tests are marked integration and require docker compose services
+p-dup-02 | fact | 60 | rate limit api | src/pulsar/middleware/ratelimit.py | API rate limiting: 1000 requests per minute per key, Redis sliding window, 429 + Retry-After header
+p-misc-01 | fact | 45 | sdk js | sdks/js | JS SDK lives in sdks/js, published to npm as @pulsar/browser; batches events every 10s or 20 events with sendBeacon on unload
+p-misc-02 | decision | 82 | sdk python | sdks/python | Python SDK is sync-first (httpx.Client) with an optional AsyncClient; no background threads by default
+p-misc-03 | note | 20 | oncall | | On-call rotation is weekly (PagerDuty schedule pulsar-primary); runbooks in docs/runbooks/*.md
+p-misc-04 | fact | 140 | docs openapi | docs/ | Public API docs generated from FastAPI OpenAPI and published with Mintlify on docs.pulsar.dev
+p-misc-05 | gotcha-note | 37 | timezones | src/pulsar/queries | Reporting queries must convert with toTimeZone(ts, project.timezone) in ClickHouse; daily buckets in UTC confused customers
+p-misc-06 | bug | 4 | exports encoding | src/pulsar/tasks/exports.py | CSV exports open garbled in Excel for Turkish customers; need UTF-8 BOM
+p-misc-07 | decision | 230 | multitenancy | src/pulsar/models | Multi-tenancy by account_id column on every table plus Postgres RLS policies; no schema-per-tenant
+p-misc-08 | todo | 3 | clickhouse upgrade | | Upgrade ClickHouse 23.8 to 24.3 LTS; check the new analyzer breaks any reporting query
+p-misc-09 | fact | 95 | feature flags | src/pulsar/flags.py | Feature flags via Unleash (self-hosted); in tests use the FakeUnleash fixture
+p-misc-10 | convention | 135 | git branches | | Branch isimleri feat/PUL-123-kisa-aciklama, Linear ticket numarası zorunlu
+p-misc-11 | fact | 190 | architecture overview | docs/architecture.md | High-level: FastAPI API + writer pods + Celery workers + Postgres (Cloud SQL) + ClickHouse (ClickHouse Cloud) + Redis (Memorystore)
+p-misc-12 | gotcha-note | 26 | memorystore redis | | Memorystore Redis has no AUTH in our tier and is only reachable inside the VPC; local scripts need the IAP tunnel

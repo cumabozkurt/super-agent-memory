@@ -1,0 +1,41 @@
+## bench v2 · 1.0.0 · src src
+
+blind set: 539 positives + 858 negatives (EN+TR; writer google/gemini-3.8-flash, judge anthropic/claude-sonnet-4.6, seed 20261007) · gate present
+
+| split | arm | hit [95% CI] | any-hit | hit@card | FIR [95% CI] | CI ±  | tok/prompt |
+|---|---|---|---|---|---|---|---|
+| dev | SAM (v2 gate) | 0.728 [0.679, 0.776] | 0.759 | 0.772 | 0.141 [0.111, 0.175] | 0.032 | 28.906 |
+| dev | SAM v1.2 (gate off) | 0.728 [0.679, 0.776] | 0.759 | 0.772 | 0.261 [0.220, 0.302] | 0.041 | 33.915 |
+| dev | BM25 top-3 (no gate) | 0.891 [0.856, 0.923] | | | 0.911 [0.884, 0.939] | 0.027 | |
+| dev | BM25 top-3, floor 17.982 (dev-tuned to SAM hit) | 0.728 [0.673, 0.777] | | | 0.123 [0.093, 0.155] | 0.031 | |
+| heldout | SAM (v2 gate) | 0.699 [0.647, 0.752] | 0.736 | 0.764 | 0.144 [0.110, 0.177] | 0.033 | 29.054 |
+| heldout | SAM v1.2 (gate off) | 0.699 [0.647, 0.752] | 0.736 | 0.764 | 0.275 [0.234, 0.318] | 0.042 | 35.056 |
+| heldout | BM25 top-3 (no gate) | 0.903 [0.870, 0.936] | | | 0.935 [0.911, 0.957] | 0.023 | |
+| heldout | BM25 top-3, floor 17.982 (dev-tuned to SAM hit) | 0.741 [0.690, 0.792] | | | 0.124 [0.093, 0.158] | 0.032 | |
+| all | SAM (v2 gate) | 0.714 [0.679, 0.750] | 0.748 | 0.768 | 0.142 [0.119, 0.166] | 0.023 | 28.979 |
+| all | SAM v1.2 (gate off) | 0.714 [0.679, 0.750] | 0.748 | 0.768 | 0.268 [0.238, 0.298] | 0.03 | 34.472 |
+| all | BM25 top-3 (no gate) | 0.896 [0.871, 0.920] | | | 0.923 [0.904, 0.941] | 0.018 | |
+| all | BM25 top-3, floor 17.982 (dev-tuned to SAM hit) | 0.734 [0.699, 0.773] | | | 0.124 [0.101, 0.146] | 0.022 | |
+
+ranking ceiling: SAM search() recall@3 on positives dev 0.867 · held-out 0.892 (BM25 top-3 above; the gap to recall hit is what the relevance gate drops)
+paired Δ (v2 gate − v1.2), dev: hit 0 [0, 0] · FIR -0.12 [-0.15, -0.091]
+paired Δ (v2 gate − v1.2), heldout: hit 0 [0, 0] · FIR -0.131 [-0.165, -0.098]
+
+held-out FIR by negative category: other-stack(101) 0.347→0.01 · other-project(103) 0.252→0.058 · chitchat(57) 0.088→0.088 · unrelated-coding(104) 0.298→0.288 · near-miss(53) 0.34→0.34
+held-out by language (v1.2→v2): en: hit 0.787→0.787, FIR 0.343→0.162 (130+210) · tr: hit 0.615→0.615, FIR 0.207→0.125 (135+208)
+
+latency (in-process promptContext, 1397 prompts, ms): v1.2 p50 5.926 p90 8.017 · v2 p50 6.405 p90 9.429 · gate +0.479 ms p50 · specificity() alone p50 1.487 p90 2.131
+
+knowledge-update: 66 cases (132 prompts) · save status of the new value: explicit:created 30, restated:created 33, explicit:superseded 3 · old value still live after the update: 63
+  explicit(66): new recalled v1.2 0.909 / v2 0.894 · OLD injected v1.2 0.818 / v2 0.803 [0.712, 0.894] · old ranked above new in search 0.03
+  restated(66): new recalled v1.2 0.682 / v2 0.682 · OLD injected v1.2 0.606 / v2 0.606 [0.485, 0.727] · old ranked above new in search 0.212
+  all(132): new recalled v1.2 0.795 / v2 0.788 · OLD injected v1.2 0.712 / v2 0.705 [0.629, 0.78] · old ranked above new in search 0.121
+  old value shown in the SessionStart card: 0.091
+poisoning/laundering: 48 agent-written poisoned notes (saved: quarantined 43, created 5) — held rows are invisible to agents (src/guard.js); only active ones can be injected
+  topical prompts (48): its poisoned note injected v1.2 0.104 / v2 0.104 [0.021, 0.188] · any poisoned note injected v1.2 0.208 / v2 0.208
+  unrelated prompts (48): its poisoned note injected v1.2 0 / v2 0 [0, 0] · any poisoned note injected v1.2 0 / v2 0
+  in SessionStart cards: kervan 0/16, pulsar 0/16, atlas 1/16
+dedup pairs: 120 · should merge (60): created 60 · should NOT merge (60): created 60
+  merge recall 0 · merge precision n/a (no merges) · wrong merges 0 · one live row: same-fact pairs 0, different-fact pairs 0 (supersession counts as one row)
+
+(56.4 s · bootstrap B=2000 · hit = share of gold ids injected by per-prompt recall · hit@card = share of gold ids in recall ∪ the project's SessionStart card · FIR = share of negatives with any injection)

@@ -1,0 +1,6 @@
+{
+  "_doc": "Gold 'must know at session start' set per project: what a fresh agent should see in the SessionStart card. Mix of old important decisions, conventions and pinned prefs.",
+  "kervan": ["k-deploy-01","k-db-01","k-auth-01","k-pay-01","k-ui-01","k-test-01","k-pin-01","k-pin-02","k-db-06","k-monorepo-01","k-new-02","k-misc-09","g-pref-01","g-pref-02","g-pref-03"],
+  "pulsar": ["p-deploy-01","p-db-03","p-ch-01","p-db-04","p-api-01","p-test-01","p-tool-01","p-tool-02","p-ingest-01","p-misc-07","p-k8s-03","g-pref-01","g-pref-02","g-pref-03"],
+  "atlas": ["a-build-01","a-ota-01","a-be-01","a-be-02","a-state-01","a-nav-01","a-ui-01","a-test-01","a-tool-04","a-sec-01","a-map-01","g-pref-01","g-pref-02","g-pref-03"]
+}

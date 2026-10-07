@@ -1,0 +1,11 @@
+## v1.1.0
+corpus 411 (397 live) · 207 pos + 32 neg queries · merges 9 · supersessions 5 · unreachable labels 0
+search: R@1 0.618 R@3 0.771 R@5 0.847 R@10 0.866 MRR 0.749 nDCG@5 0.75 · 1.078 ms/q · stale-above 0
+by split: main(177) R@1 0.654 R@3 0.794 MRR 0.781 · heldout(30) R@1 0.4 R@3 0.633 MRR 0.558 | prompt main hit 0.793 FIR 0.75 · heldout hit 0.667 FIR 0.75
+by half (odd qid = tuning, even = held-out): search tuning(105) R@3 0.781 MRR 0.768 · heldout(102) R@3 0.76 MRR 0.728 | prompt tuning hit 0.798 FIR 0.563 (105+16 neg) · heldout hit 0.75 FIR 0.938 (102+16 neg)
+Turkish↔English (35 q): R@3 0.495 MRR 0.511 · tokens: SAM estimator (tiktoken unavailable)
+by overlap: zero(22) R@3 0.091 MRR 0.119 · one(70) R@3 0.705 MRR 0.699 · twoPlus(115) R@3 0.941 MRR 0.899
+by type: para(121) R@3 0.824 MRR 0.778 · lex(4) R@3 1 MRR 1 · xl-tr(25) R@3 0.433 MRR 0.468 · xl-en(10) R@3 0.65 MRR 0.617 · typo(10) R@3 0.9 MRR 0.808 · ident(11) R@3 1 MRR 1 · stale(4) R@3 0.75 MRR 0.813 · multi(5) R@3 0.9 MRR 1 · old(6) R@3 1 MRR 0.889 · task(11) R@3 0.455 MRR 0.569
+prompt: hit 0.775 any 0.802 prec 0.411 FIR 0.75 · tok/prompt est 103.418 tik 103.418 (pos 108.498, neg 70.563)
+card: coverage 0.16 · tik 296.333 est 296.333 · answers in card 0.039 · card∪prompt 0.779
+ledger 40 turns: on 3479 tik (visible 0.891, fresh 0.453) · off 5045 tik (dup lines 64) · eq-token dump hit 0.781

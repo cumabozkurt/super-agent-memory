@@ -1,0 +1,243 @@
+# Format: qid | project | type | query | labels  (key:grade, grade 3 = the answer, 2 = strongly relevant, 1 = related; key:x = stale/wrong memory that must not outrank)
+# types: lex (lexical control) para (paraphrase, little/no word overlap) typo ident (identifier fragment) xl-tr (Turkish query, English memory)
+#        xl-en (English query, Turkish memory) multi (needs 2 memories) stale (superseded value) old (old important decision) task (implicit: an instruction that a memory should shape) neg (no relevant memory)
+q001 | kervan | para | how do we ship to prod? | k-deploy-01:3 k-deploy-04:2 k-deploy-02:1 k-dup-01:1 k-deploy-05:1
+q002 | kervan | para | what's the process for getting a new version live | k-deploy-01:3 k-deploy-04:2 k-deploy-05:1
+q003 | kervan | lex | fly deploy workflow | k-deploy-01:3 k-deploy-02:2 k-dup-01:2
+q004 | kervan | xl-tr | prod'a nasıl deploy ediyoruz? | k-deploy-01:3 k-deploy-04:2
+q005 | kervan | xl-en | canlıya alma süreci nedir | k-deploy-04:3 k-deploy-01:3
+q006 | kervan | para | which db do we use and why | k-db-01:3 k-db-02:1
+q007 | kervan | xl-tr | veritabanı olarak neden neon seçtik | k-db-01:3
+q008 | kervan | typo | postgress conection limit serverless | k-db-02:3 k-db-03:1
+q009 | kervan | para | dev server keeps opening too many sessions to the database | k-db-03:3 k-db-02:2
+q010 | kervan | ident | useAuthStore | k-auth-02:3 k-auth-03:2 k-new-02:1 k-sess-02:1
+q011 | kervan | ident | AuthStore hydration | k-auth-03:3 k-auth-02:1 k-sess-02:1
+q012 | kervan | para | the avatar in the header flickers, server and client html differ | k-auth-03:3 k-sess-02:1
+q013 | kervan | para | how are prices kept in the db, floats? | k-db-06:3 k-pay-05:2
+q014 | kervan | xl-tr | fiyatları hangi tipte saklıyoruz | k-db-06:3 k-pay-05:2
+q015 | kervan | lex | why not stripe for checkout | k-pay-01:3
+q016 | kervan | para | some customers got charged twice | k-pay-03:3
+q017 | kervan | xl-tr | müşteriden iki kez çekim yapıldı | k-pay-03:3
+q018 | kervan | lex | iyzico sandbox test card | k-pay-04:3
+q019 | kervan | xl-tr | ödeme test kartı numarası neydi | k-pay-04:3
+q020 | kervan | para | how is product search implemented | k-search-01:3 k-search-02:2
+q021 | kervan | typo | meilisaerch reindex | k-search-02:3
+q022 | kervan | para | search doesn't match the dotted capital I | k-search-03:3
+q023 | kervan | para | can I add a component library like MUI? | k-ui-01:3
+q024 | kervan | xl-tr | yeni bir UI kütüphanesi ekleyebilir miyim | k-ui-01:3
+q025 | kervan | para | where are product pictures hosted | k-ui-03:3 k-stale-01:x
+q026 | kervan | xl-en | how do I add a new translation string | k-i18n-02:3 k-i18n-01:1
+q027 | kervan | para | times on server-rendered pages are 3 hours off | k-i18n-03:3 k-misc-07:1
+q028 | kervan | para | where does the anonymous shopping basket live | k-cart-01:3
+q029 | kervan | xl-tr | sepet misafir kullanıcıda nerede tutuluyor | k-cart-01:3
+q030 | kervan | para | when do we hold inventory for an order | k-cart-03:3
+q031 | kervan | para | can I send the order confirmation mail directly from the route handler? | k-email-01:3
+q032 | kervan | para | our mails land in the junk folder | k-email-03:3
+q033 | kervan | ident | kill_timeout | k-queue-02:3
+q034 | kervan | para | background jobs stuck after a release | k-queue-02:3
+q035 | kervan | para | where do tests go and which framework | k-test-01:3
+q036 | kervan | xl-tr | e2e testleri hangi veritabanını kullanıyor | k-test-02:3
+q037 | kervan | typo | playwrite flaky chekout test | k-test-03:3 k-sess-03:1
+q038 | kervan | lex | ERR_PNPM_OUTDATED_LOCKFILE | k-ci-02:3
+q039 | kervan | xl-en | merge rules for pull requests | k-ci-03:3
+q040 | kervan | para | error tracking tool, is session replay on? | k-obs-01:3
+q041 | kervan | para | can I log the customer's phone number for debugging | k-sec-01:3
+q042 | kervan | xl-tr | loglara TC kimlik numarası yazabilir miyim | k-sec-01:3
+q043 | kervan | para | the payment iframe is blocked by the browser | k-sec-03:3
+q044 | kervan | para | I changed a public env var but the site still shows the old value | k-env-02:3
+q045 | kervan | ident | NEXT_PUBLIC | k-env-02:3
+q046 | kervan | stale | what node version are we on | k-new-01:3
+q047 | kervan | stale | which state library do we use | k-new-02:3 k-auth-02:1
+q048 | kervan | para | who can log in to the back office | k-admin-01:3
+q049 | kervan | xl-en | how does cargo tracking work | k-ship-01:3 k-ship-02:2
+q050 | kervan | para | VAT handling on invoices | k-tax-01:3 k-tax-02:1
+q051 | kervan | para | the accounting software token keeps expiring | k-tax-02:3
+q052 | kervan | multi | deploy failed because of a migration, how did we fix that and how do we roll back? | k-deploy-03:3 k-deploy-05:3
+q053 | kervan | multi | how does a guest cart become the user's cart and what bug did we have with it | k-cart-01:3 k-cart-02:3
+q054 | kervan | para | should I use trpc for a new endpoint | k-misc-09:3
+q055 | kervan | para | the daily report fires at the wrong hour | k-misc-07:3
+q056 | kervan | old | why database sessions instead of JWT | k-auth-01:3
+q057 | kervan | old | can we ban a seller and kick them out immediately? | k-auth-01:3
+q058 | kervan | xl-en | is it ok to deploy on friday evening | k-deploy-04:3
+q059 | kervan | para | feature toggle for the new checkout | k-misc-02:3 k-misc-03:2
+q060 | kervan | ident | isEnabled | k-misc-02:3
+q061 | kervan | para | rounding issue with discount codes | k-misc-11:3 k-misc-10:1
+q062 | kervan | xl-tr | kupon kodu küçük harfle çalışıyor mu | k-misc-10:3
+q063 | kervan | para | the search index gets split when we scale out | k-misc-05:3
+q064 | kervan | para | what was I doing last session on refunds | k-sess-01:3 k-pay-06:2
+q065 | kervan | para | monorepo layout | k-monorepo-01:3
+q066 | kervan | ident | src/server/db.ts | k-db-03:3 k-db-02:2
+q067 | kervan | para | how do slugs handle Turkish characters | k-seo-02:3
+q068 | kervan | para | which pages are statically regenerated | k-perf-01:3
+q069 | kervan | task | add a price field to the product variant model | k-db-06:3 k-db-04:2 k-pin-01:1
+q070 | kervan | task | add a new env variable for the cargo api key | k-env-01:3 g-rule-01:2 k-ship-01:1
+q101 | pulsar | para | how do we ship to prod? | p-deploy-01:3 p-deploy-02:2 p-deploy-04:1 p-deploy-05:1
+q102 | pulsar | para | can I just run helm upgrade to push my change | p-deploy-01:3
+q103 | pulsar | xl-tr | prod'a sürüm nasıl çıkıyor | p-deploy-01:3 p-deploy-04:2 p-deploy-02:2
+q104 | pulsar | ident | PG_POOL_MAX | p-db-02:3 p-sess-02:1
+q105 | pulsar | ident | POOL_MAX | p-db-02:3 p-sess-02:1
+q106 | pulsar | para | how many db connections per pod | p-db-02:3
+q107 | pulsar | typo | conection pool size asyncpg | p-db-02:3
+q108 | pulsar | para | pods restart during rollout before the schema upgrade finishes | p-deploy-03:3
+q109 | pulsar | para | how do I change the database schema | p-db-04:3 p-db-06:1
+q110 | pulsar | para | adding a required column to the big events table | p-db-06:3
+q111 | pulsar | xl-tr | büyük tabloya not null kolon eklemek | p-db-06:3
+q112 | pulsar | para | where are raw analytics events stored | p-ch-01:3 p-ingest-01:2
+q113 | pulsar | typo | clickhose too many parts | p-ch-03:3 p-ch-02:2
+q114 | pulsar | para | how do we delete a user's data for GDPR in the column store | p-ch-04:3 p-sec-01:1
+q115 | pulsar | para | how are API keys stored | p-api-02:3
+q116 | pulsar | para | timestamps ending in Z are rejected with a validation error | p-api-05:3
+q117 | pulsar | para | is there throttling per customer key | p-api-04:3 p-dup-02:3
+q118 | pulsar | xl-tr | istek limiti ne kadar | p-api-04:3 p-dup-02:3
+q119 | pulsar | para | what happens when a refresh token is reused | p-auth-01:3
+q120 | pulsar | para | large CSV export workers get killed for memory | p-celery-02:3 p-auto-03:1
+q121 | pulsar | para | scheduled report emails sent twice | p-celery-03:3
+q122 | pulsar | xl-en | do background tasks need to be safe to retry | p-celery-04:3
+q123 | pulsar | para | how do I run the tests in parallel | p-test-01:3 p-dup-01:3
+q124 | pulsar | typo | event loop is cloesd pytest xdist | p-test-03:3
+q125 | pulsar | para | how do I add a python package | p-tool-01:3
+q126 | pulsar | stale | which python version | p-tool-04:3
+q127 | pulsar | para | lint and type checking setup | p-tool-02:3
+q128 | pulsar | para | where do traces go | p-obs-01:3 p-obs-03:1
+q129 | pulsar | para | logs aren't linked to traces | p-obs-03:3 p-sess-04:1
+q130 | pulsar | para | why not kafka | p-ingest-02:3
+q131 | pulsar | para | redis memory blows up when clickhouse is slow | p-ingest-03:3 p-sess-03:1
+q132 | pulsar | para | events arriving with timestamps in the future | p-ingest-04:3
+q133 | pulsar | para | api pods run out of memory after a few days | p-k8s-02:3
+q134 | pulsar | para | where do kubernetes secrets come from | p-k8s-03:3
+q135 | pulsar | para | do we store client IP addresses | p-sec-01:3
+q136 | pulsar | para | webhook signature header | p-wh-01:3
+q137 | pulsar | para | turkish letters are broken in the PDF | p-report-02:3
+q138 | pulsar | xl-tr | pdf raporlarda türkçe karakterler bozuk | p-report-02:3
+q139 | pulsar | para | stripe events arriving in the wrong order | p-billing-02:3
+q140 | pulsar | para | set up my local dev environment | p-dev-01:3 p-dev-02:1
+q141 | pulsar | para | clickhouse container exits on my M2 mac | p-dev-02:3 g-env-01:1
+q142 | pulsar | multi | ingest pipeline end to end and why redis streams | p-ingest-01:3 p-ingest-02:3
+q143 | pulsar | multi | we raised the pool size, what is the Cloud SQL connection ceiling and how do pods connect | p-db-02:3 p-db-07:3
+q144 | pulsar | old | orm and driver choice | p-db-03:3
+q145 | pulsar | old | tenant isolation approach | p-misc-07:3
+q146 | pulsar | para | excel shows garbage characters in the exported csv | p-misc-06:3
+q147 | pulsar | xl-en | branch naming rules | p-misc-10:3 g-tool-03:2
+q148 | pulsar | para | what was I working on yesterday | p-sess-01:3
+q149 | pulsar | para | canary rollout percentage | p-deploy-05:3
+q150 | pulsar | task | add a new endpoint to list webhooks | p-api-01:3 p-api-03:1 p-wh-01:1
+q151 | pulsar | task | write a migration to add a retention_days column | p-db-04:3 p-db-06:2
+q201 | atlas | para | how do we ship to prod? | a-build-01:3 a-dup-01:3 a-ota-01:3 a-build-02:2
+q202 | atlas | para | can I push a hotfix without app store review | a-ota-01:3 a-ota-02:2
+q203 | atlas | xl-tr | mağazaya build nasıl gönderiyoruz | a-build-01:3 a-build-02:3 a-dup-01:3
+q204 | atlas | typo | pivacy manifest duplicate xcode | a-build-03:3 a-auto-02:2 a-store-03:1
+q205 | atlas | para | old app versions crash after an over-the-air update | a-ota-03:3
+q206 | atlas | para | android hardware back exits the app | a-nav-03:3
+q207 | atlas | para | how do we manage server state and caching | a-state-01:3 a-state-03:1
+q208 | atlas | para | trips list is empty when offline after a restart | a-state-03:3
+q209 | atlas | ident | useSessionStore | a-state-04:3
+q210 | atlas | para | where are auth tokens persisted on the device | a-state-04:3
+q211 | atlas | old | do we have our own backend server | a-be-01:3
+q212 | atlas | xl-tr | tablolara erişim politikalarını nerede tanımlıyoruz | a-be-02:3
+q213 | atlas | para | regenerate typescript types for the database | a-be-03:3
+q214 | atlas | para | why not react-native-maps | a-map-01:3
+q215 | atlas | para | map crashes on android 14 | a-map-03:3
+q216 | atlas | para | notifications not arriving on newer android phones | a-push-02:3 a-auto-03:2
+q217 | atlas | para | push works in the dev build but not in production | a-push-03:3
+q218 | atlas | xl-tr | türkçe çoğul ekleri yanlış görünüyor | a-i18n-03:3 a-sess-02:2
+q219 | atlas | para | how do I write an end-to-end test | a-test-01:3
+q220 | atlas | para | jest can't import the native storage module | a-test-02:3 a-auto-01:2
+q221 | atlas | para | stack traces are minified after an OTA | a-obs-02:3
+q222 | atlas | para | long list has janky scrolling | a-perf-01:3 a-sess-03:1
+q223 | atlas | para | content is hidden behind the notch | a-ui-02:3
+q224 | atlas | para | why did apple reject the app | a-store-01:3
+q225 | atlas | para | how do subscriptions work | a-pay-01:3
+q226 | atlas | para | premium is not unlocked on a second device | a-pay-03:3
+q227 | atlas | para | can I put the API secret in app config | a-sec-01:3
+q228 | atlas | stale | which package manager does atlas use | a-tool-04:3 a-tool-01:3 g-pref-05:1
+q229 | atlas | para | trip date is off by one for US users | a-misc-04:3 g-know-02:2
+q230 | atlas | para | form validation library | a-misc-06:3
+q231 | atlas | para | upgrading the expo sdk safely | a-misc-07:3
+q232 | atlas | multi | how are env vars split between staging and prod builds and which ones are safe to bundle | a-misc-10:3 a-sec-01:3
+q233 | atlas | xl-en | accessibility rules for buttons | a-ui-03:3
+q234 | atlas | para | what was I doing with offline maps | a-sess-01:3 a-misc-02:2
+q235 | atlas | old | why supabase | a-be-01:3
+q236 | atlas | para | styling approach | a-ui-01:3
+q237 | atlas | ident | RNMapboxMapsDownloadToken | a-map-02:3
+q238 | atlas | ident | FlashList | a-perf-01:3 a-sess-03:1
+q239 | atlas | task | add a settings screen with a language picker | a-i18n-01:2 a-i18n-02:2 a-nav-01:1
+q240 | atlas | task | create a new supabase table for favorites | a-be-02:3 a-be-03:2
+q241 | atlas | task | add unit tests for this util function | a-test-01:3
+q301 | kervan | para | what language should you answer me in | g-pref-01:3 k-pin-02:3
+q302 | pulsar | para | commit message format | g-pref-02:3
+q303 | atlas | para | can I force push | g-pref-03:3
+q304 | kervan | xl-en | how big should a pull request be | g-pref-04:3
+q305 | pulsar | para | my laptop specs and cpu architecture | g-env-01:3
+q306 | kervan | para | git push just hangs | g-env-05:3 g-auto-01:1
+q307 | pulsar | xl-tr | commitleri nasıl imzalıyorum | g-env-03:3 g-sess-01:2
+q308 | kervan | para | uppercase i bug in turkish locale | g-know-01:3
+q309 | atlas | para | can I add a new npm dependency | g-rule-02:3
+q310 | pulsar | para | is it ok to run the prod migration from my machine | g-rule-04:3 p-db-04:1
+q311 | kervan | para | how should code review feedback be structured | g-pref-11:3
+q312 | atlas | xl-en | variable naming abbreviations | g-pref-12:3
+q313 | pulsar | para | requests or httpx | g-know-03:3
+q314 | kervan | para | tabs or spaces | g-pref-10:3
+q315 | atlas | task | write a commit message for these changes | g-pref-02:3
+n01 | kervan | neg | write a haiku about refactoring |
+n02 | kervan | neg | explain the difference between let and const |
+n03 | pulsar | neg | what's the big-O of quicksort in the worst case |
+n04 | atlas | neg | rename this variable to camelCase |
+n05 | kervan | neg | thanks, looks good! |
+n06 | pulsar | neg | generate a regex that matches email addresses |
+n07 | atlas | neg | how do I center a div |
+n08 | kervan | neg | convert this JSON to YAML |
+n09 | pulsar | neg | bu fonksiyonu daha okunabilir yap |
+n10 | atlas | neg | şu hatayı açıklar mısın: undefined is not a function |
+n11 | pulsar | neg | write a dockerfile for a go service |
+n12 | kervan | neg | what is the capital of australia |
+n13 | atlas | neg | sort this array of objects by date descending |
+n14 | pulsar | neg | explain python decorators |
+n15 | kervan | neg | implement a debounce hook in react |
+n16 | atlas | neg | how does garbage collection work in hermes |
+n17 | pulsar | neg | kubernetes nedir kısaca anlat |
+n18 | kervan | neg | fix the typo in the README |
+n19 | pulsar | neg | summarize this diff |
+n20 | kervan | neg | what does HTTP 418 mean |
+n21 | kervan | neg | make the button bigger on mobile |
+n22 | pulsar | neg | lütfen bu SQL sorgusunu optimize et: SELECT * FROM users WHERE email LIKE '%a%' |
+n23 | atlas | neg | merhaba, nasılsın? |
+n24 | kervan | neg | what's a good name for a cat |
+n25 | atlas | neg | explain what a closure is in javascript |
+n26 | pulsar | neg | write unit tests for this string reverse function in go |
+n27 | kervan | neg | translate this paragraph to German |
+n28 | atlas | neg | what's new in TypeScript 5.5 |
+# ---- held-out set (written after the alias table was frozen; same author, so not fully blind) ----
+q401 | kervan | para | where do uploaded product photos end up | k-ui-03:3 k-stale-01:x
+q402 | kervan | para | how do I undo a bad release | k-deploy-05:3 k-deploy-03:1
+q403 | kervan | xl-tr | kargo takip numarası nerede saklanıyor | k-ship-01:3
+q404 | kervan | typo | sentyr replay setting | k-obs-01:3
+q405 | kervan | para | what card number do I use to test 3d secure locally | k-pay-04:3
+q406 | kervan | xl-tr | sunucu loglarına hangi kişisel veriler yazılmamalı | k-sec-01:3
+q407 | kervan | para | why are some numbers in the order summary a cent off | k-misc-11:3
+q408 | kervan | task | add a column for gift wrapping to orders | k-db-04:3 k-db-06:1
+q409 | kervan | para | is there a cap on login attempts | k-sec-02:3
+q410 | kervan | xl-tr | admin paneline kimler girebiliyor | k-admin-01:3
+q411 | pulsar | para | how do we keep the event buffer from eating all memory | p-ingest-03:3
+q412 | pulsar | xl-tr | veritabanı bağlantı havuzu kaç olmalı | p-db-02:3
+q413 | pulsar | para | who gets paged at night | p-misc-03:3 p-obs-02:1
+q414 | pulsar | typo | celrey beat duplicate | p-celery-03:3
+q415 | pulsar | para | how long do we keep raw events | p-ch-04:3
+q416 | pulsar | para | do we let customers point webhooks at localhost | p-sec-03:3
+q417 | pulsar | xl-tr | yeni bir python kütüphanesi nasıl eklerim | p-tool-01:3
+q418 | pulsar | task | add a field to the project settings response | p-api-01:3 p-cache-01:2
+q419 | pulsar | para | the monthly signing key change | p-auth-02:3
+q420 | pulsar | para | spot instances for which workloads | p-k8s-04:3
+q421 | atlas | para | why can't I store the session token in mmkv | a-state-04:3
+q422 | atlas | xl-tr | uygulama içi abonelik test kullanıcısı nasıl oluşturulur | a-pay-02:3
+q423 | atlas | para | the app took ages to open on a cheap android phone | a-perf-03:3
+q424 | atlas | typo | maestor booking flaky keybaord | a-test-03:3
+q425 | atlas | para | links that open the app from the website | a-nav-02:3
+q426 | atlas | xl-tr | haritalar neden çevrimdışı çalışmalı | a-map-01:3
+q427 | atlas | task | add a new image to the trip card | a-perf-02:3
+q428 | atlas | para | who designs the screens | a-misc-05:3
+q429 | atlas | para | android release build runs out of memory on the build server | a-build-05:3
+q430 | atlas | para | users must be able to remove their account | a-store-01:3 a-sess-04:2
+n29 | kervan | neg | write a bash one-liner to count lines in all files |
+n30 | pulsar | neg | what is the difference between a process and a thread |
+n31 | atlas | neg | bugün hava nasıl olacak |
+n32 | kervan | neg | explain big-endian vs little-endian |

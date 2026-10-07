@@ -1,0 +1,860 @@
+[
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "Product image storage uses AWS S3 bucket kervan-media-prod (region eu-central-1) via @aws-sdk/client-s3 for all catalog uploads",
+  "new": "Product image storage uses Cloudflare R2 bucket kervan-media-prod via @aws-sdk/client-s3 to eliminate egress fees on catalog assets",
+  "old_age_days": 180,
+  "new_age_days": 14,
+  "prompts": [
+   "Which object storage service and bucket are we currently using for product image uploads?",
+   "Ürün görsel yüklemeleri için hangi depolama servisini ve bucket'ı kullanıyoruz?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "BullMQ Redis instance runs on Upstash Redis with host rediss://default:xxx@eu1-tender-marmot-12345.upstash.io:6379",
+  "new": "BullMQ Redis instance runs on a dedicated fly.io Redis app named kervan-redis (port 6379) to avoid Upstash connection throttling during traffic spikes",
+  "old_age_days": 210,
+  "new_age_days": 20,
+  "prompts": [
+   "Where is our BullMQ Redis instance hosted right now?",
+   "BullMQ için kullandığımız Redis instance'ı nerede barındırılıyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "convention",
+  "old": "Git branch naming convention requires prefixing feature branches with feat/ (e.g., feat/add-coupon-code)",
+  "new": "Git branch naming convention requires prefixing feature branches with linear issue id, e.g., krf-123/add-coupon-code, to auto-link PRs",
+  "old_age_days": 150,
+  "new_age_days": 12,
+  "prompts": [
+   "What is our branch naming convention for new features?",
+   "Yeni özellikler için git branch isimlendirme kuralımız nedir?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "Transactional emails are sent via SendGrid API using noreply@kervan.com sender address",
+  "new": "Transactional emails are sent via Resend API using siparis@kervan.com sender address",
+  "old_age_days": 240,
+  "new_age_days": 30,
+  "prompts": [
+   "Which provider and sender email address do we use for transactional emails?",
+   "Sipariş ve bildirim e-postaları hangi servis ve gönderici adresiyle atılıyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "fly.io worker process group scale is set to 1 VM with 1GB RAM (shared-cpu-1x)",
+  "new": "fly.io worker process group scale is set to 2 VMs with 2GB RAM (shared-cpu-2x) to prevent OOM during image resizing",
+  "old_age_days": 120,
+  "new_age_days": 8,
+  "prompts": [
+   "What are the current VM scale and resource specs for the worker process group on Fly.io?",
+   "Fly.io üzerindeki worker process group kaç VM ve hangi kaynak özellikleriyle çalışıyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "convention",
+  "old": "Log seviyesi prod ortamında LOG_LEVEL=info olarak ayarlanır, Winston logger kullanılır",
+  "new": "Log seviyesi prod ortamında LOG_LEVEL=warn olarak ayarlanır, Pino logger kullanılır",
+  "old_age_days": 190,
+  "new_age_days": 18,
+  "prompts": [
+   "What is the default production log level and logger library?",
+   "Production ortamında geçerli log seviyesi ve log kütüphanesi nedir?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "Cart session expiry is set to 7 days in redis key TTL and cookie maxAge",
+  "new": "Cart session expiry is set to 30 days in redis key TTL and cookie maxAge",
+  "old_age_days": 270,
+  "new_age_days": 25,
+  "prompts": [
+   "How long do cart sessions last before expiration in Redis and cookie TTL?",
+   "Sepet oturumlarının geçerlilik süresi (TTL ve cookie) kaç gün olarak ayarlı?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "Meilisearch index primary key for products is defined as productId in src/server/search/sync.ts",
+  "new": "Meilisearch index primary key for products is defined as id in src/server/search/sync.ts",
+  "old_age_days": 160,
+  "new_age_days": 5,
+  "prompts": [
+   "What field serves as the primary key in the Meilisearch product index?",
+   "Meilisearch ürün indeksinde primary key olarak hangi alan kullanılıyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "convention",
+  "old": "Para iadesi onay yetkisi için src/server/rbac.ts içinde requireRole('finance') kontrolü zorunludur",
+  "new": "Para iadesi onay yetkisi için src/server/rbac.ts içinde requireRole('support_lead') kontrolü zorunludur",
+  "old_age_days": 130,
+  "new_age_days": 9,
+  "prompts": [
+   "Which role is required in src/server/rbac.ts to approve refunds?",
+   "src/server/rbac.ts içinde iade onayı vermek için hangi rol kontrol ediliyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "Package manager is pinned to pnpm 8.15.0 via package.json packageManager field",
+  "new": "Package manager is pinned to pnpm 9.4.0 via package.json packageManager field",
+  "old_age_days": 140,
+  "new_age_days": 15,
+  "prompts": [
+   "Which pnpm version is specified in package.json?",
+   "package.json dosyasında tanımlı pnpm versiyonu hangisidir?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "Staging Meilisearch instance host is configured as https://search-staging.kervan.internal:7700",
+  "new": "Staging Meilisearch instance host is configured as https://kervan-search-staging.fly.dev:7700",
+  "old_age_days": 175,
+  "new_age_days": 6,
+  "prompts": [
+   "What is the host URL for the staging Meilisearch instance?",
+   "Staging Meilisearch instance'ının güncel host URL'si nedir?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "Client state for checkout steps is kept in src/stores/useCheckoutStore.ts using zustand with session storage sync",
+  "new": "We moved checkout progression entirely into URL search params (?step=shipping|payment|summary) to make the back button and browser refresh work reliably without store inconsistencies",
+  "old_age_days": 200,
+  "new_age_days": 16,
+  "prompts": [
+   "How is the current step tracked during the checkout flow?",
+   "Ödeme akışında kullanıcı adımları (step) nerede ve nasıl tutuluyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "Free shipping threshold is hardcoded as 50000 kuruş (500 TL) in src/lib/shipping.ts",
+  "new": "Ücretsiz kargo barajı src/lib/shipping.ts içinde 750 TL (75000 kuruş) altındaki sepetler için kargo ücreti 49.90 TL eklenecek şekilde güncellendi",
+  "old_age_days": 220,
+  "new_age_days": 11,
+  "prompts": [
+   "What is the minimum order value required for free shipping?",
+   "Ücretsiz kargo için geçerli olan sepet tutar alt limiti nedir?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "convention",
+  "old": "All date and time calculations use Day.js with timezone plugin locked to Europe/Istanbul in src/lib/date.ts",
+  "new": "Tarih formatlama ve manipülasyon işlemlerinde bundle boyutunu düşürmek için date-fns v3 kullanıyoruz; date-fns/locale/tr import edilmeli",
+  "old_age_days": 310,
+  "new_age_days": 22,
+  "prompts": [
+   "Which date library and locale configuration should be used for date operations?",
+   "Tarih işlemleri ve formatlama için hangi kütüphaneyi kullanıyoruz?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "Product detail pages use on-demand ISR with resvalidate: 3600 and revalidateTag('product') called from inventory webhooks",
+  "new": "PDP routes are fully dynamic (export const dynamic = 'force-dynamic') because dynamic price updates and personalized seller badges broke stale cache pages",
+  "old_age_days": 280,
+  "new_age_days": 19,
+  "prompts": [
+   "What rendering strategy and dynamic config do product detail pages (PDP) currently use?",
+   "Ürün detay sayfaları (PDP) için hangi render stratejisi uygulanıyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "Sms notifications for cargo tracking are sent via Netgsm SOAP API from src/server/sms/netgsm.ts",
+  "new": "Kargo ve OTP SMS bildirimleri için İleti Merkezi REST API entegrasyonu (src/server/sms/iletimerkezi.ts) devrede, Netgsm aboneliği kapatıldı",
+  "old_age_days": 260,
+  "new_age_days": 27,
+  "prompts": [
+   "Which provider and client integration file handle SMS dispatch?",
+   "SMS bildirimleri hangi sağlayıcı ve dosya üzerinden gönderiliyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "convention",
+  "old": "Zod validation schemas live alongside server actions in src/app/actions/*.schemas.ts files",
+  "new": "Tüm form ve API validasyon şemaları ortak import ve tip paylaşımı için src/shared/validators/ dizini altına toplanmalıdır",
+  "old_age_days": 165,
+  "new_age_days": 13,
+  "prompts": [
+   "Where should Zod validation schemas be placed in the project?",
+   "Zod doğrulama şemalarını hangi dizin altında tanımlamamız gerekiyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "User avatar uploads accept PNG, JPG and WEBP up to 5MB, processed client-side via canvas before upload",
+  "new": "Profil resmi yüklemelerinde yalnızca WebP ve AVIF formatları kabul ediliyor, azami boyut sınırı 2MB ve sıkıştırma Cloudflare Worker üzerinde yapılıyor",
+  "old_age_days": 300,
+  "new_age_days": 21,
+  "prompts": [
+   "What are the allowed file types and max size limit for profile picture uploads?",
+   "Kullanıcı avatarı için geçerli dosya formatları ve maksimum dosya boyutu nedir?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "Customer invoice PDF generation runs inside the BullMQ worker using puppeteer-core and chromium binary",
+  "new": "Fatura PDF'leri artık worker üzerinde Chrome çalıştırmadan React-pdf (@react-pdf/renderer) ile doğrudan Node runtime içinde üretiliyor",
+  "old_age_days": 230,
+  "new_age_days": 7,
+  "prompts": [
+   "How are invoice PDFs generated in the application?",
+   "Müşteri fatura PDF'leri hangi teknoloji/kütüphane ile oluşturuluyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "convention",
+  "old": "Database connection pool timeout in src/server/db.ts is set to pool_timeout=20 seconds for Neon connections",
+  "new": "Neon db bağlantı havuzunda askıda kalan sorguları engellemek için src/server/db.ts içindeki pool_timeout süresi 5 saniyeye düşürüldü",
+  "old_age_days": 185,
+  "new_age_days": 4,
+  "prompts": [
+   "What is the current database connection pool timeout setting in src/server/db.ts?",
+   "src/server/db.ts içindeki pool_timeout süresi kaç saniye?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "Error monitoring is handled by Sentry Next.js SDK with 10% trace sampling on production",
+  "new": "Sentry maliyetleri nedeniyle hata ve performans takibini Highlight.io SDK (@highlight-run/next) üzerine taşıdık",
+  "old_age_days": 215,
+  "new_age_days": 17,
+  "prompts": [
+   "Which monitoring tool is currently tracking application errors and performance?",
+   "Uygulama hata ve performans izleme için hangi araç aktif olarak kullanılıyor?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "Default currency in multi-currency helper src/lib/currency.ts is USD with fallback conversion to TRY",
+  "new": "Tüm platformda para birimi varsayılanı yalnızca TRY (Türk Lirası) olarak sabitlendi, döviz çevirici modülü kaldırıldı",
+  "old_age_days": 320,
+  "new_age_days": 24,
+  "prompts": [
+   "What is the system's active base currency handling across the platform?",
+   "Platform genelinde geçerli olan temel para birimi nedir?"
+  ],
+  "project": "kervan"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "(fact) Redis cluster port for Celery broker is 6379 on redis-master.redis.svc.cluster.local  {files: deploy/helm/pulsar/values-prod.yaml}",
+  "new": "(fact) Redis cluster port for Celery broker is 6380 (TLS enabled) on redis-master.redis.svc.cluster.local  {files: deploy/helm/pulsar/values-prod.yaml}",
+  "old_age_days": 180,
+  "new_age_days": 12,
+  "prompts": [
+   "Which port does the Celery broker connect to on Redis in production?",
+   "Prod ortamında Celery broker'ı Redis'e hangi port üzerinden bağlanıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "(decision) Python version pinned to 3.11 in Dockerfile and pyproject.toml  {files: Dockerfile, pyproject.toml}",
+  "new": "(decision) Python version pinned to 3.12 in Dockerfile and pyproject.toml  {files: Dockerfile, pyproject.toml}",
+  "old_age_days": 210,
+  "new_age_days": 15,
+  "prompts": [
+   "What Python version is pinned in the Dockerfile and pyproject.toml?",
+   "Dockerfile ve pyproject.toml içinde sabitlenmiş Python sürümü nedir?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "convention",
+  "old": "(convention) Git commit messages follow Conventional Commits with scope, e.g. feat(api): add export endpoint  {files: CONTRIBUTING.md}",
+  "new": "(convention) Git commit messages follow Gitmoji convention with ticket number, e.g. :sparkles: [PLS-123] add export endpoint  {files: CONTRIBUTING.md}",
+  "old_age_days": 250,
+  "new_age_days": 20,
+  "prompts": [
+   "What format or convention is currently required for git commit messages?",
+   "Git commit mesajları için şu an hangi format kuralı uygulanıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "(fact) GKE cluster region: europe-west1 (Belgium) for both staging and production  {files: deploy/terraform/gke.tf}",
+  "new": "(fact) GKE cluster region: europe-west4 (Eemshaven) for both staging and production  {files: deploy/terraform/gke.tf}",
+  "old_age_days": 320,
+  "new_age_days": 40,
+  "prompts": [
+   "Which GCP region hosts the staging and production GKE clusters?",
+   "Staging ve production GKE cluster'ları hangi GCP bölgesinde barındırılıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "(decision) Sentry traces_sample_rate set to 0.1 (10%) in prod to conserve quota  {files: src/pulsar/monitoring.py}",
+  "new": "(decision) Sentry traces_sample_rate set to 0.02 (2%) in prod after upgrading to Business tier  {files: src/pulsar/monitoring.py}",
+  "old_age_days": 150,
+  "new_age_days": 8,
+  "prompts": [
+   "What is the current Sentry traces_sample_rate configured for production?",
+   "Prodüksiyonda Sentry traces_sample_rate değeri şu an kaç olarak ayarlı?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "(fact) Celery result backend is Redis database 2 (redis://redis:6379/2)  {files: src/pulsar/tasks/celery_app.py}",
+  "new": "(fact) Celery result backend is disabled (result_backend = None); task results are written directly to Postgres  {files: src/pulsar/tasks/celery_app.py}",
+  "old_age_days": 280,
+  "new_age_days": 25,
+  "prompts": [
+   "What is configured as the Celery result backend?",
+   "Celery result backend olarak şu anda ne yapılandırılmış durumda?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "convention",
+  "old": "(convention) ClickHouse table names are snake_case with ch_ prefix, e.g. ch_raw_events and ch_user_metrics  {files: src/pulsar/clickhouse/schema.py}",
+  "new": "(convention) ClickHouse table names are snake_case without any prefix, e.g. raw_events and user_metrics  {files: src/pulsar/clickhouse/schema.py}",
+  "old_age_days": 190,
+  "new_age_days": 14,
+  "prompts": [
+   "What is the naming convention for ClickHouse tables?",
+   "ClickHouse tablo isimlendirme kuralı nedir, prefix kullanılıyor mu?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "(fact) Ingestion payload max size: 2MB enforced at the Nginx ingress level via proxy-body-size  {files: deploy/helm/pulsar/templates/ingress.yaml}",
+  "new": "(fact) Ingestion payload max size: 10MB enforced at the Nginx ingress level via proxy-body-size  {files: deploy/helm/pulsar/templates/ingress.yaml}",
+  "old_age_days": 120,
+  "new_age_days": 5,
+  "prompts": [
+   "What is the maximum ingestion payload size allowed by the ingress?",
+   "Ingress seviyesinde izin verilen maksimum ingest payload boyutu nedir?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "(decision) Base Docker image is python:3.11-slim-bullseye for production builds  {files: Dockerfile}",
+  "new": "(decision) Base Docker image is python:3.12-slim-bookworm for production builds  {files: Dockerfile}",
+  "old_age_days": 260,
+  "new_age_days": 18,
+  "prompts": [
+   "What base Docker image is used for production builds?",
+   "Prod imajı için Dockerfile'da hangi base image kullanılıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "(fact) ClickHouse native client port is 9000 used by clickhouse-driver in the writer  {files: src/pulsar/clickhouse/connection.py}",
+  "new": "(fact) ClickHouse HTTP interface port is 8123 used via clickhouse-connect over HTTPS  {files: src/pulsar/clickhouse/connection.py}",
+  "old_age_days": 230,
+  "new_age_days": 30,
+  "prompts": [
+   "Which port and protocol does Pulsar use to connect to ClickHouse?",
+   "Pulsar ClickHouse'a bağlanırken hangi portu ve protokolü kullanıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "convention",
+  "old": "(convention) Environment variables in Helm charts use UPPER_SNAKE_CASE with PULSAR_ prefix  {files: deploy/helm/pulsar/values.yaml}",
+  "new": "(convention) Environment variables in Helm charts use UPPER_SNAKE_CASE without PULSAR_ prefix  {files: deploy/helm/pulsar/values.yaml}",
+  "old_age_days": 160,
+  "new_age_days": 9,
+  "prompts": [
+   "Should environment variables in the Helm charts include the PULSAR_ prefix?",
+   "Helm chart ortam değişkenlerinde PULSAR_ öneki kullanılmalı mı?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "(decision) Export files are compressed using gzip and saved to the gcs-exports bucket with a 7-day lifecycle rule  {files: src/pulsar/tasks/exports.py}",
+  "new": "(decision) Tüm export raporları zstandard (.zst) ile sıkıştırılıp pulsar-prod-reports bucket'ına 30 günlük saklama kuralıyla yüklenir  {files: src/pulsar/tasks/exports.py}",
+  "old_age_days": 200,
+  "new_age_days": 11,
+  "prompts": [
+   "Which compression format and retention period are used for export files?",
+   "Dışa aktarılan rapor dosyalarında hangi sıkıştırma formatı ve saklama süresi uygulanıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "(fact) The HPA for pulsar-api scales between 4 and 20 pods based on 70% target CPU utilization  {files: deploy/helm/pulsar/templates/hpa.yaml}",
+  "new": "(fact) Horizontal pod autoscaler for the API deployment minimum is 8 pods, cap is 35 pods, driven by custom metric http_requests_per_second (target 250 rps)  {files: deploy/helm/pulsar/templates/hpa.yaml}",
+  "old_age_days": 140,
+  "new_age_days": 6,
+  "prompts": [
+   "What are the min/max limits and scaling target for the API HPA?",
+   "API pod'ları için HPA minimum/maksimum limitleri ve ölçekleme metriği nedir?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "(decision) Async job queue worker concurrency is fixed at 8 threads using prefork pool  {files: deploy/helm/pulsar/templates/worker-deployment.yaml}",
+  "new": "(decision) Celery worker'lar gevent pool ve 100 greenlet eşzamanlılığı ile çalıştırılır (--pool=gevent --concurrency=100)  {files: deploy/helm/pulsar/templates/worker-deployment.yaml}",
+  "old_age_days": 175,
+  "new_age_days": 22,
+  "prompts": [
+   "What execution pool type and concurrency setting are configured for Celery workers?",
+   "Celery worker'lar hangi havuz tipi ve eşzamanlılık (concurrency) değeriyle çalışıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "(fact) Error notifications go to Slack webhook channel #pulsar-alerts via Alertmanager  {files: deploy/monitoring/alertmanager.yaml}",
+  "new": "(fact) Production alerts are routed directly to Opsgenie via PagerDuty webhook integration; Slack #pulsar-oncall is kept read-only for daily summaries  {files: deploy/monitoring/alertmanager.yaml}",
+  "old_age_days": 310,
+  "new_age_days": 16,
+  "prompts": [
+   "Where are production error notifications and alerts primarily routed?",
+   "Prodüksiyon hata alarmları öncelikli olarak nereye iletiliyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "convention",
+  "old": "(convention) Integration tests run against an ephemeral Postgres instance spun up by testcontainers-python in CI  {files: tests/conftest.py}",
+  "new": "(convention) Entegrasyon testleri CI runner'ındaki yerel Postgres 16 servis container'ına bağlanır; testcontainers yavaş kaldığı için kaldırıldı  {files: tests/conftest.py, .github/workflows/ci.yaml}",
+  "old_age_days": 220,
+  "new_age_days": 19,
+  "prompts": [
+   "How is the database environment provisioned for integration tests in CI?",
+   "CI ortamında entegrasyon testleri veritabanına nasıl bağlanıyor, testcontainers mı kullanılıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "(decision) Log output is formatted as plain text in local development and JSON with structlog in deployed environments  {files: src/pulsar/logging.py}",
+  "new": "(decision) Bütün ortamlarda (lokal ve prod dahil) structlog JSON çıktısı standartlaştırıldı; console development log formatı tamamen kaldırıldı  {files: src/pulsar/logging.py}",
+  "old_age_days": 130,
+  "new_age_days": 7,
+  "prompts": [
+   "What log format does Pulsar use across environments?",
+   "Pulsar servislerinde şu an lokal ve sunucu log formatı nasıl yapılandırılmıştır?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "(fact) Profiling is enabled via py-spy dumping flamegraphs to /tmp/profiles on SIGUSR2  {files: src/pulsar/main.py}",
+  "new": "(fact) Continuous profiling runs via the Datadog profiling agent (ddtrace-run) integrated in the container entrypoint  {files: deploy/docker/entrypoint.sh}",
+  "old_age_days": 270,
+  "new_age_days": 27,
+  "prompts": [
+   "What tool is currently used for application profiling in production?",
+   "Prodüksiyon uygulamasında profiling için hangi araç kullanılıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "convention",
+  "old": "(convention) Dependency management uses Poetry; all packages locked in poetry.lock  {files: pyproject.toml, poetry.lock}",
+  "new": "(convention) Bağımlılık yönetimi Poetry yerine uv (uv pip compile) aracına taşındı; kilit dosyası requirements.lock olarak tutulur  {files: pyproject.toml, requirements.lock}",
+  "old_age_days": 110,
+  "new_age_days": 4,
+  "prompts": [
+   "Which dependency management tool and lockfile format are currently used?",
+   "Projdede bağımlılık yönetimi ve lock dosyası için şu anda hangi araç kullanılıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "(fact) Healthcheck liveness probe threshold: initialDelaySeconds 30, failureThreshold 3 on /healthz  {files: deploy/helm/pulsar/templates/deployment.yaml}",
+  "new": "(fact) Pod liveness probe runs against /live endpoint with initialDelaySeconds 10 and failureThreshold 5  {files: deploy/helm/pulsar/templates/deployment.yaml}",
+  "old_age_days": 195,
+  "new_age_days": 13,
+  "prompts": [
+   "What endpoint and parameters are configured for the liveness probe?",
+   "Liveness probe için hangi endpoint ve parametreler yapılandırılmış durumda?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "(decision) Redis caching layer uses KeyDB as drop-in multi-threaded replacement for Redis  {files: deploy/helm/pulsar/values-prod.yaml}",
+  "new": "(decision) Ön bellek katmanı için KeyDB bırakılıp GCP Memorystore for Redis 7.0 managed cluster'a geçildi  {files: deploy/helm/pulsar/values-prod.yaml}",
+  "old_age_days": 340,
+  "new_age_days": 35,
+  "prompts": [
+   "What backend is currently used for the Redis caching tier in production?",
+   "Prod ortamındaki önbellek (cache) katmanı için hangi Redis servisi kullanılıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "restated",
+  "kind": "convention",
+  "old": "(convention) Feature flags are evaluated via Unleash client connecting to internal unleash-proxy  {files: src/pulsar/features.py}",
+  "new": "(convention) Feature flag yönetimi LaunchDarkly Python SDK (ldclient) üzerinden sağlanmaktadır; Unleash sunucusu kapatıldı  {files: src/pulsar/features.py}",
+  "old_age_days": 165,
+  "new_age_days": 2,
+  "prompts": [
+   "Which feature flag service and SDK are used in the codebase?",
+   "Kod tabanında feature flag kontrolleri için hangi servis ve SDK kullanılıyor?"
+  ],
+  "project": "pulsar"
+ },
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "[a-img-01] (decision) Image caching uses expo-image with memory cache limit set to 128MB  {files: src/components/CachedImage.tsx}",
+  "new": "[a-img-01] (decision) Image caching uses expo-image with memory cache limit set to 256MB  {files: src/components/CachedImage.tsx}",
+  "old_age_days": 180,
+  "new_age_days": 14,
+  "prompts": [
+   "What is the memory cache limit configured for expo-image?",
+   "expo-image için ayarlanan bellek önbellek sınırı kaç MB?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "[a-supa-reg-01] (fact) Supabase project region: eu-central-1 (Frankfurt)  {files: supabase/config.toml}",
+  "new": "[a-supa-reg-01] (fact) Supabase project region: eu-west-1 (Ireland)  {files: supabase/config.toml}",
+  "old_age_days": 240,
+  "new_age_days": 20,
+  "prompts": [
+   "Which AWS region hosts our Supabase project?",
+   "Supabase projemiz hangi bölgede (region) barındırılıyor?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "explicit",
+  "kind": "convention",
+  "old": "[a-style-01] (convention) Styling is done exclusively with NativeWind v2 using Tailwind CSS classes  {files: tailwind.config.js}",
+  "new": "[a-style-01] (convention) Styling is done exclusively with NativeWind v4 using Tailwind CSS classes  {files: tailwind.config.js}",
+  "old_age_days": 210,
+  "new_age_days": 25,
+  "prompts": [
+   "Which version of NativeWind are we using for styling?",
+   "Stil tanımlamaları için NativeWind'in hangi sürümünü kullanıyoruz?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "[a-sentry-01] (fact) Sentry tracesSampleRate is set to 0.2 in production  {files: src/lib/sentry.ts}",
+  "new": "[a-sentry-01] (fact) Sentry tracesSampleRate is set to 0.05 in production  {files: src/lib/sentry.ts}",
+  "old_age_days": 150,
+  "new_age_days": 10,
+  "prompts": [
+   "What is the Sentry tracesSampleRate in production?",
+   "Prod ortamında Sentry tracesSampleRate oranı kaça ayarlandı?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "[a-pay-01] (decision) In-app purchases handled via RevenueCat SDK v7; offerings configured in RC dashboard  {files: src/lib/purchases.ts}",
+  "new": "[a-pay-01] (decision) In-app purchases handled via RevenueCat SDK v8; offerings configured in RC dashboard  {files: src/lib/purchases.ts}",
+  "old_age_days": 300,
+  "new_age_days": 35,
+  "prompts": [
+   "Which RevenueCat SDK version is integrated for in-app purchases?",
+   "Uygulama içi satın almalar için RevenueCat SDK'sının hangi sürümü kurulu?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "explicit",
+  "kind": "convention",
+  "old": "[a-db-col-01] (convention) Postgres timestamp sütunları UTC timezone ile timestamptz ve default now() olarak tanımlanır  {files: supabase/migrations}",
+  "new": "[a-db-col-01] (convention) Postgres timestamp sütunları UTC timezone ile timestamp (without time zone) ve default (now() at time zone 'utc') olarak tanımlanır  {files: supabase/migrations}",
+  "old_age_days": 270,
+  "new_age_days": 40,
+  "prompts": [
+   "What is the database convention for creating timestamp columns in migrations?",
+   "Migration dosyalarında timestamp sütunları hangi tipte ve varsayılan değerle oluşturulmalı?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "[a-ci-node-01] (fact) EAS build workers use Node.js version 18.18.0 pinned via .nvmrc  {files: .nvmrc}",
+  "new": "[a-ci-node-01] (fact) EAS build workers use Node.js version 20.11.1 pinned via .nvmrc  {files: .nvmrc}",
+  "old_age_days": 190,
+  "new_age_days": 15,
+  "prompts": [
+   "Which Node.js version is pinned for EAS build workers in .nvmrc?",
+   ".nvmrc içinde EAS build ortamı için hangi Node.js sürümü tanımlı?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "[a-analytics-01] (decision) Product analytics tracked through PostHog EU cloud instance  {files: src/lib/analytics.ts}",
+  "new": "[a-analytics-01] (decision) Product analytics tracked through PostHog US cloud instance  {files: src/lib/analytics.ts}",
+  "old_age_days": 140,
+  "new_age_days": 8,
+  "prompts": [
+   "Which PostHog cloud instance (EU or US) is used for product analytics?",
+   "Ürün analitiği için hangi PostHog bulut sunucusu (EU mu US mi) kullanılıyor?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "explicit",
+  "kind": "fact",
+  "old": "[a-rate-01] (fact) Edge functions rate limit: 60 requests per minute per user ID managed by Upstash Redis  {files: supabase/functions/_shared/rateLimiter.ts}",
+  "new": "[a-rate-01] (fact) Edge functions rate limit: 120 requests per minute per user ID managed by Upstash Redis  {files: supabase/functions/_shared/rateLimiter.ts}",
+  "old_age_days": 160,
+  "new_age_days": 12,
+  "prompts": [
+   "What is the current rate limit per minute per user on Edge functions?",
+   "Edge fonksiyonlarında kullanıcı başına düşen dakikalık istek sınırı kaç?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "explicit",
+  "kind": "convention",
+  "old": "[a-test-cov-01] (convention) Jest birim testleri için minimum code coverage eşiği %70 olarak belirlendi  {files: jest.config.js}",
+  "new": "[a-test-cov-01] (convention) Jest birim testleri için minimum code coverage eşiği %85 olarak belirlendi  {files: jest.config.js}",
+  "old_age_days": 220,
+  "new_age_days": 18,
+  "prompts": [
+   "What is the minimum Jest unit test code coverage threshold?",
+   "Jest birim testleri için zorunlu kılınan minimum test kapsamı (coverage) yüzdesi kaçtır?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "explicit",
+  "kind": "decision",
+  "old": "[a-splash-01] (decision) Splash screen duration minimum 1500ms enforced with expo-splash-screen hideAsync  {files: app/_layout.tsx}",
+  "new": "[a-splash-01] (decision) Splash screen duration minimum 500ms enforced with expo-splash-screen hideAsync  {files: app/_layout.tsx}",
+  "old_age_days": 130,
+  "new_age_days": 6,
+  "prompts": [
+   "What is the minimum splash screen display time enforced in the root layout?",
+   "Açılış ekranında (splash screen) en az kaç ms bekleme kuralı uygulanıyor?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "[a-i18n-01] (decision) App translations managed via i18next and react-i18next with bundled JSON files in assets/locales  {files: src/lib/i18n.ts}",
+  "new": "[a-i18n-02] (decision) Switched internationalization to typesafe-i18n; localizations compile to src/i18n/ generated types and dictionaries  {files: src/i18n/}",
+  "old_age_days": 320,
+  "new_age_days": 28,
+  "prompts": [
+   "Which internationalization library is used for handling app translations?",
+   "Uygulama çevirileri için hangi kütüphane kullanılıyor?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "[a-font-01] (fact) Brand typography uses Inter font family loaded dynamically via @expo-google-fonts/inter  {files: app/_layout.tsx}",
+  "new": "[a-font-02] (fact) Application headings and body text render with Plus Jakarta Sans loaded from local asset files  {files: app/_layout.tsx}",
+  "old_age_days": 280,
+  "new_age_days": 22,
+  "prompts": [
+   "What primary font family is used across the app?",
+   "Uygulama genelinde metinler ve başlıklar için hangi font ailesi kullanılıyor?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "convention",
+  "old": "[a-branch-01] (convention) Feature branches are named feature/JIRA-xxx-short-desc and PRs target develop branch  {files: .github/PULL_REQUEST_TEMPLATE.md}",
+  "new": "[a-branch-02] (convention) Git workflow: use trunk-based development with short-lived branches prefixed feat/ pointing directly to main  {files: .github/PULL_REQUEST_TEMPLATE.md}",
+  "old_age_days": 340,
+  "new_age_days": 30,
+  "prompts": [
+   "Which base branch should pull requests target according to the Git workflow?",
+   "PR açarken hedef alınması gereken ana branch hangisidir?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "[a-avatar-01] (decision) User trip photos and profile avatars stored in Supabase storage bucket named user-uploads  {files: src/lib/supabase.ts}",
+  "new": "[a-avatar-02] (decision) Cloudflare R2 bucket atlas-media handles profile pictures and trip images via direct presigned URLs  {files: src/lib/r2.ts}",
+  "old_age_days": 210,
+  "new_age_days": 16,
+  "prompts": [
+   "Where are uploaded user images and trip media stored?",
+   "Kullanıcı fotoğrafları ve seyahat görselleri hangi depolama servisinde saklanıyor?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "[a-target-sdk-01] (fact) Android targetSdkVersion is set to 33 in app.config.ts  {files: app.config.ts}",
+  "new": "[a-target-sdk-02] (fact) Google Play compliance update: android.targetSdkVersion raised to 34  {files: app.config.ts}",
+  "old_age_days": 250,
+  "new_age_days": 11,
+  "prompts": [
+   "What is the current Android targetSdkVersion for the application?",
+   "Uygulamanın Android targetSdkVersion değeri şu anda kaçtır?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "convention",
+  "old": "[a-query-stale-01] (convention) TanStack Query varsayılan staleTime değeri tüm queryler için 5 dakika olarak bırakıldı  {files: src/lib/queryClient.ts}",
+  "new": "[a-query-stale-02] (convention) React Query cache politikası: Gezgin lokasyon ve rota verileri sık değiştiği için default staleTime 30 saniyeye çekildi  {files: src/lib/queryClient.ts}",
+  "old_age_days": 190,
+  "new_age_days": 9,
+  "prompts": [
+   "What is the default staleTime setting configured in TanStack Query?",
+   "TanStack Query için geçerli olan varsayılan staleTime süresi nedir?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "[a-search-01] (decision) Trip destination search uses Supabase Postgres full-text search with websearch_to_tsquery  {files: supabase/migrations/20231102_search.sql}",
+  "new": "[a-search-02] (decision) Replaced SQL search with Algolia Places & Search index for instant destination autocompletion  {files: src/lib/algolia.ts}",
+  "old_age_days": 260,
+  "new_age_days": 19,
+  "prompts": [
+   "What engine or service powers the destination search feature?",
+   "Hedef arama ve otomatik tamamlama özelliği hangi servis üzerinden çalışıyor?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "[a-ios-target-01] (fact) Minimum iOS deployment target is iOS 15.1 specified in Podfile  {files: ios/Podfile}",
+  "new": "[a-ios-target-02] (fact) Expo SDK upgrade required bumping the minimum iOS deployment target to 16.0  {files: ios/Podfile}",
+  "old_age_days": 230,
+  "new_age_days": 14,
+  "prompts": [
+   "What is the minimum supported iOS version for the app?",
+   "Uygulamanın desteklediği minimum iOS sürümü (deployment target) nedir?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "convention",
+  "old": "[a-forms-01] (convention) Form state and validation in modals use Formik with Yup validation schemas  {files: src/components/forms/}",
+  "new": "[a-forms-02] (convention) Standardized all form management on react-hook-form paired with Zod schemas  {files: src/components/forms/}",
+  "old_age_days": 310,
+  "new_age_days": 27,
+  "prompts": [
+   "Which libraries are the standard choice for forms and validation in the project?",
+   "Projelerdeki form yönetimi ve doğrulama (validation) için hangi kütüphaneler tercih ediliyor?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "decision",
+  "old": "[a-feedback-01] (decision) User crash feedback and bug reports are gathered using Shake SDK  {files: src/lib/shake.ts}",
+  "new": "[a-feedback-02] (decision) Integrated Sentry User Feedback widget for in-app bug reports and removed Shake  {files: src/lib/sentryFeedback.ts}",
+  "old_age_days": 170,
+  "new_age_days": 5,
+  "prompts": [
+   "What tool handles user bug reports and in-app feedback?",
+   "Kullanıcı hata bildirimleri ve geri bildirimler için hangi araç kullanılıyor?"
+  ],
+  "project": "atlas"
+ },
+ {
+  "mode": "restated",
+  "kind": "fact",
+  "old": "[a-geo-fence-01] (fact) Background location updates configured to track every 100 meters with LocationAccuracy.Balanced  {files: src/lib/location.ts}",
+  "new": "[a-geo-fence-02] (fact) Battery optimization: background trip tracking distance interval is 250 meters using LocationAccuracy.Low  {files: src/lib/location.ts}",
+  "old_age_days": 145,
+  "new_age_days": 7,
+  "prompts": [
+   "What is the distance interval configured for background location tracking?",
+   "Arka plan konum takibi için belirlenen mesafe aralığı (distance interval) kaç metredir?"
+  ],
+  "project": "atlas"
+ }
+]

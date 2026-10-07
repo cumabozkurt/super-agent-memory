@@ -1,0 +1,41 @@
+# 40-turn realistic session in project kervan (refund feature). Format: turn | prompt | labels (same grammar as queries.txt; empty = no memory needed)
+1 | let's continue the partial refunds work | k-sess-01:3 k-pay-06:3
+2 | how are amounts sent to iyzico again | k-pay-05:3 k-db-06:2
+3 | add a RefundRequest model and a migration for it | k-db-04:3 k-db-06:1
+4 | ok now run that migration against the database | k-db-04:2 g-rule-04:2
+5 | thanks |
+6 | write a regression test for refund.ts | k-test-01:3
+7 | the e2e checkout test is flaky again | k-test-03:3
+8 | e2e needs a database, where does it come from | k-test-02:3
+9 | explain what this vitest mock does |
+10 | iyzico may retry the refund callback, how did we deal with duplicates for payments | k-pay-03:3
+11 | should the refund handler log the customer's phone | k-sec-01:3
+12 | format this file |
+13 | add the refund button label, Turkish first | k-i18n-02:3
+14 | make the refund button use the brand colour | k-ui-02:3
+15 | how do we ship this to prod | k-deploy-01:3 k-deploy-04:2
+16 | it's friday 17:30, can I deploy now? | k-deploy-04:3
+17 | deploy failed with P3009 | k-deploy-03:3
+18 | how do we roll back | k-deploy-05:3
+19 | send a refund confirmation email to the customer | k-email-01:3 k-email-02:2
+20 | where are the email templates | k-email-02:3
+21 | the refund mail went to spam at outlook | k-email-03:3
+22 | summarize the diff |
+23 | wait, amounts again: kuruş or TL when talking to iyzico? | k-pay-05:3 k-db-06:3
+24 | put refunds behind a feature flag | k-misc-02:3
+25 | server action or route handler for the refund form? | k-misc-09:3
+26 | only admins and sellers may refund, add the permission check | k-auth-05:3
+27 | can I just check the role from useAuthStore in the client? | k-auth-02:3 k-auth-05:2
+28 | rename this variable |
+29 | rate limit the refund endpoint | k-sec-02:3
+30 | add error monitoring breadcrumbs for refunds | k-obs-01:2
+31 | include the orderId in the refund logs | k-obs-02:3
+32 | partial refund with a percentage coupon is off by a kuruş | k-misc-11:3
+33 | refunds need a reverse invoice with KDV | k-tax-01:3
+34 | the Paraşüt token expired inside the job | k-tax-02:3
+35 | jobs stuck in active after the deploy again | k-queue-02:3
+36 | what REDIS_URL does the worker need | k-queue-01:3
+37 | what's left to do on refunds? | k-pay-06:3 k-sess-01:2
+38 | write the commit message | g-pref-02:3
+39 | open the PR | k-ci-03:3 g-tool-02:2
+40 | thanks, great session |
