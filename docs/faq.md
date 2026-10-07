@@ -22,9 +22,9 @@ Yes. Directives ("unutma", "bundan sonra", "artık X değil Y", "her zaman / asl
 
 `sam` is short. `sam-memory` exists because `sam` is also the AWS SAM CLI, and `super-agent-memory` matches the package name. All three run the same CLI, and the rules SAM installs for agents always use `sam-memory`.
 
-### Why doesn't `npm i -g super-agent-memory` work?
+### Can I install without the npm registry?
 
-The package is not published to the npm registry yet. Install the release tarball with `npm i -g https://github.com/cumabozkurt/super-agent-memory/releases/download/v1.0.0/super-agent-memory-1.0.0.tgz`, the tag with `npm i -g github:cumabozkurt/super-agent-memory#v1.0.0`, or a clone with `npm link`. See [Getting started](getting-started.md#install).
+Yes. `npm i -g super-agent-memory` is the normal way, but every [GitHub release](https://github.com/cumabozkurt/super-agent-memory/releases) carries the same tarball (`npm i -g <tarball URL or file>`, checksum in `SHA256SUMS.txt`), and `npm i -g github:cumabozkurt/super-agent-memory#vX.Y.Z` or a clone with `npm link` work too. See [Getting started](getting-started.md#install).
 
 ### Can I share memory with my team?
 

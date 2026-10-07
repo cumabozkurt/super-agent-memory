@@ -76,8 +76,8 @@ CI runs the suite on Ubuntu, macOS and Windows with Node 22.16 (the declared flo
 
 ## Releasing (maintainers)
 
-1. Bump `version` in `package.json` and move the `[Unreleased]` notes into a new `## [X.Y.Z] — YYYY-MM-DD` section of `CHANGELOG.md` (that section becomes the release notes). Update the version in the README install lines.
+1. Bump `version` in `package.json` and move the `[Unreleased]` notes into a new `## [X.Y.Z] — YYYY-MM-DD` section of `CHANGELOG.md` (that section becomes the release notes).
 2. Optional dry run: *Actions → release → Run workflow* on `main` runs the tests and builds the tarball as a workflow artifact, without creating a release.
-3. `git tag vX.Y.Z && git push origin vX.Y.Z`. [`release.yml`](.github/workflows/release.yml) checks the tag against `package.json`, runs the tests, builds the npm tarball and `SHA256SUMS.txt`, smoke-installs the tarball and creates the GitHub Release with both files attached. It publishes to npm only when the `NPM_TOKEN` secret exists; otherwise that step is skipped.
+3. `git tag vX.Y.Z && git push origin vX.Y.Z`. [`release.yml`](.github/workflows/release.yml) checks the tag against `package.json`, runs the tests, builds the npm tarball and `SHA256SUMS.txt`, smoke-installs the tarball and creates the GitHub Release with both files attached. It publishes to npm (with provenance) when the `NPM_TOKEN` secret exists, before creating the release; a version that is already on npm is skipped, so a failed run can simply be re-run.
 
 By contributing you agree that your contribution is licensed under the MIT License of this repository.

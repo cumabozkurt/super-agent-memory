@@ -7,6 +7,15 @@ The SQLite schema version is stored in the `meta` table (`schema`). Any release 
 
 ## [Unreleased]
 
+## [1.0.1] — 2026-10-08
+
+First npm release: [`super-agent-memory`](https://www.npmjs.com/package/super-agent-memory) is now on the npm registry, published from GitHub Actions with provenance. No code changes since 1.0.0.
+
+### Changed
+- Install with `npm i -g super-agent-memory`. README (EN/TR), Getting started and FAQ updated; GitHub release tarballs stay available for offline or pinned installs.
+- README badges: npm version.
+- `release.yml` publishes to npm before creating the GitHub Release and skips a version that is already on npm, so a failed run can be re-run safely.
+
 ## [1.0.0] — 2026-10-08
 
 First public release ([GitHub release](https://github.com/cumabozkurt/super-agent-memory/releases/tag/v1.0.0)). SAM is one persistent, token-frugal memory shared by every coding agent on a machine (Claude Code, Codex CLI, Gemini CLI, Antigravity, OpenCode, Cursor, any MCP client): zero npm dependencies, one local SQLite file (`node:sqlite`, Node.js 22.16+ (22.x) or 24+), LLM-free capture. Earlier internal milestones (numbered 1.0.0–1.2.0 during development, never published) are summarized under *Pre-release development notes* below.
@@ -234,5 +243,6 @@ A full fix pass after two independent audits of 1.0.0 (code and host integration
 - Budgeted injection: a session card, relevance-gated per-prompt recall, file-anchored notes and a per-session ledger.
 - Output vault (`sam run`, `sam out`), a 4-tool MCP server, Markdown/JSONL export and import, team file sharing, `sam gc`, `sam stats`, and the token benchmark (`npm run bench`).
 
-[Unreleased]: https://github.com/cumabozkurt/super-agent-memory/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/cumabozkurt/super-agent-memory/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/cumabozkurt/super-agent-memory/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/cumabozkurt/super-agent-memory/releases/tag/v1.0.0

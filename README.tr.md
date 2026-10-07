@@ -5,6 +5,7 @@ Claude Code · Codex CLI · Gemini CLI · Antigravity (IDE / CLI / 2.0) · OpenC
 
 [![CI](https://github.com/cumabozkurt/super-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/cumabozkurt/super-agent-memory/actions/workflows/ci.yml)
 [![Sürüm](https://img.shields.io/github/v/release/cumabozkurt/super-agent-memory?sort=semver&label=s%C3%BCr%C3%BCm)](https://github.com/cumabozkurt/super-agent-memory/releases/latest)
+[![npm](https://img.shields.io/npm/v/super-agent-memory?logo=npm)](https://www.npmjs.com/package/super-agent-memory)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-22.16%2B%20%7C%2024%2B-339933.svg)](docs/getting-started.md#requirements)
 [![Dependencies: 0](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](package.json)
@@ -12,11 +13,11 @@ Claude Code · Codex CLI · Gemini CLI · Antigravity (IDE / CLI / 2.0) · OpenC
 [English README](README.md) · [Belgeler (İngilizce)](docs/README.md) · [Başlangıç](docs/getting-started.md) · [CLI](docs/cli.md) · [SSS](docs/faq.md)
 
 ```bash
-npm i -g https://github.com/cumabozkurt/super-agent-memory/releases/download/v1.0.0/super-agent-memory-1.0.0.tgz
+npm i -g super-agent-memory
 sam install        # ajanlarını bulur; hook + MCP + kuralları kurar
 ```
 
-**v1.0.0** [GitHub Releases](https://github.com/cumabozkurt/super-agent-memory/releases/latest) üzerinde yayında (tarball + `SHA256SUMS.txt`). Paket henüz npm kayıt defterinde olmadığı için yukarıdaki satır sürümdeki tarball'ı kurar. Alternatifler: `npm i -g github:cumabozkurt/super-agent-memory#v1.0.0` ya da çalışma kopyası için `git clone … && npm link`. Ayrıntılar: [Başlangıç](docs/getting-started.md#install).
+Paket [npm](https://www.npmjs.com/package/super-agent-memory)'de. Her [GitHub sürümünde](https://github.com/cumabozkurt/super-agent-memory/releases/latest) çevrimdışı kurulum için tarball ve `SHA256SUMS.txt` de var; çalışma kopyası için `git clone … && npm link`. Ayrıntılar: [Başlangıç](docs/getting-started.md#install).
 
 Kurulum bu kadar. Sunucu, API anahtarı, Python ya da Docker gerekmez; **sıfır npm bağımlılığı** var. Gereksinim: **Node.js 22.16+ (22.x) ya da 24+**. `~/.sam/sam.db` adlı tek SQLite dosyasını aynı ortamdaki tüm ajanlar aynı anda kullanır. Claude Code'da alınan bir kararı Codex, Gemini ve OpenCode bir sonraki açılışta bilir.
 

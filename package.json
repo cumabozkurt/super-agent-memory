@@ -1,6 +1,6 @@
 {
   "name": "super-agent-memory",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "One persistent, token-frugal memory for every coding agent: Claude Code, Codex, Gemini CLI, Antigravity, OpenCode, Cursor. Zero dependencies, local SQLite, LLM-free capture.",
   "type": "module",
   "bin": {
