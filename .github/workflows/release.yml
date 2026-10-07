@@ -1,19 +1,31 @@
 name: release
 
-# Publish to npm when a GitHub Release is published (tag vX.Y.Z).
-# Needs the repository secret NPM_TOKEN (an npm "automation" token, or switch to npm trusted publishing).
+# Pushing a vX.Y.Z tag:
+#   1. checks that the tag matches package.json and runs the tests;
+#   2. builds the npm tarball (`npm pack`) plus SHA256SUMS.txt and smoke-installs the tarball;
+#   3. creates the GitHub Release (notes = the CHANGELOG.md section for that version) with both files attached;
+#   4. publishes to npm only if the NPM_TOKEN repository secret exists; without it the step is skipped.
+# workflow_dispatch (no tag) is a dry run: steps 1-2 only, the tarball is kept as a workflow artifact.
 on:
-  release:
-    types: [published]
+  push:
+    tags: ['v*']
+  workflow_dispatch:
 
 permissions:
-  contents: read
-  id-token: write # npm provenance
+  contents: write  # create the GitHub Release
+  id-token: write  # npm provenance
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -21,11 +33,61 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org
       - name: Tag matches package.json version
+        if: startsWith(github.ref, 'refs/tags/v')
         shell: bash
         run: |
           v=$(node -p "require('./package.json').version")
-          test "${GITHUB_REF_NAME#v}" = "$v" || { echo "tag $GITHUB_REF_NAME != package.json $v"; exit 1; }
-      - run: npm test
-      - run: npm publish --provenance --access public
+          test "${GITHUB_REF_NAME#v}" = "$v" || { echo "::error::tag $GITHUB_REF_NAME != package.json $v"; exit 1; }
+      - name: Tests
+        run: npm test
+        env:
+          SAM_TEST: '1'
+      - name: npm pack + checksums
+        shell: bash
+        run: |
+          mkdir -p release-assets
+          npm pack --pack-destination release-assets
+          cd release-assets && sha256sum * | tee SHA256SUMS.txt
+      - name: Smoke-install the tarball
+        shell: bash
+        run: |
+          npm i -g --prefix "$RUNNER_TEMP/g" release-assets/super-agent-memory-*.tgz
+          "$RUNNER_TEMP/g/bin/sam" --version
+          SAM_HOME="$RUNNER_TEMP/sam-home" "$RUNNER_TEMP/g/bin/sam" doctor
+      - name: Release notes from CHANGELOG.md
+        shell: bash
+        run: |
+          v=$(node -p "require('./package.json').version")
+          node .github/scripts/changelog-section.mjs "$v" > notes.md
+          cat >> notes.md <<MD
+
+          ---
+
+          **Install:** \`npm i -g https://github.com/${GITHUB_REPOSITORY}/releases/download/v$v/super-agent-memory-$v.tgz\` and then \`sam install\`. See the [README](https://github.com/${GITHUB_REPOSITORY}#readme) and [Getting started](https://github.com/${GITHUB_REPOSITORY}/blob/v$v/docs/getting-started.md). \`SHA256SUMS.txt\` holds the tarball's checksum.
+          MD
+          cat notes.md
+      - uses: actions/upload-artifact@v6
+        with:
+          name: npm-package
+          path: release-assets/*
+          if-no-files-found: error
+      - name: GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" release-assets/* --clobber
+            gh release edit "$TAG" --notes-file notes.md --draft=false --prerelease=false --latest
+          else
+            gh release create "$TAG" release-assets/* --verify-tag --latest \
+              --title "Super Agent Memory $TAG" --notes-file notes.md
+          fi
+          gh release view "$TAG" --json url,isDraft,isPrerelease,assets --jq '{url, isDraft, isPrerelease, assets: [.assets[].name]}'
+      - name: Publish to npm (only when the NPM_TOKEN secret exists)
+        if: env.NPM_TOKEN != '' && startsWith(github.ref, 'refs/tags/v')
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

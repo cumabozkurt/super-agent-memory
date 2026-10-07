@@ -14,11 +14,14 @@ node --version   # v22.16.0 or later on 22.x, or v24+
 
 ## Install
 
-The npm package `super-agent-memory` is **not published to the npm registry yet**. Install it straight from GitHub, or from a clone:
+SAM **v1.0.0** is on [GitHub Releases](https://github.com/cumabozkurt/super-agent-memory/releases/latest). The npm package `super-agent-memory` is **not on the npm registry yet**, so install the release tarball, or from GitHub, or from a clone:
 
 ```bash
-# from GitHub
-npm i -g github:cumabozkurt/super-agent-memory
+# from the v1.0.0 release (recommended)
+npm i -g https://github.com/cumabozkurt/super-agent-memory/releases/download/v1.0.0/super-agent-memory-1.0.0.tgz
+
+# from the GitHub tag
+npm i -g github:cumabozkurt/super-agent-memory#v1.0.0
 
 # or from a clone (handy if you want to hack on it)
 git clone https://github.com/cumabozkurt/super-agent-memory.git
@@ -26,7 +29,7 @@ cd super-agent-memory
 npm link
 ```
 
-Once the package is on npm, `npm i -g super-agent-memory` will work too.
+Each release also carries `SHA256SUMS.txt`; to check the tarball, download both files and run `sha256sum -c SHA256SUMS.txt`. Once the package is on npm, `npm i -g super-agent-memory` will work too.
 
 The package installs three names for the same CLI: `sam`, `sam-memory` and `super-agent-memory`. If `sam` on your machine is the AWS SAM CLI, use `sam-memory`. The rules and skills SAM writes for agents always call `sam-memory`.
 
@@ -98,7 +101,7 @@ See [Concepts](concepts.md) for how each piece works.
 
 ## Upgrade
 
-Reinstall the newer version the same way you installed it (`npm i -g github:cumabozkurt/super-agent-memory` again, or `git pull` in your clone), then run `sam install` once more so the launcher and host entries point at the new files. `sam doctor` reports entries that point at missing paths (`BROKEN: … → run sam install`).
+Reinstall the newer version the same way you installed it (`npm i -g` with the new release's tarball URL from [Releases](https://github.com/cumabozkurt/super-agent-memory/releases), `npm i -g github:cumabozkurt/super-agent-memory#vX.Y.Z`, or `git pull` in your clone), then run `sam install` once more so the launcher and host entries point at the new files. `sam doctor` reports entries that point at missing paths (`BROKEN: … → run sam install`).
 
 Database migrations run automatically. An older SAM that meets a database written by a newer one opens it read-only instead of damaging it.
 

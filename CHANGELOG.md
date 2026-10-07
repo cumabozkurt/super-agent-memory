@@ -7,55 +7,9 @@ The SQLite schema version is stored in the `meta` table (`schema`). Any release 
 
 ## [Unreleased]
 
-### Fixed
-- **Held memories no longer leak to agents** through three paths that skipped the `status = 'active'` check. These were quarantined rows and rows pending review:
-  - the automatic handoff's open todos (`src/handoff.js`);
-  - the session digest body, both its fixes and its saved items (`src/capture.js`);
-  - the weekly digests written by `sam sleep` (`src/sleep.js`).
+## [1.0.0] — 2026-10-08
 
-  The handoff query now also respects validity windows.
-- **JSONL backups keep validity windows.** `sam export --jsonl` wrote `valid_from` / `valid_to`, but `sam import` dropped them, so a scheduled or expired fact came back as permanently live. Junk values and empty windows are ignored on import (`src/portable.js`).
-- **Exports hold only live rows.** `sam export` (Markdown) and `sam export --team` now use the shared live-row predicate, so expired, not-yet-valid and held memories are no longer published to `.sam/memory.md` (`src/portable.js`).
-- **`sam embed`** (`src/embed.js`, `src/cli.js`):
-  - backfills only active memories, so held rows are never sent to an embedding endpoint;
-  - no longer re-requests rows the endpoint returned no vector for;
-  - stops when a batch returns nothing;
-  - reports the number of vectors actually stored;
-  - prints a clear hint and exits 1 when embeddings are not configured.
-- **`sam doctor` and `sam stats` count live memories only**; doctor also shows how many are held for review (`src/cli.js`).
-- **`sam out --tail N` / `mem_get`** no longer count the trailing newline of a captured output as an extra empty line (`src/vault.js`).
-- **File paths under a symlinked project root** (macOS `/var` → `/private/var`, `~/code` → another volume, Windows 8.3 short names such as `RUNNER~1`) stay project-relative when the file does not exist on disk, for example a deleted file or a read of a missing path. Before, they were stored as absolute paths, so file notes and fix lines did not match (`src/text.js`). Found by the macOS and Windows CI jobs.
-- **Windows: SAM's PowerShell hook entries are recognized as its own** (Gemini CLI, Cursor and older Claude Code). They quote every argument (`'hook'`), so before this fix a re-install added them a second time, `sam uninstall` left them behind, and `sam doctor` did not self-test them (`src/install.js`).
-- **Windows: Claude-format hooks run by Cursor stay silent** once SAM's Cursor hooks are installed. The check now also matches the quoted PowerShell form (`src/hooks.js`).
-- Windows test and benchmark harness:
-  - dynamic imports use `file://` URLs (`test/chaos/`, `bench/retrieval*/`);
-  - temp folders are cleaned up without failing on a locked database file;
-  - the MCP reopen test, which deletes an open file, is skipped on Windows and always stops its server.
-- The newer-schema message in `sam doctor` no longer suggests an npm command that cannot work before the package is published.
-
-### Added
-- Documentation in `docs/`:
-  - getting started;
-  - concepts;
-  - CLI reference;
-  - MCP server;
-  - configuration (every key);
-  - integrations;
-  - benchmark methodology;
-  - FAQ and troubleshooting;
-  - an index page.
-- `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1).
-- Dependabot for GitHub Actions.
-- README badges and documentation links.
-- Tests for embeddings (`test/embed.test.js`, against a local HTTP stub) and the output vault (`test/vault.test.js`), plus regression tests for every fix above.
-
-### Changed
-- Repository, issue and security links point at `github.com/cumabozkurt/super-agent-memory`.
-- The README install line uses `npm i -g github:cumabozkurt/super-agent-memory` until the package is published to npm.
-
-## [1.0.0] — 2026-10-07
-
-First public release. SAM is one persistent, token-frugal memory shared by every coding agent on a machine (Claude Code, Codex CLI, Gemini CLI, Antigravity, OpenCode, Cursor, any MCP client): zero npm dependencies, one local SQLite file (`node:sqlite`, Node.js 22.16+ (22.x) or 24+), LLM-free capture. Earlier internal milestones (numbered 1.0.0–1.2.0 during development, never published) are summarized under *Pre-release development notes* below.
+First public release ([GitHub release](https://github.com/cumabozkurt/super-agent-memory/releases/tag/v1.0.0)). SAM is one persistent, token-frugal memory shared by every coding agent on a machine (Claude Code, Codex CLI, Gemini CLI, Antigravity, OpenCode, Cursor, any MCP client): zero npm dependencies, one local SQLite file (`node:sqlite`, Node.js 22.16+ (22.x) or 24+), LLM-free capture. Earlier internal milestones (numbered 1.0.0–1.2.0 during development, never published) are summarized under *Pre-release development notes* below.
 
 ### Core
 - **Capture without a model call:** user directives in English and Turkish ("remember…", "from now on…", "unutma…", "bundan sonra…", "artık X değil Y"), edits, commands and outcomes, error → fix pairs, inline `⟦mem kind: text⟧` markers (no tool call), rolling session digests, subagent harvest.
@@ -98,7 +52,54 @@ First public release. SAM is one persistent, token-frugal memory shared by every
 ### Benchmarks and evaluation
 - `npm run bench` (token benchmark, now with a pure-BM25 baseline row), `npm run bench:retrieval` (411 memories, 239 EN/TR prompts), `npm run bench:v2` (blind EN/TR set of 539 positives + 858 negatives written and judged by different vendors, dev / held-out split, knowledge-update, poisoning, dedup and latency suites, bootstrap CIs, BM25 baselines), `npm run bench:latency`, `npm run bench:coding` (memory-necessary coding eval, 34 pairs + 10 harm tasks), `npm run e2e`.
 - Results at release: token bench ≈2,100 tokens at 20/20 recall vs 35,608 for a full dump (−94%) and ≈2,530 at 13/20 for pure BM25 top-3; retrieval v2 held-out hit 0.699 / false injections 0.144 (BM25 top-3: 0.903 / 0.935; BM25 with a dev-tuned floor: 0.741 / 0.124); guard quarantines 43 of 48 poisoned notes (topical injection 0.79 → 0.10); coding eval: SAM push + pull 93.1% vs no memory 16.7% vs full dump 94.6% at ≈1/12 of the dump's tokens.
-- Test suite: 168 tests across 13 files, plus `SAM_SLOW=1` chaos runs and a 36-command host e2e.
+- Test suite: 184 tests across 15 files, plus `SAM_SLOW=1` chaos runs and a 36-command host e2e.
+
+### Fixed
+- **Held memories no longer leak to agents** through three paths that skipped the `status = 'active'` check. These were quarantined rows and rows pending review:
+  - the automatic handoff's open todos (`src/handoff.js`);
+  - the session digest body, both its fixes and its saved items (`src/capture.js`);
+  - the weekly digests written by `sam sleep` (`src/sleep.js`).
+
+  The handoff query now also respects validity windows.
+- **JSONL backups keep validity windows.** `sam export --jsonl` wrote `valid_from` / `valid_to`, but `sam import` dropped them, so a scheduled or expired fact came back as permanently live. Junk values and empty windows are ignored on import (`src/portable.js`).
+- **Exports hold only live rows.** `sam export` (Markdown) and `sam export --team` now use the shared live-row predicate, so expired, not-yet-valid and held memories are no longer published to `.sam/memory.md` (`src/portable.js`).
+- **`sam embed`** (`src/embed.js`, `src/cli.js`):
+  - backfills only active memories, so held rows are never sent to an embedding endpoint;
+  - no longer re-requests rows the endpoint returned no vector for;
+  - stops when a batch returns nothing;
+  - reports the number of vectors actually stored;
+  - prints a clear hint and exits 1 when embeddings are not configured.
+- **`sam doctor` and `sam stats` count live memories only**; doctor also shows how many are held for review (`src/cli.js`).
+- **`sam out --tail N` / `mem_get`** no longer count the trailing newline of a captured output as an extra empty line (`src/vault.js`).
+- **File paths under a symlinked project root** (macOS `/var` → `/private/var`, `~/code` → another volume, Windows 8.3 short names such as `RUNNER~1`) stay project-relative when the file does not exist on disk, for example a deleted file or a read of a missing path. Before, they were stored as absolute paths, so file notes and fix lines did not match (`src/text.js`). Found by the macOS and Windows CI jobs.
+- **Windows: SAM's PowerShell hook entries are recognized as its own** (Gemini CLI, Cursor and older Claude Code). They quote every argument (`'hook'`), so before this fix a re-install added them a second time, `sam uninstall` left them behind, and `sam doctor` did not self-test them (`src/install.js`).
+- **Windows: Claude-format hooks run by Cursor stay silent** once SAM's Cursor hooks are installed. The check now also matches the quoted PowerShell form (`src/hooks.js`).
+- Windows test and benchmark harness:
+  - dynamic imports use `file://` URLs (`test/chaos/`, `bench/retrieval*/`);
+  - temp folders are cleaned up without failing on a locked database file;
+  - the MCP reopen test, which deletes an open file, is skipped on Windows and always stops its server.
+- The newer-schema message in `sam doctor` no longer suggests an npm command that cannot work before the package is published.
+
+### Added
+- Documentation in `docs/`:
+  - getting started;
+  - concepts;
+  - CLI reference;
+  - MCP server;
+  - configuration (every key);
+  - integrations;
+  - benchmark methodology;
+  - FAQ and troubleshooting;
+  - an index page.
+- `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1).
+- Dependabot for GitHub Actions.
+- README badges and documentation links.
+- Tests for embeddings (`test/embed.test.js`, against a local HTTP stub) and the output vault (`test/vault.test.js`), plus regression tests for every fix above.
+- Release workflow: pushing a `v*` tag checks the version, runs the tests, builds the npm tarball and `SHA256SUMS.txt`, and creates the GitHub Release with this section as its notes. npm is published only when the `NPM_TOKEN` secret exists.
+
+### Changed
+- Repository, issue and security links point at `github.com/cumabozkurt/super-agent-memory`.
+- Until the package is on the npm registry, the README installs it from the GitHub release tarball (`npm i -g https://github.com/cumabozkurt/super-agent-memory/releases/download/v1.0.0/super-agent-memory-1.0.0.tgz`) or from a `github:` spec.
 
 ### Known limitations
 - Knowledge updates written as a full restatement without `subject: value`, "X instead of Y" or a negation are not superseded (bench:v2: 3 of 66 updates supersede, the old value is still injected for 71% of update prompts; a small-store dump can show both values, dated, newest first). Reworded duplicates are not merged (0 of 60). Write decisions as `subject: value`.
@@ -233,5 +234,5 @@ A full fix pass after two independent audits of 1.0.0 (code and host integration
 - Budgeted injection: a session card, relevance-gated per-prompt recall, file-anchored notes and a per-session ledger.
 - Output vault (`sam run`, `sam out`), a 4-tool MCP server, Markdown/JSONL export and import, team file sharing, `sam gc`, `sam stats`, and the token benchmark (`npm run bench`).
 
-[Unreleased]: https://github.com/cumabozkurt/super-agent-memory/compare/972a2e8f02cd5d1ed98c6c20bc74f9180007958f...main
-[1.0.0]: https://github.com/cumabozkurt/super-agent-memory/tree/972a2e8f02cd5d1ed98c6c20bc74f9180007958f
+[Unreleased]: https://github.com/cumabozkurt/super-agent-memory/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/cumabozkurt/super-agent-memory/releases/tag/v1.0.0

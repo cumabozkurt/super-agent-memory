@@ -4,18 +4,19 @@
 Claude Code · Codex CLI · Gemini CLI · Antigravity (IDE / CLI / 2.0) · OpenCode · Cursor · any MCP client.
 
 [![CI](https://github.com/cumabozkurt/super-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/cumabozkurt/super-agent-memory/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/cumabozkurt/super-agent-memory?sort=semver)](https://github.com/cumabozkurt/super-agent-memory/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-22.16%2B%20%7C%2024%2B-339933.svg)](docs/getting-started.md#requirements)
 [![Dependencies: 0](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](package.json)
 
 [Türkçe README](README.tr.md) · [Documentation](docs/README.md) · [Getting started](docs/getting-started.md) · [CLI](docs/cli.md) · [FAQ](docs/faq.md)
 
-```
-npm i -g github:cumabozkurt/super-agent-memory   # or: git clone … && npm link
-sam install                                       # detects your agents and wires hooks + MCP + rules
+```bash
+npm i -g https://github.com/cumabozkurt/super-agent-memory/releases/download/v1.0.0/super-agent-memory-1.0.0.tgz
+sam install        # detects your agents and wires hooks + MCP + rules
 ```
 
-The package is not on the npm registry yet; the line above installs it straight from GitHub.
+**v1.0.0** is on [GitHub Releases](https://github.com/cumabozkurt/super-agent-memory/releases/latest) (tarball + `SHA256SUMS.txt`). The package is not on the npm registry yet, so the line above installs the release tarball. Alternatives: `npm i -g github:cumabozkurt/super-agent-memory#v1.0.0`, or `git clone … && npm link` for a working copy. Details: [Getting started](docs/getting-started.md#install).
 
 That is the whole setup. No server, no API key, no Python, no Docker, **zero npm dependencies**. Requires **Node.js 22.16+ (22.x) or 24+**. One SQLite file at `~/.sam/sam.db` is shared live by all agents in the same environment, so a decision made in Claude Code is known to Codex, Gemini and OpenCode the next time they start.
 

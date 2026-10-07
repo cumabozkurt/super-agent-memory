@@ -24,7 +24,7 @@ Yes. Directives ("unutma", "bundan sonra", "artık X değil Y", "her zaman / asl
 
 ### Why doesn't `npm i -g super-agent-memory` work?
 
-The package is not published to the npm registry yet. Install from GitHub with `npm i -g github:cumabozkurt/super-agent-memory`, or from a clone with `npm link`. See [Getting started](getting-started.md#install).
+The package is not published to the npm registry yet. Install the release tarball with `npm i -g https://github.com/cumabozkurt/super-agent-memory/releases/download/v1.0.0/super-agent-memory-1.0.0.tgz`, the tag with `npm i -g github:cumabozkurt/super-agent-memory#v1.0.0`, or a clone with `npm link`. See [Getting started](getting-started.md#install).
 
 ### Can I share memory with my team?
 
