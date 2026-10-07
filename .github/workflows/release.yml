@@ -51,7 +51,7 @@ jobs:
       - name: Smoke-install the tarball
         shell: bash
         run: |
-          npm i -g --prefix "$RUNNER_TEMP/g" release-assets/super-agent-memory-*.tgz
+          npm i -g --prefix "$RUNNER_TEMP/g" ./release-assets/super-agent-memory-*.tgz
           "$RUNNER_TEMP/g/bin/sam" --version
           SAM_HOME="$RUNNER_TEMP/sam-home" "$RUNNER_TEMP/g/bin/sam" doctor
       - name: Release notes from CHANGELOG.md
