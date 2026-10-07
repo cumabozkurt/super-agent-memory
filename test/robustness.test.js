@@ -112,7 +112,8 @@ test('#5: a read-only DB (file or directory) still serves cards and search', { s
   } finally { chmodSync(e.SAM_HOME, 0o700); }
 });
 
-test('#6: the MCP server reopens a DB that was deleted/replaced under it', async () => {
+// Windows refuses to delete a file another process has open, so the scenario cannot happen there.
+test('#6: the MCP server reopens a DB that was deleted/replaced under it', { skip: !POSIX }, async () => {
   const e = env('mcp-inode');
   run(e, ['add', 'seed before the server starts', '-k', 'fact']);
   const c = spawn(process.execPath, [BIN, 'mcp'], { cwd: R, env: e, stdio: ['pipe', 'pipe', 'ignore'] });
@@ -121,12 +122,13 @@ test('#6: the MCP server reopens a DB that was deleted/replaced under it', async
   c.stdout.on('data', (d) => { buf += d; let i; while ((i = buf.indexOf('\n')) >= 0) { const m = JSON.parse(buf.slice(0, i)); buf = buf.slice(i + 1); waiters.get(m.id)?.(m); } });
   let id = 0;
   const call = (name, args) => new Promise((res) => { const my = ++id; waiters.set(my, res); c.stdin.write(JSON.stringify({ jsonrpc: '2.0', id: my, method: 'tools/call', params: { name, arguments: args } }) + '\n'); });
-  await call('mem_save', { text: 'before delete: we use postgres 16', kind: 'fact' });
-  for (const s of ['', '-wal', '-shm']) rmSync(join(e.SAM_HOME, 'sam.db' + s), { force: true });
-  run(e, ['add', 'after delete the cli wrote this', '-k', 'fact']);
-  const r = await call('mem_search', { q: 'after delete cli wrote' });
-  c.stdin.end();
-  assert.match(r.result.content[0].text, /after delete the cli wrote this/);
+  try {
+    await call('mem_save', { text: 'before delete: we use postgres 16', kind: 'fact' });
+    for (const s of ['', '-wal', '-shm']) rmSync(join(e.SAM_HOME, 'sam.db' + s), { force: true });
+    run(e, ['add', 'after delete the cli wrote this', '-k', 'fact']);
+    const r = await call('mem_search', { q: 'after delete cli wrote' });
+    assert.match(r.result.content[0].text, /after delete the cli wrote this/);
+  } finally { c.stdin.end(); c.kill(); } // a failed step must not leave the server running (it would keep the test file alive)
 });
 
 test('#8: hooks read before they write — a locked DB still yields the card quickly', async () => {

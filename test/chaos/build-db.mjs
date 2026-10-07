@@ -4,6 +4,7 @@
 import { join, dirname } from 'node:path';
 import { mkdirSync, existsSync, rmSync } from 'node:fs';
 import { rng, quietSqlite, SAM_SRC } from './lib.mjs';
+import { pathToFileURL } from 'node:url';
 
 quietSqlite();
 const args = Object.fromEntries(process.argv.slice(2).reduce((a, x, i, all) => (x.startsWith('--') ? [...a, [x.slice(2), all[i + 1]]] : a), []));
@@ -11,9 +12,9 @@ const out = args.out || '/tmp/sam-big.db';
 for (const s of ['', '-wal', '-shm']) rmSync(out + s, { force: true });
 mkdirSync(dirname(out), { recursive: true });
 process.env.SAM_HOME = dirname(out);
-const { openDb, closeDb } = await import(join(SAM_SRC, 'db.js'));
+const { openDb, closeDb } = await import(pathToFileURL(join(SAM_SRC, 'db.js')).href);
 openDb(out);
-const { saveMemory } = await import(join(SAM_SRC, 'store.js'));
+const { saveMemory } = await import(pathToFileURL(join(SAM_SRC, 'store.js')).href);
 const r = rng(Number(args.seed || 1));
 const N = Number(args.memories || 50000);
 const E = Number(args.events || 200000);

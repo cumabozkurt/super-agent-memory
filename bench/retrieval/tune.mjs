@@ -4,6 +4,7 @@ import { mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import * as L from './lib.mjs';
+import { pathToFileURL } from 'node:url';
 
 const argv = process.argv.slice(2);
 const si = argv.indexOf('--src');
@@ -12,10 +13,10 @@ process.env.SAM_HOME = mkdtempSync(join(tmpdir(), 'sam-tune-'));
 if (process.env.SAM_EMBED_URL) { process.env.SAM_EMBED_MODEL ||= 'local'; process.env.SAM_EMBED_IN_HOOKS = '1'; }
 const origEmit = process.emitWarning;
 process.emitWarning = (w, ...r) => (String(w).includes('SQLite') ? undefined : origEmit.call(process, w, ...r));
-const { promptContext } = await import(join(SRC, 'inject.js'));
-const { config } = await import(join(SRC, 'config.js'));
+const { promptContext } = await import(pathToFileURL(join(SRC, 'inject.js')).href);
+const { config } = await import(pathToFileURL(join(SRC, 'config.js')).href);
 const ctx = await L.loadCorpus(SRC, L.parseMemories());
-if (process.env.SAM_EMBED_URL) { const { backfill } = await import(join(SRC, 'embed.js')); await backfill({ max: 5000 }); }
+if (process.env.SAM_EMBED_URL) { const { backfill } = await import(pathToFileURL(join(SRC, 'embed.js')).href); await backfill({ max: 5000 }); }
 const qs = L.parseQueries();
 const isDev = L.isTuning;
 const SHOW = argv.includes('--show-heldout');

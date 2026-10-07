@@ -8,7 +8,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const TMP = mkdtempSync(join(tmpdir(), 'sam-cli-'));
-after(() => rmSync(TMP, { recursive: true, force: true }));
+after(async () => { (await import('../src/db.js')).closeDb(); try { rmSync(TMP, { recursive: true, force: true }); } catch { /* Windows: a file can stay locked for a moment after close; it is only a temp dir */ } });
 const SAM_BIN = fileURLToPath(new URL('../bin/sam.js', import.meta.url));
 const REPO = join(TMP, 'repo');
 mkdirSync(join(REPO, '.git'), { recursive: true });

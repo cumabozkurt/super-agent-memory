@@ -10,7 +10,7 @@ import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 
 const TMP = mkdtempSync(join(tmpdir(), 'sam-v2i-'));
-after(() => rmSync(TMP, { recursive: true, force: true }));
+after(async () => { (await import('../src/db.js')).closeDb(); try { rmSync(TMP, { recursive: true, force: true }); } catch { /* Windows: a file can stay locked for a moment after close; it is only a temp dir */ } });
 const SAM_BIN = fileURLToPath(new URL('../bin/sam.js', import.meta.url));
 process.env.SAM_TEST = '1';
 process.env.SAM_HOME = join(TMP, 'home');

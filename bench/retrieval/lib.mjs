@@ -1,7 +1,7 @@
 // Shared helpers: dataset parsing, loading a corpus into a SAM build, metrics, tiktoken bridge.
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
 export const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -79,8 +79,8 @@ export const core = () => JSON.parse(readFileSync(join(DATA, 'core.json'), 'utf8
  * then backdate created/updated timestamps. Returns key<->id maps and the save log.
  */
 export async function loadCorpus(srcDir, mems) {
-  const { saveMemory } = await import(join(srcDir, 'store.js'));
-  const { openDb } = await import(join(srcDir, 'db.js'));
+  const { saveMemory } = await import(pathToFileURL(join(srcDir, 'store.js')).href);
+  const { openDb } = await import(pathToFileURL(join(srcDir, 'db.js')).href);
   const db = openDb();
   for (const p of ['kervan', 'pulsar', 'atlas']) db.prepare('INSERT OR IGNORE INTO projects(id, name, root, created_at) VALUES (?, ?, ?, ?)').run(p, p, null, Date.now());
   const order = [...mems].sort((a, b) => b.ageDays - a.ageDays);

@@ -9,12 +9,13 @@ import { DatabaseSync } from 'node:sqlite';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { quietSqlite, SAM_SRC } from './lib.mjs';
+import { pathToFileURL } from 'node:url';
 
 quietSqlite();
 const [src, dst] = process.argv.slice(2);
 if (!src || !dst || existsSync(dst)) { console.error('usage: salvage-prototype.mjs <corrupt.db> <new.db (must not exist)>'); process.exit(2); }
 process.env.SAM_HOME = join(dst, '..');
-const { openDb } = await import(join(SAM_SRC, 'db.js'));
+const { openDb } = await import(pathToFileURL(join(SAM_SRC, 'db.js')).href);
 const out = openDb(dst);
 const inp = new DatabaseSync(src, { readOnly: true });
 const TABLES = ['meta', 'projects', 'memories', 'sessions', 'events', 'injections', 'vault', 'stats'];

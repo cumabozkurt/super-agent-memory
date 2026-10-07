@@ -24,7 +24,7 @@ const { sessionContext, promptContext } = await import('../src/inject.js');
 const { tokens } = await import('../src/text.js');
 const { digest } = await import('../src/vault.js');
 const { toolSchemaTokens } = await import('../src/mcp.js');
-const { openDb } = await import('../src/db.js');
+const { openDb, closeDb } = await import('../src/db.js');
 const { line } = await import('../src/store.js');
 
 // deterministic PRNG
@@ -153,4 +153,5 @@ console.log(`MCP tool surface: 4 tools ≈ ${toolSchemaTokens()} tokens (estimat
   console.log(`Source tags: card ${off.tokens} → ${on.tokens} tokens (+${d}, ${(100 * d / off.tokens).toFixed(1)}% of the card, ${(100 * d / Ctok).toFixed(1)}% of the session) · lines ${off.ids.length} → ${on.ids.length}`);
   if (process.env.SAM_BENCH_DUMP) { const { writeFileSync } = await import('node:fs'); writeFileSync(process.env.SAM_BENCH_DUMP, JSON.stringify({ on: on.text, off: off.text })); }
 }
-rmSync(process.env.SAM_HOME, { recursive: true, force: true });
+closeDb();
+try { rmSync(process.env.SAM_HOME, { recursive: true, force: true }); } catch { /* Windows can keep a just-closed file locked; it is only a temp dir */ }

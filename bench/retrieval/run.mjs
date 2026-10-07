@@ -268,7 +268,7 @@ const result = {
 result.tokenizer = TIK ? 'tiktoken o200k_base' : 'SAM estimator (tiktoken unavailable)';
 mkdirSync(join(L.ROOT, 'results'), { recursive: true });
 writeFileSync(join(L.ROOT, 'results', LABEL + '.json'), JSON.stringify(result, null, 1));
-rmSync(process.env.SAM_HOME, { recursive: true, force: true });
+try { rmSync(process.env.SAM_HOME, { recursive: true, force: true }); } catch { /* Windows keeps the open DB locked; it is only a temp dir */ }
 const S = searchRes.all;
 console.log(`## ${LABEL}\ncorpus ${result.corpus.memories} (${result.corpus.live} live) · ${nPos} pos + ${nNeg} neg queries · merges ${merges.length} · supersessions ${supers.length} · unreachable labels ${unreachable.length}`);
 console.log(`search: R@1 ${S.r1} R@3 ${S.r3} R@5 ${S.r5} R@10 ${S.r10} MRR ${S.mrr} nDCG@5 ${S.ndcg5} · ${searchRes.msPerQuery} ms/q · stale-above ${searchRes.staleAbove.length}`);
