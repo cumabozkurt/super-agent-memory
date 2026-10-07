@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Report a security vulnerability
-    url: https://github.com/GITHUB_OWNER/super-agent-memory/security/advisories/new
+    url: https://github.com/cumabozkurt/super-agent-memory/security/advisories/new
     about: Please report security problems privately (see SECURITY.md).
   - name: Questions and ideas
-    url: https://github.com/GITHUB_OWNER/super-agent-memory/discussions
+    url: https://github.com/cumabozkurt/super-agent-memory/discussions
     about: Ask usage questions in Discussions.

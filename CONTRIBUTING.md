@@ -7,7 +7,7 @@ Thanks for helping. SAM is small on purpose: one SQLite file, zero npm dependenc
 Requirements: Node.js **22.16+ (22.x) or 24+** (SAM uses the built-in `node:sqlite` with FTS5, which Node 22.13–22.15 and 23.x lack). Nothing else.
 
 ```bash
-git clone https://github.com/GITHUB_OWNER/super-agent-memory.git
+git clone https://github.com/cumabozkurt/super-agent-memory.git
 cd super-agent-memory
 npm test          # unit + integration tests (node:test)
 npm run bench     # token benchmark (must stay at 20/20)

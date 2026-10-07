@@ -185,4 +185,5 @@ A full fix pass after two independent audits of 1.0.0 (code and host integration
 - Budgeted injection: a session card, relevance-gated per-prompt recall, file-anchored notes and a per-session ledger.
 - Output vault (`sam run`, `sam out`), a 4-tool MCP server, Markdown/JSONL export and import, team file sharing, `sam gc`, `sam stats`, and the token benchmark (`npm run bench`).
 
-[1.0.0]: https://github.com/GITHUB_OWNER/super-agent-memory/releases/tag/v1.0.0
+[Unreleased]: https://github.com/cumabozkurt/super-agent-memory/compare/972a2e8f02cd5d1ed98c6c20bc74f9180007958f...main
+[1.0.0]: https://github.com/cumabozkurt/super-agent-memory/tree/972a2e8f02cd5d1ed98c6c20bc74f9180007958f
