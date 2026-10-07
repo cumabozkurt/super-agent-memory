@@ -3,12 +3,19 @@
 **One persistent, token-frugal memory for every coding agent.**
 Claude Code · Codex CLI · Gemini CLI · Antigravity (IDE / CLI / 2.0) · OpenCode · Cursor · any MCP client.
 
-[Türkçe README](README.tr.md)
+[![CI](https://github.com/cumabozkurt/super-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/cumabozkurt/super-agent-memory/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-22.16%2B%20%7C%2024%2B-339933.svg)](docs/getting-started.md#requirements)
+[![Dependencies: 0](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](package.json)
+
+[Türkçe README](README.tr.md) · [Documentation](docs/README.md) · [Getting started](docs/getting-started.md) · [CLI](docs/cli.md) · [FAQ](docs/faq.md)
 
 ```
-npm i -g super-agent-memory   # or: git clone … && npm link
-sam install                   # detects your agents and wires hooks + MCP + rules
+npm i -g github:cumabozkurt/super-agent-memory   # or: git clone … && npm link
+sam install                                       # detects your agents and wires hooks + MCP + rules
 ```
+
+The package is not on the npm registry yet; the line above installs it straight from GitHub.
 
 That is the whole setup. No server, no API key, no Python, no Docker, **zero npm dependencies**. Requires **Node.js 22.16+ (22.x) or 24+**. One SQLite file at `~/.sam/sam.db` is shared live by all agents in the same environment, so a decision made in Claude Code is known to Codex, Gemini and OpenCode the next time they start.
 
@@ -224,7 +231,7 @@ sam purge --query "old api key"   # erase content everywhere (+ tombstone), then
 sam handoff "auth done; tests for refresh left" --to codex   # the next codex session here gets it once
 ```
 
-Inside any agent you can also just say *"remember that…"*, *"from now on…"*, *"always/never…"* (Turkish: *"unutma…"*, *"bundan sonra…"*, *"artık X değil Y"*, *"her zaman/asla…"*). These are saved as conventions, preferences or decisions; repeatable multi-step how-tos can be saved as `-k procedure`. Write decisions as `subject: value` (`queue: SQS, not Kafka`): a later value for the same subject replaces the old one, and so do "X instead of Y" and "switched from Y to X".
+Inside any agent you can also just say *"remember that…"*, *"from now on…"*, *"always/never…"* (Turkish: *"unutma…"*, *"bundan sonra…"*, *"artık X değil Y"*, *"her zaman/asla…"*). These are saved as facts, conventions, preferences or decisions; repeatable multi-step how-tos can be saved as `-k procedure`. Write decisions as `subject: value` (`queue: SQS, not Kafka`): a later value for the same subject replaces the old one, and so do "X instead of Y" and "switched from Y to X".
 
 Exit codes: 0 success, 1 not found or a failed check, 2 usage error. `SAM_DEBUG=1` shows stack traces.
 
@@ -277,7 +284,7 @@ Everything stays on your machine. API keys, tokens, JWTs, private keys and `pass
 ## Development
 
 ```bash
-npm test                 # 168 tests (store, search, retrieval, capture, vault, hooks per host, MCP, installers,
+npm test                 # 183 tests (store, search, retrieval, capture, vault, hooks per host, MCP, installers,
                          #   security, robustness/chaos, workflow, platform, CLI, schema/privacy, guard, gate,
                          #   injection, sharing, integration); SAM_SLOW=1 adds the long chaos run
 npm run bench            # token benchmark (with a pure-BM25 baseline)
@@ -288,7 +295,21 @@ npm run bench:coding     # memory-necessary coding eval (needs an OpenRouter key
 npm run e2e              # install into a temp home and run every installed hook command through sh
 ```
 
-Requires Node.js 22.16+ (22.x) or 24+ (the built-in `node:sqlite` with FTS5). See [CONTRIBUTING.md](CONTRIBUTING.md) and [CHANGELOG.md](CHANGELOG.md).
+Requires Node.js 22.16+ (22.x) or 24+ (the built-in `node:sqlite` with FTS5). See [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [CHANGELOG.md](CHANGELOG.md).
+
+## Documentation
+
+| | |
+|---|---|
+| [Getting started](docs/getting-started.md) | install, wire your agents, verify, upgrade, uninstall |
+| [Concepts](docs/concepts.md) | scopes, kinds, provenance, markers, supersession, card, recall, ledger, guard, handoffs, team file, vault |
+| [CLI reference](docs/cli.md) | every command and flag |
+| [MCP server](docs/mcp.md) | the four tools, limits, protocol details |
+| [Configuration](docs/configuration.md) | every setting with its default, environment variables, embeddings |
+| [Integrations](docs/integrations.md) | what is written for each host, Windows, other MCP clients, containers |
+| [Benchmarks](docs/benchmarks.md) | methodology and how to reproduce every number above |
+| [Architecture](docs/ARCHITECTURE.md) | data model, write path, retrieval, injection, hygiene |
+| [FAQ and troubleshooting](docs/faq.md) | common questions and fixes |
 
 ## Credits
 

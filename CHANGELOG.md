@@ -5,6 +5,47 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 The SQLite schema version is stored in the `meta` table (`schema`). Any release that changes it will say so under **Changed** and describe the migration.
 
+## [Unreleased]
+
+### Fixed
+- **Held memories no longer leak to agents** through three paths that skipped the `status = 'active'` check. These were quarantined rows and rows pending review:
+  - the automatic handoff's open todos (`src/handoff.js`);
+  - the session digest body, both its fixes and its saved items (`src/capture.js`);
+  - the weekly digests written by `sam sleep` (`src/sleep.js`).
+
+  The handoff query now also respects validity windows.
+- **JSONL backups keep validity windows.** `sam export --jsonl` wrote `valid_from` / `valid_to`, but `sam import` dropped them, so a scheduled or expired fact came back as permanently live. Junk values and empty windows are ignored on import (`src/portable.js`).
+- **Exports hold only live rows.** `sam export` (Markdown) and `sam export --team` now use the shared live-row predicate, so expired, not-yet-valid and held memories are no longer published to `.sam/memory.md` (`src/portable.js`).
+- **`sam embed`** (`src/embed.js`, `src/cli.js`):
+  - backfills only active memories, so held rows are never sent to an embedding endpoint;
+  - no longer re-requests rows the endpoint returned no vector for;
+  - stops when a batch returns nothing;
+  - reports the number of vectors actually stored;
+  - prints a clear hint and exits 1 when embeddings are not configured.
+- **`sam doctor` and `sam stats` count live memories only**; doctor also shows how many are held for review (`src/cli.js`).
+- **`sam out --tail N` / `mem_get`** no longer count the trailing newline of a captured output as an extra empty line (`src/vault.js`).
+- The newer-schema message in `sam doctor` no longer suggests an npm command that cannot work before the package is published.
+
+### Added
+- Documentation in `docs/`:
+  - getting started;
+  - concepts;
+  - CLI reference;
+  - MCP server;
+  - configuration (every key);
+  - integrations;
+  - benchmark methodology;
+  - FAQ and troubleshooting;
+  - an index page.
+- `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1).
+- Dependabot for GitHub Actions.
+- README badges and documentation links.
+- Tests for embeddings (`test/embed.test.js`, against a local HTTP stub) and the output vault (`test/vault.test.js`), plus regression tests for every fix above.
+
+### Changed
+- Repository, issue and security links point at `github.com/cumabozkurt/super-agent-memory`.
+- The README install line uses `npm i -g github:cumabozkurt/super-agent-memory` until the package is published to npm.
+
 ## [1.0.0] — 2026-10-07
 
 First public release. SAM is one persistent, token-frugal memory shared by every coding agent on a machine (Claude Code, Codex CLI, Gemini CLI, Antigravity, OpenCode, Cursor, any MCP client): zero npm dependencies, one local SQLite file (`node:sqlite`, Node.js 22.16+ (22.x) or 24+), LLM-free capture. Earlier internal milestones (numbered 1.0.0–1.2.0 during development, never published) are summarized under *Pre-release development notes* below.

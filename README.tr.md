@@ -3,12 +3,19 @@
 **Tüm kodlama ajanların için tek, kalıcı ve token-tasarruflu bellek.**
 Claude Code · Codex CLI · Gemini CLI · Antigravity (IDE / CLI / 2.0) · OpenCode · Cursor · her MCP istemcisi.
 
-[English README](README.md)
+[![CI](https://github.com/cumabozkurt/super-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/cumabozkurt/super-agent-memory/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-22.16%2B%20%7C%2024%2B-339933.svg)](docs/getting-started.md#requirements)
+[![Dependencies: 0](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](package.json)
+
+[English README](README.md) · [Belgeler (İngilizce)](docs/README.md) · [Başlangıç](docs/getting-started.md) · [CLI](docs/cli.md) · [SSS](docs/faq.md)
 
 ```
-npm i -g super-agent-memory   # ya da: git clone … && npm link
-sam install                   # ajanlarını bulur; hook + MCP + kuralları kurar
+npm i -g github:cumabozkurt/super-agent-memory   # ya da: git clone … && npm link
+sam install                                       # ajanlarını bulur; hook + MCP + kuralları kurar
 ```
+
+Paket henüz npm kayıt defterinde yayımlanmadı; yukarıdaki satır doğrudan GitHub'dan kurar.
 
 Kurulum bu kadar. Sunucu, API anahtarı, Python ya da Docker gerekmez; **sıfır npm bağımlılığı** var. Gereksinim: **Node.js 22.16+ (22.x) ya da 24+**. `~/.sam/sam.db` adlı tek SQLite dosyasını aynı ortamdaki tüm ajanlar aynı anda kullanır. Claude Code'da alınan bir kararı Codex, Gemini ve OpenCode bir sonraki açılışta bilir.
 
@@ -226,7 +233,7 @@ sam purge --query "eski api anahtarı"   # içeriği her yerden sil (+ parmak iz
 sam handoff "auth bitti; refresh testleri kaldı" --to codex   # bu repodaki bir sonraki codex oturumu bunu bir kez alır
 ```
 
-Ajana doğrudan *"unutma…"*, *"bundan sonra…"*, *"artık X değil Y"*, *"her zaman / asla…"* (İngilizce: *"remember that…"*, *"from now on…"*) demen de yeterli. Bunlar kural, tercih ya da karar olarak kaydedilir; tekrarlanan çok adımlı işler `-k procedure` ile prosedür olarak kaydedilebilir. Kararları `konu: değer` biçiminde yaz (`kuyruk: SQS, Kafka değil`): aynı konuya verilen yeni bir değer eskisinin yerini alır; "Y yerine X" ve "Y'den X'e geçtik" de öyle. "Yarın…" gibi zaman bildiren cümleler iki gün sonra kendiliğinden kalkan geçici bir yapılacak olarak saklanır.
+Ajana doğrudan *"unutma…"*, *"bundan sonra…"*, *"artık X değil Y"*, *"her zaman / asla…"* (İngilizce: *"remember that…"*, *"from now on…"*) demen de yeterli. Bunlar bilgi, kural, tercih ya da karar olarak kaydedilir; tekrarlanan çok adımlı işler `-k procedure` ile prosedür olarak kaydedilebilir. Kararları `konu: değer` biçiminde yaz (`kuyruk: SQS, Kafka değil`): aynı konuya verilen yeni bir değer eskisinin yerini alır; "Y yerine X" ve "Y'den X'e geçtik" de öyle. "Yarın…" gibi zaman bildiren cümleler iki gün sonra kendiliğinden kalkan geçici bir yapılacak olarak saklanır.
 
 Çıkış kodları: 0 başarı, 1 bulunamadı ya da başarısız bir kontrol, 2 kullanım hatası. `SAM_DEBUG=1` yığın izini gösterir.
 
@@ -279,7 +286,7 @@ Her şey kendi makinende kalır. API anahtarları, tokenlar, JWT'ler, özel anah
 ## Geliştirme
 
 ```bash
-npm test                 # 168 test (depolama, arama, erişim, yakalama, kasa, her ajan için hook'lar, MCP, kurulum,
+npm test                 # 183 test (depolama, arama, erişim, yakalama, kasa, her ajan için hook'lar, MCP, kurulum,
                          #   güvenlik, dayanıklılık/kaos, iş akışı, platform, CLI, şema/gizlilik, koruma, kapı,
                          #   enjeksiyon, paylaşım, entegrasyon); SAM_SLOW=1 uzun kaos koşusunu ekler
 npm run bench            # token ölçümü (saf BM25 tabanıyla)
@@ -290,7 +297,23 @@ npm run bench:coding     # belleğin gerektiği kodlama değerlendirmesi (OpenRo
 npm run e2e              # geçici bir ev dizinine kur ve kurulan her hook komutunu sh ile çalıştır
 ```
 
-Gereksinim: Node.js 22.16+ (22.x) ya da 24+ (FTS5 destekli yerleşik `node:sqlite`). Katkı için [CONTRIBUTING.md](CONTRIBUTING.md), değişiklikler için [CHANGELOG.md](CHANGELOG.md).
+Gereksinim: Node.js 22.16+ (22.x) ya da 24+ (FTS5 destekli yerleşik `node:sqlite`). Katkı için [CONTRIBUTING.md](CONTRIBUTING.md), davranış kuralları için [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), değişiklikler için [CHANGELOG.md](CHANGELOG.md).
+
+## Belgeler
+
+Ayrıntılı belgeler İngilizcedir:
+
+| | |
+|---|---|
+| [Başlangıç](docs/getting-started.md) | kurulum, ajanları bağlama, doğrulama, güncelleme, kaldırma |
+| [Kavramlar](docs/concepts.md) | kapsamlar, türler, kaynak, işaretler, yerini alma, kart, geri çağırma, defter, koruma, devir, ekip dosyası, kasa |
+| [CLI başvurusu](docs/cli.md) | tüm komutlar ve bayraklar |
+| [MCP sunucusu](docs/mcp.md) | dört araç, sınırlar, protokol ayrıntıları |
+| [Ayarlar](docs/configuration.md) | tüm ayarlar ve varsayılanları, ortam değişkenleri, embedding |
+| [Entegrasyonlar](docs/integrations.md) | her ajan için yazılan dosyalar, Windows, diğer MCP istemcileri, konteynerler |
+| [Ölçümler](docs/benchmarks.md) | yöntem ve yukarıdaki her sayının nasıl yeniden üretileceği |
+| [Mimari](docs/ARCHITECTURE.md) | veri modeli, yazma yolu, erişim, enjeksiyon, bakım |
+| [SSS ve sorun giderme](docs/faq.md) | sık sorulanlar ve çözümler |
 
 ## Teşekkür
 
