@@ -6,7 +6,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { openDb, closeDb, healthCheck, moveAside, salvage, corruptCopies, dbState, SCHEMA_VERSION } from './db.js';
 import { search } from './search.js';
-import { saveMemory, getMemories, forget, setPinned, listMemories, line } from './store.js';
+import { saveMemory, getMemories, forget, setPinned, listMemories, line, LIVE_SQL, liveArgs } from './store.js';
 import { sessionContext, promptContext } from './inject.js';
 import { runCommand, readVault, isVaultId } from './vault.js';
 import { recordTool } from './capture.js';
@@ -186,10 +186,12 @@ export async function main(argv) {
         if (dbState.readOnly && !dbState.newerSchema) out('DB is read-only: searches and cards work, nothing new is saved');
         if (dbState.journal === 'DELETE') out(`journal: rollback (not WAL) because the DB is on ${dbState.sharedFs}; SAM_ALLOW_SHARED_FS=1 forces WAL`);
       }
-      const c = openDb().prepare('SELECT COUNT(*) c FROM memories WHERE superseded_by IS NULL').get().c;
+      const c = openDb().prepare(`SELECT COUNT(*) c FROM memories WHERE ${LIVE_SQL}`).get(...liveArgs()).c;
+      let held = 0;
+      try { held = openDb().prepare("SELECT COUNT(*) c FROM memories WHERE superseded_by IS NULL AND status != 'active'").get().c; } catch { /* older file */ }
       let tombs = 0;
       try { tombs = openDb().prepare('SELECT COUNT(*) c FROM tombstones').get().c; } catch { /* older file */ }
-      out(`node ${process.versions.node} · db ${cfg.dbPath} (schema ${dbState.newerSchema || SCHEMA_VERSION}${dbState.newerSchema ? ', newer than this SAM' : ''}) · ${c} live memories${tombs ? ` · ${tombs} tombstones` : ''}`);
+      out(`node ${process.versions.node} · db ${cfg.dbPath} (schema ${dbState.newerSchema || SCHEMA_VERSION}${dbState.newerSchema ? ', newer than this SAM' : ''}) · ${c} live memories${held ? ` · ${held} held for review (sam review)` : ''}${tombs ? ` · ${tombs} tombstones` : ''}`);
       out(`privacy: PII redaction ${cfg.redactPII === false ? 'OFF (redactPII=false)' : 'on (e-mail, phone, IBAN, TCKN)'}`);
       out('agents detected: ' + Object.entries(det).map(([k, v]) => `${k}${v ? '✔' : '·'}`).join(' '));
       out(`budgets (o200k): session-start ≤${cfg.budgetSessionStart} tok, per-prompt ≤${cfg.budgetPrompt} tok` + (cfg.budgetProfile ? ` · profile ${cfg.budgetProfile}` : ''));
@@ -369,7 +371,7 @@ export async function main(argv) {
       const scope = flags['all-projects'] ? null : currentProject(flags).id;
       const rows = db.prepare(`SELECT metric, SUM(value) v FROM stats ${scope ? 'WHERE project = ?' : ''} GROUP BY metric`).all(...(scope ? [scope] : []));
       const m = Object.fromEntries(rows.map((r) => [r.metric, r.v]));
-      const live = db.prepare(`SELECT kind, COUNT(*) c FROM memories WHERE superseded_by IS NULL ${scope ? "AND (project = ? OR project='global')" : ''} GROUP BY kind`).all(...(scope ? [scope] : []));
+      const live = db.prepare(`SELECT kind, COUNT(*) c FROM memories WHERE ${LIVE_SQL} ${scope ? "AND (project = ? OR project='global')" : ''} GROUP BY kind`).all(...liveArgs(), ...(scope ? [scope] : []));
       const vault = db.prepare(`SELECT COALESCE(SUM(bytes),0) b, COALESCE(SUM(shown_bytes),0) s, COUNT(*) n FROM vault ${scope ? 'WHERE project = ?' : ''}`).get(...(scope ? [scope] : []));
       out(`memories: ${live.map((r) => `${r.kind} ${r.c}`).join(' · ') || 'none'}`);
       out(`saved ${m.mem_saved || 0} · merged dups ${m.mem_merged || 0} · auto-fixes ${m.fixes_detected || 0} · inline markers ${m.markers_harvested || 0}`);
@@ -469,7 +471,11 @@ export async function main(argv) {
       const n = file.endsWith('.jsonl') ? importJsonl(text, { projectId: pid, trusted: !!flags.trusted }) : importMarkdown(pid, text, { trusted: !!flags.trusted });
       return out(`imported ${n}${flags.trusted ? '' : ' (untrusted: no pins, kept in this project; --trusted for your own backups)'}`);
     }
-    case 'embed': return out(`embedded ${await backfill()} memories`);
+    case 'embed': {
+      const cfg = config();
+      if (!cfg.embedUrl || !cfg.embedModel) { process.exitCode = 1; return out('embeddings are off: set embedUrl and embedModel in ~/.sam/config.json (or SAM_EMBED_URL / SAM_EMBED_MODEL for a localhost endpoint)'); }
+      return out(`embedded ${await backfill()} memories (${cfg.embedModel} @ ${cfg.embedUrl})`);
+    }
     case 'snippet': return out(genericSnippet());
     case 'skill': return out(SKILL);
     case 'tokens': return out(String(tokens(pos.join(' ') || readFileSync(0, 'utf8'))));
