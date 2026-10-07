@@ -212,3 +212,12 @@ test('H3/M3: canonical paths and remote parsing', async () => {
   assert.equal(pickRemote('[remote "zeta"]\r\n\turl = a\r\n[remote "beta"]\r\n\turl = b\r\n'), 'b');
   assert.deepEqual(remotesFromConfig('[core]\n\turl = x\n'), {});
 });
+
+test('paths under a symlinked root stay project-relative even when the file does not exist', { skip: process.platform === 'win32' }, async () => {
+  const { symlinkSync } = await import('node:fs');
+  const real = join(TMP, 'real-root'); mkdirSync(join(real, 'src'), { recursive: true });
+  const link = join(TMP, 'link-root'); symlinkSync(real, link);
+  assert.equal(text.shortPath(join(link, 'src', 'gone.ts'), link), 'src/gone.ts', 'missing file, existing parent');
+  assert.equal(text.shortPath(join(link, 'new', 'deep', 'x.ts'), link), 'new/deep/x.ts', 'missing parents too');
+  assert.equal(text.canonicalPath(join(link, 'src', 'gone.ts')), join(text.canonicalPath(real), 'src', 'gone.ts'));
+});
