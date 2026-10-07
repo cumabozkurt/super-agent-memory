@@ -2,6 +2,8 @@
 
 Thanks for helping. SAM is small on purpose: one SQLite file, zero npm dependencies, no model calls in the hot path. Please keep it that way.
 
+By taking part you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md). User-facing documentation lives in [`docs/`](docs/README.md): when you change behavior, update the matching page there too.
+
 ## Setup
 
 Requirements: Node.js **22.16+ (22.x) or 24+** (SAM uses the built-in `node:sqlite` with FTS5, which Node 22.13–22.15 and 23.x lack). Nothing else.
