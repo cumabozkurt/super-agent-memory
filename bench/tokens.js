@@ -1,5 +1,5 @@
 // Reproducible token benchmark: `npm run bench`.
-// Builds a synthetic-but-realistic project memory (600 saved, ~493 live after near-duplicate merges), replays a 30-prompt
+// Builds a synthetic-but-realistic project memory (600 saved, 540 live after near-duplicate merges), replays a 30-prompt
 // session, and compares how many tokens each injection strategy pushes into the
 // agent's context — plus whether the memory each prompt actually needed got there.
 //

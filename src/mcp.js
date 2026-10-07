@@ -1,6 +1,6 @@
 // Minimal MCP server over stdio (JSON-RPC 2.0, newline-delimited), no SDK dependency.
 // Four tools with deliberately terse schemas: the whole tool surface costs
-// ~306 tokens per session (estimator; `sam doctor` prints the live figure), paid once, versus several thousand for 19–54-tool servers.
+// ~310 tokens per session (estimator; `sam doctor` prints the live figure), paid once, versus several thousand for 19–54-tool servers.
 import { createInterface } from 'node:readline';
 import { resolveProject } from './project.js';
 import { search } from './search.js';

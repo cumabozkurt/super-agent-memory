@@ -173,7 +173,7 @@ export async function main(argv) {
       const det = detect();
       openDb();
       if (dbState.newerSchema) {
-        out(`DB schema ${dbState.newerSchema} is NEWER than this SAM ${VERSION} (schema ${SCHEMA_VERSION}): opened read-only so it is not damaged; searches and cards work, nothing is saved until you upgrade SAM (npm i -g super-agent-memory@latest)`);
+        out(`DB schema ${dbState.newerSchema} is NEWER than this SAM ${VERSION} (schema ${SCHEMA_VERSION}): opened read-only so it is not damaged; searches and cards work, nothing is saved until you upgrade SAM (reinstall it the way you installed it, then run "sam install")`);
         process.exitCode = 1;
       }
       if (flags.repair && dbState.newerSchema) out('repair skipped: this SAM cannot safely write a newer-schema database');
