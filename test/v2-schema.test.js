@@ -151,6 +151,45 @@ test('valid_from / valid_to: stored, excluded from LIVE_SQL / ls outside the win
   assert.throws(() => store.saveMemory({ project: P, kind: 'fact', text: 'bad date here', validTo: 'not a date' }), /invalid date/);
 });
 
+test('JSONL backup keeps the validity window (export → import --trusted and untrusted)', async () => {
+  const portable = await import('../src/portable.js');
+  const t = Date.now();
+  const src = 'validity-jsonl-src';
+  const fut = store.saveMemory({ project: src, kind: 'fact', text: 'Payments move to the new PSP after the March cutover', validFrom: t + 10 * 86400000, source: 'user' });
+  const exp = store.saveMemory({ project: src, kind: 'fact', text: 'Old staging host stays reachable until the cutover week', validTo: t + 5 * 86400000, source: 'user' });
+  const jl = portable.exportJsonl(src);
+  openDb().prepare('DELETE FROM memories WHERE project = ?').run(src);
+  assert.equal(portable.importJsonl(jl, { projectId: src, trusted: true }), 2);
+  const row = (id) => openDb().prepare('SELECT valid_from, valid_to FROM memories WHERE id = ?').get(id);
+  assert.equal(row(fut.id).valid_from, t + 10 * 86400000);
+  assert.equal(row(exp.id).valid_to, t + 5 * 86400000);
+  // the restored scheduled fact is still not live yet
+  const ids = openDb().prepare(`SELECT id FROM memories WHERE project = ? AND ${store.LIVE_SQL}`).all(src, ...store.liveArgs()).map((r) => r.id);
+  assert.deepEqual(ids, [exp.id]);
+  // untrusted import keeps the window too, and junk values are dropped instead of stored
+  const junk = JSON.stringify({ id: 'vjk1', kind: 'fact', gist: 'A fact with a junk validity window value', valid_from: 'soon', valid_to: -5, created_at: t, updated_at: t });
+  openDb().prepare('DELETE FROM memories WHERE project = ?').run(src);
+  assert.equal(portable.importJsonl(jl + junk + '\n', { projectId: 'validity-jsonl-dst' }), 3);
+  assert.equal(row(fut.id).valid_from, t + 10 * 86400000);
+  assert.deepEqual({ ...row('vjk1') }, { valid_from: null, valid_to: null });
+});
+
+test('Markdown / team export holds only rows live now (an expired or not-yet-valid fact is not published)', async () => {
+  const portable = await import('../src/portable.js');
+  const d = repo('validity-team'); const P = resolveProject(d);
+  const t = Date.now();
+  store.saveMemory({ project: P.id, kind: 'fact', text: 'Code freeze for release 3.1 is in effect this week', validTo: t - 1000, source: 'user' });
+  store.saveMemory({ project: P.id, kind: 'fact', text: 'Billing moves to the new provider after the cutover', validFrom: t + 86400000, source: 'user' });
+  store.saveMemory({ project: P.id, kind: 'convention', text: 'Feature flags are named ff-<team>-<feature>', source: 'user' });
+  const md = portable.exportMarkdown(P.id);
+  assert.match(md, /Feature flags are named/);
+  assert.doesNotMatch(md, /Code freeze|new provider/);
+  const file = portable.writeTeamFile(P);
+  const team = readFileSync(file, 'utf8');
+  assert.match(team, /Feature flags are named/);
+  assert.doesNotMatch(team, /Code freeze|new provider/);
+});
+
 test('two-stage dedup: SimHash candidates merge only with high word overlap and the same polarity/negation', () => {
   assert.ok(store.sameMeaning('Use pnpm for installs in this repo', 'use pnpm for installs in this repo.'));
   assert.ok(!store.sameMeaning('use moment.js for dates', "don't use moment.js for dates"), 'polarity differs');

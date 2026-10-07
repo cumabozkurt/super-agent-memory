@@ -5,7 +5,7 @@ import { readFileSync, writeFileSync, mkdirSync, lstatSync, renameSync, unlinkSy
 import { join } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { openDb, tx } from './db.js';
-import { saveMemory, KINDS, normKind } from './store.js';
+import { saveMemory, KINDS, normKind, LIVE_SQL, liveArgs } from './store.js';
 import { guardImported } from './guard.js'; // v2-guard
 import { sha, topicOf, simhash, hamming, oneLine, sanitize, redact } from './text.js';
 
@@ -18,9 +18,10 @@ const bulletOf = (m) => `- [${KINDS[m.kind].tag}] ${m.gist}${m.pinned ? ' 📌' 
 
 export function exportMarkdown(projectId, { includeSessions = false, team = false } = {}) {
   const rows = openDb().prepare(
-    `SELECT * FROM memories WHERE superseded_by IS NULL AND status = 'active' AND project = ? ${includeSessions && !team ? '' : "AND kind != 'session'"}
+    // live rows only (not superseded, not held, inside their validity window): an expired fact must not reach a team file
+    `SELECT * FROM memories WHERE ${LIVE_SQL} AND project = ? ${includeSessions && !team ? '' : "AND kind != 'session'"}
      ORDER BY kind, pinned DESC, importance DESC, updated_at DESC`
-  ).all(projectId).filter((m) => !team || !PERSONAL.has(m.kind));
+  ).all(...liveArgs(), projectId).filter((m) => !team || !PERSONAL.has(m.kind));
   const by = new Map();
   for (const m of rows) { if (!by.has(m.kind)) by.set(m.kind, []); by.get(m.kind).push(m); }
   const out = ['# Project memory', '', '<!-- managed by super-agent-memory (sam). One memory per bullet: "- [tag] text". Edit freely; teammates review changes with `sam trust`. -->', ''];
@@ -111,7 +112,7 @@ export function importJsonl(text, { projectId = 'global', trusted = false } = {}
 }
 function importJsonlInner(db, text, { projectId, trusted }) {
   let n = 0;
-  const cols = ['id', 'project', 'kind', 'gist', 'body', 'tags', 'files', 'topic', 'importance', 'pinned', 'agent', 'source', 'session', 'simhash', 'superseded_by', 'created_at', 'updated_at', 'last_access', 'access_count'];
+  const cols = ['id', 'project', 'kind', 'gist', 'body', 'tags', 'files', 'topic', 'importance', 'pinned', 'agent', 'source', 'session', 'simhash', 'superseded_by', 'valid_from', 'valid_to', 'created_at', 'updated_at', 'last_access', 'access_count'];
   const st = db.prepare(`INSERT OR IGNORE INTO memories(${cols.join(',')}) VALUES (${cols.map(() => '?').join(',')})`);
   const t = Date.now();
   for (const l of String(text).split(/\r?\n/)) {
@@ -128,6 +129,9 @@ function importJsonlInner(db, text, { projectId, trusted }) {
     row.access_count = Number.isFinite(row.access_count) ? row.access_count : 0;
     row.created_at = Number.isFinite(row.created_at) ? Math.min(row.created_at, t) : t;
     row.updated_at = Number.isFinite(row.updated_at) ? Math.min(row.updated_at, t) : t;
+    // validity window (schema v3): ms epochs; junk is dropped, and an empty window (to <= from) is not restored
+    for (const c of ['valid_from', 'valid_to']) row[c] = Number.isFinite(row[c]) && row[c] > 0 ? Math.trunc(row[c]) : null;
+    if (row.valid_from != null && row.valid_to != null && row.valid_to <= row.valid_from) row.valid_from = row.valid_to = null;
     if (!trusted) {
       row.project = projectId;
       row.pinned = 0;
@@ -267,7 +271,7 @@ export function writeTeamFile(project) {
   let md;
   if (!existing.trim()) {
     md = exportMarkdown(project.id, { team: true });
-    appended.push(...db.prepare("SELECT kind, gist FROM memories WHERE superseded_by IS NULL AND status = 'active' AND project = ? AND kind != 'session'").all(project.id).filter((m) => !PERSONAL.has(m.kind)));
+    appended.push(...db.prepare(`SELECT kind, gist FROM memories WHERE ${LIVE_SQL} AND project = ? AND kind != 'session'`).all(...liveArgs(), project.id).filter((m) => !PERSONAL.has(m.kind)));
   } else {
     const lines = existing.split('\n');
     // drop bullets of memories that were retired HERE (superseded / forgotten); everything else stays as written
@@ -286,7 +290,7 @@ export function writeTeamFile(project) {
       kept.push(l);
     }
     const present = new Set(parseMarkdown(kept.join('\n')).map((it) => it.text));
-    const rows = db.prepare("SELECT * FROM memories WHERE superseded_by IS NULL AND status = 'active' AND project = ? AND kind != 'session' ORDER BY kind, pinned DESC, importance DESC, updated_at DESC").all(project.id)
+    const rows = db.prepare(`SELECT * FROM memories WHERE ${LIVE_SQL} AND project = ? AND kind != 'session' ORDER BY kind, pinned DESC, importance DESC, updated_at DESC`).all(...liveArgs(), project.id)
       .filter((m) => !PERSONAL.has(m.kind) && !present.has(m.gist));
     const add = new Map();
     for (const m of rows) {
