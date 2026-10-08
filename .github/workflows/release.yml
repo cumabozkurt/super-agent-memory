@@ -83,7 +83,13 @@ jobs:
           fi
           # publish the exact tarball that is attached to the GitHub Release; tests already ran above
           npm publish ./release-assets/super-agent-memory-$v.tgz --provenance --access public
-          npm view "super-agent-memory@$v" version
+          # npm may process a publish for a few minutes ("Your package is being processed") before the
+          # version is visible; a slow registry is only a warning, not a failed release
+          for i in $(seq 1 30); do
+            if npm view "super-agent-memory@$v" version >/dev/null 2>&1; then echo "super-agent-memory@$v is live"; exit 0; fi
+            sleep 20
+          done
+          echo "::warning::super-agent-memory@$v was accepted by npm but is not visible yet; check https://www.npmjs.com/package/super-agent-memory"
       - name: GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         shell: bash
