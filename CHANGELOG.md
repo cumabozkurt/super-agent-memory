@@ -7,6 +7,8 @@ The SQLite schema version is stored in the `meta` table (`schema`). Any release 
 
 ## [Unreleased]
 
+## [1.0.2] — 2026-10-11
+
 ### Added
 - MCP tool annotations: all four tools declare `readOnlyHint`, `destructiveHint`, `idempotentHint` and `openWorldHint` as explicit booleans (`mem_search`/`mem_get` read-only; `mem_save` additive, idempotent upsert; `mem_forget` destructive, idempotent; none open-world). Hosts can now gate writes and warn before `mem_forget`. The tool list grows by about 110 tokens (o200k, now about 380–420); the `tools/list` hash changes once, so hosts re-cache their prefix one time.
 - README (EN/TR): M8ven score badge.
@@ -247,6 +249,7 @@ A full fix pass after two independent audits of 1.0.0 (code and host integration
 - Budgeted injection: a session card, relevance-gated per-prompt recall, file-anchored notes and a per-session ledger.
 - Output vault (`sam run`, `sam out`), a 4-tool MCP server, Markdown/JSONL export and import, team file sharing, `sam gc`, `sam stats`, and the token benchmark (`npm run bench`).
 
-[Unreleased]: https://github.com/cumabozkurt/super-agent-memory/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/cumabozkurt/super-agent-memory/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/cumabozkurt/super-agent-memory/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/cumabozkurt/super-agent-memory/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/cumabozkurt/super-agent-memory/releases/tag/v1.0.0
