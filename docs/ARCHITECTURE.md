@@ -90,7 +90,7 @@ Per-kind defaults:
 
 ## MCP (`src/mcp.js`)
 
-Hand-rolled JSON-RPC over stdio (no SDK). Tools: `mem_search{q,k?,kind?}`, `mem_get{ids,grep?}` (memories and vault ids), `mem_save{text,kind?,files?}`, `mem_forget{id}` — about 310 tokens of schema (`sam doctor` prints the exact figure). `mem_get`/`mem_forget` are scoped to the current project + global, at most 20 ids per call; arguments are length-capped and request lines over 1 MB are refused. Agents cannot pin (`pin` is not in the schema). The server reopens the DB if the file was replaced.
+Hand-rolled JSON-RPC over stdio (no SDK). Tools: `mem_search{q,k?,kind?}`, `mem_get{ids,grep?}` (memories and vault ids), `mem_save{text,kind?,files?}`, `mem_forget{id}` — about 400 tokens of schema (`sam doctor` prints the exact figure). Every tool declares all four MCP `annotations` hints (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`): `mem_search`/`mem_get` are read-only, `mem_save` is an additive, idempotent upsert, `mem_forget` is destructive but idempotent; none reaches outside the machine. `mem_get`/`mem_forget` are scoped to the current project + global, at most 20 ids per call; arguments are length-capped and request lines over 1 MB are refused. Agents cannot pin (`pin` is not in the schema). The server reopens the DB if the file was replaced.
 
 ## Hygiene (`src/gc.js`)
 

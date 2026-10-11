@@ -7,6 +7,10 @@ The SQLite schema version is stored in the `meta` table (`schema`). Any release 
 
 ## [Unreleased]
 
+### Added
+- MCP tool annotations: all four tools declare `readOnlyHint`, `destructiveHint`, `idempotentHint` and `openWorldHint` as explicit booleans (`mem_search`/`mem_get` read-only; `mem_save` additive, idempotent upsert; `mem_forget` destructive, idempotent; none open-world). Hosts can now gate writes and warn before `mem_forget`. The tool list grows by about 110 tokens (o200k, now about 380–420); the `tools/list` hash changes once, so hosts re-cache their prefix one time.
+- README (EN/TR): M8ven score badge.
+
 ## [1.0.1] — 2026-10-08
 
 First npm release: [`super-agent-memory`](https://www.npmjs.com/package/super-agent-memory) is now on the npm registry, published from GitHub Actions with provenance. No code changes since 1.0.0.

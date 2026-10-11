@@ -1,6 +1,8 @@
 // Minimal MCP server over stdio (JSON-RPC 2.0, newline-delimited), no SDK dependency.
-// Four tools with deliberately terse schemas: the whole tool surface costs
-// ~310 tokens per session (estimator; `sam doctor` prints the live figure), paid once, versus several thousand for 19–54-tool servers.
+// Four tools with deliberately terse schemas. Every tool declares all four MCP behaviour hints
+// (readOnlyHint, destructiveHint, idempotentHint, openWorldHint) so hosts can gate writes; everything is local.
+// The whole tool surface costs
+// ~400 tokens per session (estimator; `sam doctor` prints the live figure), paid once, versus several thousand for 19–54-tool servers.
 import { createInterface } from 'node:readline';
 import { resolveProject } from './project.js';
 import { search } from './search.js';
@@ -15,21 +17,25 @@ export const TOOLS = [
     name: 'mem_search',
     description: 'Search long-term memory (decisions, conventions, fixes, past sessions). Returns "[kind] gist #id" lines; use mem_get for detail.',
     inputSchema: { type: 'object', properties: { q: { type: 'string' }, k: { type: 'integer' }, kind: { type: 'string' } }, required: ['q'] },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   {
     name: 'mem_get',
     description: 'Full detail for memory ids (e.g. "a1b2 c3d4"), or a vault output id with optional grep.',
     inputSchema: { type: 'object', properties: { ids: { type: 'string' }, grep: { type: 'string' } }, required: ['ids'] },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   {
     name: 'mem_save',
     description: 'Save one durable, self-contained fact for future sessions. kind: decision|convention|procedure|preference|fact|fix|bug|todo|note. Same "subject: value" replaces the old value.',
     inputSchema: { type: 'object', properties: { text: { type: 'string' }, kind: { type: 'string' }, files: { type: 'string' } }, required: ['text'] },
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   {
     name: 'mem_forget',
     description: 'Retire a memory id that is wrong or obsolete.',
     inputSchema: { type: 'object', properties: { id: { type: 'string' } }, required: ['id'] },
+    annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: false },
   },
 ];
 

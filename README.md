@@ -9,6 +9,7 @@ Claude Code · Codex CLI · Gemini CLI · Antigravity (IDE / CLI / 2.0) · OpenC
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-22.16%2B%20%7C%2024%2B-339933.svg)](docs/getting-started.md#requirements)
 [![Dependencies: 0](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](package.json)
+[![M8ven Score](https://m8ven.ai/badge/mcp/cumabozkurt/super-agent-memory)](https://m8ven.ai/mcp/cumabozkurt/super-agent-memory?s=readme)
 
 [Türkçe README](README.tr.md) · [Documentation](docs/README.md) · [Getting started](docs/getting-started.md) · [CLI](docs/cli.md) · [FAQ](docs/faq.md)
 
@@ -34,7 +35,7 @@ We reviewed the **50 most-starred agent-memory repos updated in the last year** 
 | Memory is dumped into context (whole memory files, or top-k full bodies every prompt): thousands of tokens per turn | **Budgeted, progressive context.** A ≤320-token (o200k-equivalent) project card at session start; per-prompt recall only when a relevance gate passes (≤160 tokens); everything else is one `mem_search` away as `[kind] gist #id` lines |
 | The same memories are re-sent turn after turn | **Per-session injection ledger.** A memory is never paid for twice in one session; the ledger resets only after compaction |
 | A model call for every write or tool event (observer LLMs, extraction prompts) | **LLM-free capture.** Edits, commands, outcomes and error→fix pairs are captured deterministically; agents save memories with *inline markers* (`⟦mem decision: queue: SQS, not Kafka⟧`), which cost no tool call |
-| Large MCP tool surfaces (19–54 tools, several thousand schema tokens per session) | **4 tools, about 270–310 schema tokens** (o200k/Claude 4.6; about 440 on Claude 4.7+), or no MCP at all: every operation is also a `sam-memory` shell command |
+| Large MCP tool surfaces (19–54 tools, several thousand schema tokens per session) | **4 tools, about 380–420 schema tokens** (o200k, including all four MCP behaviour hints on every tool; `sam doctor` prints the live figure), or no MCP at all: every operation is also a `sam-memory` shell command |
 | Tool output (test logs, builds) floods the context | **Output vault.** `sam run -- npm test` stores the full log locally and prints a digest (errors with context + tail). An 1,800-test log goes from 20,652 to 89 tokens |
 
 ### Benchmarks

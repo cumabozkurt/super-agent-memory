@@ -204,7 +204,8 @@ function mcpSession(lines) {
 // Update intentionally (and say why in the commit) when a tool's name, description or schema changes:
 // a different tools/list invalidates every host's cached prefix.
 // updated in 1.0.0: mem_save kinds list gained `procedure` (v2-schema kind)
-const TOOLS_LIST_SHA256 = 'dab81e9841371f9dcd054ed85527f7c151ae3bba3a990443393ad44342ec7b6b';
+// updated after 1.0.1: every tool gained MCP annotations (readOnlyHint, destructiveHint, idempotentHint, openWorldHint)
+const TOOLS_LIST_SHA256 = '83ac5d8b8d9812823723190753c2f1bb6ec95f3487e35d0cf3516c9d6a2c0bf1';
 
 test('MCP: tool descriptions and server instructions ≤ 2,048 chars (Claude Code truncates); tools/list hash is stable', async () => {
   const res = await mcpSession([
@@ -220,6 +221,25 @@ test('MCP: tool descriptions and server instructions ≤ 2,048 chars (Claude Cod
   const h = createHash('sha256').update(JSON.stringify(list)).digest('hex');
   assert.equal(JSON.stringify(res.find((r) => r.id === 3).result), JSON.stringify(list), 'byte-identical across calls');
   assert.equal(h, TOOLS_LIST_SHA256, 'tools/list changed: update TOOLS_LIST_SHA256 intentionally');
+});
+
+test('MCP: every tool declares all four annotation hints as booleans that match its behaviour', async () => {
+  const res = await mcpSession([
+    { jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-06-18' } },
+    { jsonrpc: '2.0', id: 2, method: 'tools/list' },
+  ]);
+  const tools = res.find((r) => r.id === 2).result.tools;
+  const want = {
+    mem_search: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    mem_get: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    mem_save: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    mem_forget: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: false },
+  };
+  assert.deepEqual(tools.map((t) => t.name).sort(), Object.keys(want).sort());
+  for (const t of tools) {
+    for (const k of ['readOnlyHint', 'destructiveHint', 'idempotentHint', 'openWorldHint']) assert.equal(typeof t.annotations?.[k], 'boolean', `${t.name}.${k}`);
+    assert.deepEqual(t.annotations, want[t.name], t.name);
+  }
 });
 
 // ---------------- 4. cache hygiene ----------------

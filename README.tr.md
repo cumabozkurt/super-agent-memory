@@ -9,6 +9,7 @@ Claude Code · Codex CLI · Gemini CLI · Antigravity (IDE / CLI / 2.0) · OpenC
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-22.16%2B%20%7C%2024%2B-339933.svg)](docs/getting-started.md#requirements)
 [![Dependencies: 0](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](package.json)
+[![M8ven Score](https://m8ven.ai/badge/mcp/cumabozkurt/super-agent-memory)](https://m8ven.ai/mcp/cumabozkurt/super-agent-memory?s=readme)
 
 [English README](README.md) · [Belgeler (İngilizce)](docs/README.md) · [Başlangıç](docs/getting-started.md) · [CLI](docs/cli.md) · [SSS](docs/faq.md)
 
@@ -34,7 +35,7 @@ Son bir yılda güncellenen, en çok yıldızlı **50 ajan-bellek reposunu** REA
 | Bellek bağlama toptan dökülüyor, her turda binlerce token gidiyor | **Bütçeli, kademeli bağlam.** Oturum başında ≤320 tokenlık (o200k eşdeğeri) proje kartı gelir. Prompt başına hatırlatma yalnızca alaka eşiği geçilirse eklenir (≤160 token). Gerisi `mem_search` ile `[tür] özet #id` satırları olarak bir arama uzağında durur |
 | Aynı bellekler her turda yeniden gönderiliyor | **Oturum defteri.** Bir bellek aynı oturumda iki kez gönderilmez; defter yalnızca bağlam sıkıştırıldıktan (compaction) sonra sıfırlanır |
 | Her yazma ya da araç olayı için ayrı bir LLM çağrısı yapılıyor | **LLM'siz yakalama.** Düzenlemeler, komutlar, sonuçlar ve hata→düzeltme çiftleri deterministik olarak kaydedilir. Ajan bir şeyi kaydetmek için yanıtına `⟦mem decision: kuyruk: SQS, Kafka değil⟧` yazar; bu araç çağrısı gerektirmez |
-| 19–54 araçlı MCP sunucuları her oturumda binlerce token şema yükü getiriyor | **4 araç, yaklaşık 270–310 tokenlık şema** (o200k/Claude 4.6; Claude 4.7+'da yaklaşık 440). İstersen MCP'siz de kullanılır: her işlem bir `sam-memory` komutu olarak da var |
+| 19–54 araçlı MCP sunucuları her oturumda binlerce token şema yükü getiriyor | **4 araç, yaklaşık 380–420 tokenlık şema** (o200k; her araçtaki dört MCP davranış ipucu dahil, canlı değeri `sam doctor` gösterir). İstersen MCP'siz de kullanılır: her işlem bir `sam-memory` komutu olarak da var |
 | Test ve build çıktıları bağlamı dolduruyor | **Çıktı kasası.** `sam run -- npm test` tam çıktıyı yerelde saklar, ajana yalnızca özeti (bağlamıyla hatalar + son satırlar) gösterir. 1.800 testlik bir log 20.652 tokendan 89 tokena iner |
 
 ### Ölçümler

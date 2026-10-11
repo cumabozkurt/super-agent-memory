@@ -2,9 +2,20 @@
 
 `sam mcp` runs a Model Context Protocol server over stdio: newline-delimited JSON-RPC 2.0, hand-rolled, with no SDK. `sam install` registers it with every host it wires (usually under the name `sam`). For any other client, `sam snippet` prints a ready entry.
 
-The server exposes **four tools** with deliberately terse schemas. The whole tool list costs about 310 tokens (o200k) once per session; `sam doctor` prints the exact figure (`MCP tool schema: ~N tokens for all 4 tools`).
+The server exposes **four tools** with deliberately terse schemas. The whole tool list costs about 400 tokens (o200k) once per session; `sam doctor` prints the exact figure (`MCP tool schema: ~N tokens for all 4 tools`).
 
 ## Tools
+
+Every tool declares all four MCP [tool annotations](https://modelcontextprotocol.io/specification/2025-06-18/server/tools#tool) as explicit booleans, so hosts can tell reads from writes and warn before a destructive call:
+
+| Tool | `readOnlyHint` | `destructiveHint` | `idempotentHint` | `openWorldHint` |
+|---|---|---|---|---|
+| `mem_search` | true | false | true | false |
+| `mem_get` | true | false | true | false |
+| `mem_save` | false | false (additive upsert) | true (same `subject: value` replaces) | false |
+| `mem_forget` | false | true | true (retiring the same id again is a no-op) | false |
+
+Nothing leaves the machine: every tool reads or writes the local SQLite file only (`openWorldHint: false`).
 
 All tools act on the project of the server's working directory (or `SAM_PROJECT_DIR` when set), plus global memories. Memories of other projects are invisible.
 
