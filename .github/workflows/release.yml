@@ -66,7 +66,7 @@ jobs:
           **Install:** \`npm i -g super-agent-memory\` ([npm](https://www.npmjs.com/package/super-agent-memory)) and then \`sam install\`. Offline: \`npm i -g https://github.com/${GITHUB_REPOSITORY}/releases/download/v$v/super-agent-memory-$v.tgz\`. See the [README](https://github.com/${GITHUB_REPOSITORY}#readme) and [Getting started](https://github.com/${GITHUB_REPOSITORY}/blob/v$v/docs/getting-started.md). \`SHA256SUMS.txt\` holds the tarball's checksum.
           MD
           cat notes.md
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: npm-package
           path: release-assets/*
